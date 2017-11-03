@@ -23,12 +23,14 @@ public class GetAuthenticatedResponse {
                 return new PasswordAuthentication(domain + "\\" + userName, password.toCharArray());
             }
         });
-
+        System.out.println(userName+password);
         URL urlRequest = new URL(urlStr);
         HttpURLConnection conn = (HttpURLConnection) urlRequest.openConnection();
         conn.setDoOutput(true);
         conn.setDoInput(true);
         conn.setRequestMethod("GET");
+
+        System.out.println(conn.getResponseCode());
 
         InputStream stream = conn.getInputStream();
         BufferedReader in = new BufferedReader(new InputStreamReader(stream));
