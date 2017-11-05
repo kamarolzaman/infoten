@@ -25,7 +25,6 @@ public class First extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        new GetTimetable().execute("", "");
         return inflater.inflate(R.layout.fragment_first, container, false);
     }
 
@@ -34,7 +33,7 @@ public class First extends Fragment {
         Button button = (Button) getActivity().findViewById(R.id.button);
         button.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
-                new AuthenticateNTLM().execute("", "", "http://info.uniten.edu.my/info/Ticketing.ASP?WCI=Biodata");//TODO
+                new GetTimetable().execute("", "");//todo
             }
         });
         super.onActivityCreated(savedInstanceState);
