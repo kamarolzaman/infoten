@@ -34,8 +34,7 @@ public class First extends Fragment {
         Button button = (Button) getActivity().findViewById(R.id.button);
         button.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
-                new GetTimetable().execute("", "");
-                System.out.println("HELO FRENS");
+                new AuthenticateNTLM().execute("", "", "http://info.uniten.edu.my/info/Ticketing.ASP?WCI=Biodata");//TODO
             }
         });
         super.onActivityCreated(savedInstanceState);
