@@ -32,11 +32,15 @@ public class GetTimetable extends AsyncTask <String, Void, String>{
         String username = credential[0];
         String password = credential[1];
         try{
-            Document selDoc = Jsoup.parse(new GetAuthenticatedResponse(tableSel, "", username, password).toString());
+            Authenticator.setDefault(new CustomAuthenticator(username,password));
+
+            Document selDoc = Jsoup.connect(tableSel).get();;
+
             Element link = selDoc.select("a").first();
             String urlStr = "http://info.uniten.edu.my/info/"+link.attr("href");
             System.out.println(link.text());
-            Document doc = Jsoup.parse(new GetAuthenticatedResponse(urlStr, "", username, password).toString());
+
+            Document doc = Jsoup.connect(urlStr).get();;
 
             Elements test = doc.getElementsByTag("tbody");
             Element tableLecturer = test.get(0);
@@ -86,5 +90,16 @@ public class GetTimetable extends AsyncTask <String, Void, String>{
     @Override
     protected void onPostExecute(String s) {
         System.out.println(s);
+    }
+    public static class CustomAuthenticator extends Authenticator {
+        private String u,p;
+        public CustomAuthenticator(String u, String p){
+            this.u = u;
+            this.p = p;
+        }
+        protected PasswordAuthentication getPasswordAuthentication() {
+            System.out.println(u+p);
+            return new PasswordAuthentication(u, p.toCharArray());
+        }
     }
 }
