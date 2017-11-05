@@ -25,6 +25,7 @@ public class First extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        new GetTimetable().execute("", "");
         return inflater.inflate(R.layout.fragment_first, container, false);
     }
 
