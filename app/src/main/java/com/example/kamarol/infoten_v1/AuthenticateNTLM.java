@@ -15,14 +15,17 @@ import java.io.InputStreamReader;
  * Created by musyrif on 05-Nov-17.
  */
 
-public class AuthenticateNTLM extends AsyncTask<String, Void, Void> {
-
+public class AuthenticateNTLM extends AsyncTask<String, Void, String> {
+    StringBuffer result = new StringBuffer();
+    int i;
+    public AuthenticateNTLM(int i){
+        this.i = i;
+    }
     @Override
-    protected Void doInBackground(String... cred) {
+    protected String doInBackground(String... cred) {
         String username = cred[0];
         String password = cred[1];
         String url = cred[2];
-        StringBuffer result = new StringBuffer();
         DefaultHttpClient httpclient = new DefaultHttpClient();
         try {
             // register ntlm auth scheme
@@ -39,13 +42,13 @@ public class AuthenticateNTLM extends AsyncTask<String, Void, Void> {
                     httpResponse.getEntity().getContent()));
 
             String line = "";
-            while ((line = br.readLine()) != null) {
-                result.append(line);
-            }
-            System.out.println(result.toString());
-            br.close();
-            return null;
+            line = br.readLine();
+            //result.append(line);
+            System.out.println(line);
+            return line;
         } catch (Exception e){}
-        return null;
+        return result.toString();
     }
+
+
 }
