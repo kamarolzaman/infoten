@@ -37,10 +37,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction.replace(R.id.frame, fragment, "Fragment One");
         fragmentTransaction.commit();
     }
-    public void doGet(View v){
-        new GetTimetable().execute("", "");
-    }
-
 
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
