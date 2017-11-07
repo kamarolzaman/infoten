@@ -2,6 +2,8 @@ package com.example.kamarol.infoten_v1;
 
 import android.os.AsyncTask;
 import android.util.Base64;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
@@ -20,12 +22,27 @@ import java.util.ArrayList;
 /**
  * Created by musyrif on 03-Nov-17.
  */
-public class GetTimetable extends AsyncTask<String, Void, Void> {
+public class GetTimetable extends AsyncTask<String, String, Void> {
 
     ArrayList<String> subjectInfo = new ArrayList<>(10);
-    Subject subject[] = new Subject[20];
+    static Subject subject[] = new Subject[20];
     String tableSel, html, url;
 
+    ListView timetableList;
+    ArrayList<String> listItems;
+    ArrayAdapter<String> adapter;
+
+    public GetTimetable(ListView timetableList, ArrayList<String> listItems, ArrayAdapter<String> adapter){
+        this.timetableList = timetableList;
+        this.listItems = listItems;
+        this.adapter = adapter;
+    }
+
+    @Override
+    protected void onPreExecute() {
+        timetableList.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+    }
 
     @Override
     protected Void doInBackground(String... cred) {
@@ -52,6 +69,7 @@ public class GetTimetable extends AsyncTask<String, Void, Void> {
             //result.append(line);
         } catch (Exception e){}
         Document selDoc = Jsoup.parse(tableSel);
+        System.out.println(selDoc);
         Element link = selDoc.select("a").first();
         url = "http://info.uniten.edu.my/info/"+link.attr("href");
 
@@ -106,7 +124,8 @@ public class GetTimetable extends AsyncTask<String, Void, Void> {
                         String section = subjectInfo.get(subjectInfo.indexOf(td1.text().substring(0, td1.text().indexOf(" ")))+1);
                         String lecturer = subjectInfo.get(subjectInfo.indexOf(td1.text().substring(0, td1.text().indexOf(" ")))+2);
                         subject[l] = new Subject(startTime,length,day,td1.text(),section,lecturer);
-                        subject[l].toString();//////////PRINT
+                        //subject[l].toString();//////////PRINT
+                        publishProgress(subject[l].getDetails());
                         startTime+=length;
                         l++;
 
@@ -115,7 +134,13 @@ public class GetTimetable extends AsyncTask<String, Void, Void> {
             }
             day++;
         }
+
         return null;
     }
 
+    @Override
+    protected void onProgressUpdate(String... values) {
+        listItems.add(values[0]);
+        adapter.notifyDataSetChanged();
+    }
 }

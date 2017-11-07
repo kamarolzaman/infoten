@@ -6,22 +6,9 @@
     tools:context="com.example.kamarol.infoten_v1.First">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_marginTop="50dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+    <ListView
+        android:id="@+id/timtableList"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Hello blank fragment one" />
-
-    <Button
-        android:id="@+id/button"
-        android:onClick="getTable"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Button" />
+        android:layout_height="match_parent" />
 
 </LinearLayout>
