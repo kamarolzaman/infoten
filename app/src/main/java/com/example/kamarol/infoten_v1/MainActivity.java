@@ -20,6 +20,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        LoginFragment loginFragment = new LoginFragment();//INITIALIZING NEW FRAGMENT (LOGIN)
+
+        //SYNTAX TO SHOW THE (LOGIN) FRAGMENT
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        loginFragment.show(ft, "dialog");//SHOWS THE DIALOG -----> GOTO LoginFragment.java
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
