@@ -1,6 +1,7 @@
 package com.example.kamarol.infoten_v1;
 
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.annotation.Nullable;
@@ -41,7 +42,7 @@ public class First extends Fragment {
 
         ListView carInfoList = (ListView) getActivity().findViewById(R.id.timtableList);
 
-        new GetTimetable(carInfoList,listItems,adapter).execute("", "");//todo
+        new GetTimetable(carInfoList,listItems,adapter).execute(LoginFragment.username, LoginFragment.password);//todo
         super.onActivityCreated(savedInstanceState);
     }
 }
