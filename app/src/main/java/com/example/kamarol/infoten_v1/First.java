@@ -45,7 +45,7 @@ public class First extends Fragment {
         ArrayList<String> listItems = new ArrayList();
         ArrayAdapter<String> adapter;
 
-        adapter = new ArrayAdapter<String>(getActivity().getBaseContext(), android.R.layout.simple_list_item_1, listItems);
+            adapter = new ArrayAdapter<String>(getActivity().getBaseContext(), android.R.layout.simple_list_item_1, listItems);
 
         ListView carInfoList = (ListView) getActivity().findViewById(R.id.timtableList);
 
