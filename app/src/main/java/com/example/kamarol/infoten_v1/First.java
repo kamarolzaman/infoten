@@ -1,6 +1,7 @@
 package com.example.kamarol.infoten_v1;
 
 
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
  * A simple {@link Fragment} subclass.
  */
 public class First extends Fragment {
-
+    Button button;
 
     public First() {
         // Required empty public constructor
@@ -27,10 +28,16 @@ public class First extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_first, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_first, container, false);
+        button= view.findViewById(R.id.send);
+        button.setOnClickListener(new View.OnClickListener() { //INSTEAD YOU EMBED A LISTENER TO THAT BUTTON
+            @Override
+            public void onClick(View v) {
+                new SendTable().execute();
+            }
+        });
+        return view;
     }
 
     @Override
@@ -38,7 +45,7 @@ public class First extends Fragment {
         ArrayList<String> listItems = new ArrayList();
         ArrayAdapter<String> adapter;
 
-        adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_list_item_1, listItems);
+        adapter = new ArrayAdapter<String>(getActivity().getBaseContext(), android.R.layout.simple_list_item_1, listItems);
 
         ListView carInfoList = (ListView) getActivity().findViewById(R.id.timtableList);
 

@@ -96,6 +96,12 @@ public class Subject{
     public String getName(){
         return name;
     }
+    public String getLecturer(){
+        return lecturer;
+    }
+    public String getSection(){
+        return section;
+    }
     public int getDay(){
         return dayInt;
     }
@@ -105,6 +111,10 @@ public class Subject{
     public int getStartTime(){
         return startTimeInt;
     }
+    public int getEndTime(){
+        return startTimeInt+durationInt;
+    }
+
     public String toString(){
         System.out.println("Day = " + day);
         System.out.println("Name = " + name);
