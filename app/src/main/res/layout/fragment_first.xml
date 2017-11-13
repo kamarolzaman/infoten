@@ -8,6 +8,7 @@
     <!-- TODO: Update blank fragment layout -->
     <Button
         android:id="@+id/send"
+        android:text="Dont CLICK!"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <ListView

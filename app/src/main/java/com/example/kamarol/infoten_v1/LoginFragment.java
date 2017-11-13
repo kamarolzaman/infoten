@@ -3,6 +3,7 @@ package com.example.kamarol.infoten_v1;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,18 +11,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class LoginFragment extends DialogFragment {
-    public static String username, password;
+    public static String username, password, NAME;
     Button btn;
-
+    Communicator comm;
     public static final String MyPREFERENCES = "MyPrefs" ;
     public static final String Username = "unameKey";
     public static final String Password = "pwKey";
+    public static final String Name = "nameKey";
     EditText uname,pw;
     SharedPreferences sharedpreferences;
 
@@ -40,7 +51,12 @@ public class LoginFragment extends DialogFragment {
 
         //SET THE THE STYLING OF THE FRAGMENT TO NO FRAME
         setStyle(STYLE_NO_FRAME, android.R.style.Theme_Holo_Light);
-        setCancelable(false);
+        setCancelable(true);
+    }
+
+    @Override
+    public void onCancel(DialogInterface dialog) {
+        comm.dismissDialog();
     }
 
     @Override
@@ -55,8 +71,6 @@ public class LoginFragment extends DialogFragment {
         pw = view.findViewById(R.id.password);
         sharedpreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
-        uname.setText(sharedpreferences.getString(Username,""));
-        pw.setText(sharedpreferences.getString(Password,""));
 
         //YOU CAN'T SET ONCLICK ON xml FILE TO RUN A METHOD HERE
         btn.setOnClickListener(new View.OnClickListener() { //INSTEAD YOU EMBED A LISTENER TO THAT BUTTON
@@ -66,18 +80,45 @@ public class LoginFragment extends DialogFragment {
                 username = uname.getText().toString();
                 password = pw.getText().toString();
 
-                SharedPreferences.Editor editor = sharedpreferences.edit();
-                editor.putString(Username, username);
-                editor.putString(Password, password);
-                editor.commit();
-                getDialog().dismiss();//DISMISS THE CURRENT DIALOG
+                if(validLogin(username,password)) {
+                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                    editor.putString(Username, username);
+                    editor.putString(Password, password);
+                    editor.putString(Name, NAME);
+                    editor.commit();
+                    getDialog().dismiss();//DISMISS THE CURRENT DIALOG
+                    comm.showHome();
+                }else{
+                    Toast.makeText(view.getContext(), "Invalid credentials.",
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         });
         return view;
     }
-
+    private static boolean validLogin(String u, String p){
+        try {
+            String html = new AuthenticateNTLM().execute(u,p,"http://info.uniten.edu.my/info/Ticketing.ASP?WCI=ApplyToGraduate").get(10, TimeUnit.SECONDS);
+            System.out.println(html);
+            Document doc = Jsoup.parse(html);
+            Element namel = doc.select("body > table > tbody > tr:nth-child(3) > td:nth-child(2) > b").first();
+            String name = namel.text();
+            NAME = name;
+            return true;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (NullPointerException e) {
+            return false;
+        } catch (TimeoutException e) {
+            return false;
+        }
+        return false;
+    }
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
+        comm = (Communicator) getActivity();
         super.onActivityCreated(savedInstanceState);
         // PUT DECLARATION OR WHATEVER HERE
 

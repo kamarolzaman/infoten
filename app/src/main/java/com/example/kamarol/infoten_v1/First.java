@@ -34,7 +34,7 @@ public class First extends Fragment {
         button.setOnClickListener(new View.OnClickListener() { //INSTEAD YOU EMBED A LISTENER TO THAT BUTTON
             @Override
             public void onClick(View v) {
-                new SendTable().execute();
+                //new SendTable().execute();
             }
         });
         return view;
