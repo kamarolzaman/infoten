@@ -6,9 +6,9 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/first_fragment"
-            android:title="First Menu" />
+            android:title="Timetable" />
         <item
             android:id="@+id/second_fragment"
-            android:title="Second Menu" />
+            android:title="WELCONE" />
     </group>
 </menu>

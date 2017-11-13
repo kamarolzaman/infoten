@@ -127,7 +127,7 @@ public class Subject{
         return "";
     }
     public String getDetails(){
-        return name+" "+loc+"\n"+duration+"\n"+section+"\n"+lecturer;
+        return dayInt+"\n" + name+" "+loc+"\n"+duration+"\n"+section+"\n"+lecturer;
     }
     public void writeObject(ObjectOutputStream aOutputStream) throws IOException
     {

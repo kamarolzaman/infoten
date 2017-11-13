@@ -17,7 +17,7 @@ public class SendTable extends AsyncTask <Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... voids) {
         try {
-            Socket socket = new Socket("192.168.0.5", 5000);
+            Socket socket = new Socket("175.136.1.59", 5000);
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
             int len =0,y = GetTimetable.subject.length;
             for (int x=0; x<y;x++){

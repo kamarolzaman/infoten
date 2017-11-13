@@ -1,6 +1,8 @@
 package com.example.kamarol.infoten_v1;
 
 import android.app.FragmentTransaction;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -9,23 +11,33 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Communicator {
+    LoginFragment loginFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        LoginFragment loginFragment = new LoginFragment();//INITIALIZING NEW FRAGMENT (LOGIN)
+        loginFragment = new LoginFragment();//INITIALIZING NEW FRAGMENT (LOGIN)
 
         //SYNTAX TO SHOW THE (LOGIN) FRAGMENT
         FragmentTransaction ft = getFragmentManager().beginTransaction();
-        loginFragment.show(ft, "dialog");//SHOWS THE DIALOG -----> GOTO LoginFragment.java
-
+        SharedPreferences sharedPreferences = getSharedPreferences(LoginFragment.MyPREFERENCES, Context.MODE_PRIVATE);
+        String check = sharedPreferences.getString(LoginFragment.Username,"empty");
+        System.out.println(check);
+        if (check.equals("empty")){
+            loginFragment.show(ft, "dialog");//SHOWS THE DIALOG -----> GOTO LoginFragment.java
+        }else{
+            LoginFragment.username= sharedPreferences.getString(LoginFragment.Username,"empty");
+            LoginFragment.password=sharedPreferences.getString(LoginFragment.Password,"empty");
+            LoginFragment.NAME=sharedPreferences.getString(LoginFragment.Name,"empty");
+            showHome();
+        }
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -37,11 +49,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        setTitle("Welcome");
-        Home fragment = new Home();
-        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.frame, fragment, "Fragment One");
-        fragmentTransaction.commit();
     }
 
     public void onBackPressed() {
@@ -68,10 +75,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fragmentTransaction.replace(R.id.frame, fragment, "Fragment One");
             fragmentTransaction.commit();
         } else if (id == R.id.second_fragment) {
-            setTitle("Second Fragment");
-            Second fragment = new Second();
+            setTitle("Welcome");
+            Home fragment = new Home();
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.frame, fragment, "Fragment Two");
+            fragmentTransaction.replace(R.id.frame, fragment, "Fragment One");
             fragmentTransaction.commit();
         }
 
@@ -80,4 +87,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+    @Override
+    public void dismissDialog() {
+        this.onBackPressed();
+    }
+
+    @Override
+    public void showHome() {
+        setTitle("Welcome");
+        Home fragment = new Home();
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.frame, fragment, "Fragment One");
+        fragmentTransaction.commit();
+    }
+    public void dismissLogin(){
+        loginFragment.dismiss();
+    }
 }
