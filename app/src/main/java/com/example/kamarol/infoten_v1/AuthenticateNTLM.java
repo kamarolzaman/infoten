@@ -16,11 +16,6 @@ import java.io.InputStreamReader;
  */
 
 public class AuthenticateNTLM extends AsyncTask<String, Void, String> {
-    StringBuffer result = new StringBuffer();
-    int i;
-    public AuthenticateNTLM(int i){
-        this.i = i;
-    }
     @Override
     protected String doInBackground(String... cred) {
         String username = cred[0];
@@ -47,7 +42,7 @@ public class AuthenticateNTLM extends AsyncTask<String, Void, String> {
             System.out.println(line);
             return line;
         } catch (Exception e){}
-        return result.toString();
+        return null;
     }
 
 
