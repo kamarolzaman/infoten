@@ -5,7 +5,7 @@ android {
     compileSdkVersion 26
     defaultConfig {
         applicationId "com.example.kamarol.infoten_v1"
-        minSdkVersion 21
+        minSdkVersion 17
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -34,4 +34,5 @@ dependencies {
     implementation files('libs/jsoup-1.10.3.jar')
     //implementation files('libs/jcifs-1.3.18.jar')
     compile 'jcifs:jcifs:1.3.17'
+    implementation files('libs/mysql-connector.jar')
 }

@@ -12,12 +12,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Communicator {
     LoginFragment loginFragment;
+    TextView name;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             LoginFragment.NAME=sharedPreferences.getString(LoginFragment.Name,"empty");
             showHome();
         }
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -48,6 +52,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        View headerView = navigationView.getHeaderView(0);
+        TextView name = headerView.findViewById(R.id.name);
+        TextView id = headerView.findViewById(R.id.id);
+        name.setText(LoginFragment.NAME);
+        id.setText(LoginFragment.username);
 
     }
 
@@ -77,6 +87,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.second_fragment) {
             setTitle("Welcome");
             Home fragment = new Home();
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.frame, fragment, "Fragment One");
+            fragmentTransaction.commit();
+        } else if (id == R.id.third_fragment) {
+            setTitle("Subjects");
+            Subjects fragment = new Subjects();
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.frame, fragment, "Fragment One");
             fragmentTransaction.commit();
