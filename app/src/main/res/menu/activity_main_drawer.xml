@@ -10,5 +10,8 @@
         <item
             android:id="@+id/second_fragment"
             android:title="WELCONE" />
+        <item
+            android:id="@+id/third_fragment"
+            android:title="Subjects" />
     </group>
 </menu>

@@ -10,31 +10,34 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Home extends Fragment {
-    TextView welcome, name;
-    public Home() {
+public class Subjects extends Fragment {
+    Button button;
+    EditText editText;
+    String subject;
+    TextView textView;
+    public Subjects() {
         // Required empty public constructor
     }
-    Communicator comm;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
-        welcome = view.findViewById(R.id.welcome);
-        Button button = view.findViewById(R.id.logout);
+        View view = inflater.inflate(R.layout.fragment_subjects, container, false);
+        button = view.findViewById(R.id.search);
+        editText = view.findViewById(R.id.subject);
+        textView = view.findViewById(R.id.result);
         button.setOnClickListener(new View.OnClickListener() { //INSTEAD YOU EMBED A LISTENER TO THAT BUTTON
             @Override
             public void onClick(View v) {//WHEN THE EMBEDED LISTENER GET AN onClick, IT WILL RUN THIS METHOD
-                SharedPreferences sharedPreferences = getActivity().getSharedPreferences(LoginFragment.MyPREFERENCES, Context.MODE_PRIVATE);
-                sharedPreferences.edit().clear().commit();
-                comm.dismissDialog();
+                subject = editText.getText().toString();
+                new GetSubject(textView).execute(subject);
             }
         });
         return view;
@@ -42,9 +45,6 @@ public class Home extends Fragment {
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        welcome.setText("Welcone to my k00l app "+LoginFragment.NAME);
         super.onActivityCreated(savedInstanceState);
-        comm = (Communicator) getActivity();
-
     }
 }
