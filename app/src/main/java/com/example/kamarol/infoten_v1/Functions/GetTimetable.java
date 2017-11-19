@@ -1,9 +1,11 @@
-package com.example.kamarol.infoten_v1;
+package com.example.kamarol.infoten_v1.Functions;
 
 import android.os.AsyncTask;
-import android.util.Base64;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.example.kamarol.infoten_v1.Tools.NTLMSchemeFactory;
+import com.example.kamarol.infoten_v1.Subject;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
@@ -69,7 +71,6 @@ public class GetTimetable extends AsyncTask<String, String, Void> {
             //result.append(line);
         } catch (Exception e){}
         Document selDoc = Jsoup.parse(tableSel);
-        System.out.println(selDoc);
         Element link = selDoc.select("a").first();
         url = "http://info.uniten.edu.my/info/"+link.attr("href");
 
@@ -120,7 +121,6 @@ public class GetTimetable extends AsyncTask<String, String, Void> {
                         String section = subjectInfo.get(subjectInfo.indexOf(td1.text().substring(0, td1.text().indexOf(" "))) + 1);
                         String lecturer = subjectInfo.get(subjectInfo.indexOf(td1.text().substring(0, td1.text().indexOf(" "))) + 2);
                         subject[l] = new Subject(startTime, length, day, td1.text(), section, lecturer);
-                        System.out.println(subject[l].getStartTime());
                         //subject[l].toString();//////////PRINT
                         publishProgress(subject[l].getDetails());
                         startTime += length;

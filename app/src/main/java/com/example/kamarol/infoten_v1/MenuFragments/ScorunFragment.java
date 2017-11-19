@@ -1,4 +1,4 @@
-package com.example.kamarol.infoten_v1;
+package com.example.kamarol.infoten_v1.MenuFragments;
 
 
 import android.os.AsyncTask;
@@ -8,7 +8,10 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+
+import com.example.kamarol.infoten_v1.LoginFragment;
+import com.example.kamarol.infoten_v1.Tools.NTLMSchemeFactory;
+import com.example.kamarol.infoten_v1.R;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
@@ -17,7 +20,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.BufferedReader;
@@ -27,10 +29,10 @@ import java.io.InputStreamReader;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Second extends Fragment {
+public class ScorunFragment extends Fragment {
 
 
-    public Second() {
+    public ScorunFragment() {
         // Required empty public constructor
     }
 
@@ -39,7 +41,7 @@ public class Second extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_second, container, false);
+        return inflater.inflate(R.layout.fragment_scorun, container, false);
     }
 
     @Override
