@@ -16,11 +16,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.kamarol.infoten_v1.Functions.GetTimetable;
 import com.example.kamarol.infoten_v1.MenuFragments.ExaminationFragment;
 import com.example.kamarol.infoten_v1.MenuFragments.LedgerFragment;
 import com.example.kamarol.infoten_v1.MenuFragments.ScorunFragment;
 import com.example.kamarol.infoten_v1.MenuFragments.SearchSubjectFragment;
+import com.example.kamarol.infoten_v1.MenuFragments.TableTestFragment;
 import com.example.kamarol.infoten_v1.MenuFragments.TimetableFragment;
+
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Communicator {
     LoginFragment loginFragment;
@@ -29,7 +35,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         loginFragment = new LoginFragment();//INITIALIZING NEW FRAGMENT (LOGIN)
 
         //SYNTAX TO SHOW THE (LOGIN) FRAGMENT
@@ -43,6 +48,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             LoginFragment.username= sharedPreferences.getString(LoginFragment.Username,"empty");
             LoginFragment.password=sharedPreferences.getString(LoginFragment.Password,"empty");
             LoginFragment.NAME=sharedPreferences.getString(LoginFragment.Name,"empty");
+            try {
+                new GetTimetable(this).execute(LoginFragment.username, LoginFragment.password).get(10, TimeUnit.SECONDS);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (TimeoutException e) {
+                e.printStackTrace();
+            }
             showHome();
         }
 
@@ -84,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
         if (id == R.id.timetable) {
             setTitle("Timetable");
-            TimetableFragment fragment = new TimetableFragment();
+            TableTestFragment fragment = new TableTestFragment();
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.frame, fragment, "Timetable");
             fragmentTransaction.commit();
@@ -127,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void showHome() {
         setTitle("Timetable");
-        TimetableFragment fragment = new TimetableFragment();
+        TableTestFragment fragment = new TableTestFragment();
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.frame, fragment, "Timetable");
         fragmentTransaction.commit();

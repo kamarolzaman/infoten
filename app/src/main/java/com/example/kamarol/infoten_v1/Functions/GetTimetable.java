@@ -1,9 +1,13 @@
 package com.example.kamarol.infoten_v1.Functions;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.example.kamarol.infoten_v1.MainActivity;
 import com.example.kamarol.infoten_v1.Tools.NTLMSchemeFactory;
 import com.example.kamarol.infoten_v1.Subject;
 
@@ -25,11 +29,11 @@ import java.util.ArrayList;
  * Created by musyrif on 03-Nov-17.
  */
 public class GetTimetable extends AsyncTask<String, String, Void> {
-
+    ProgressDialog dialog;
     ArrayList<String> subjectInfo = new ArrayList<>();
     public static Subject subject[] = new Subject[20];
     String tableSel, html, url;
-
+Context context;
     ListView timetableList;
     ArrayList<String> listItems;
     ArrayAdapter<String> adapter;
@@ -39,11 +43,20 @@ public class GetTimetable extends AsyncTask<String, String, Void> {
         this.listItems = listItems;
         this.adapter = adapter;
     }
+    public GetTimetable(Context context){
+        this.context = context;
+    }
 
     @Override
     protected void onPreExecute() {
-        timetableList.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+
+        dialog = new ProgressDialog(context);
+        dialog.setTitle("Loading");
+        dialog.setCancelable(false);
+        dialog.show();
+        //timetableList.setAdapter(adapter);
+        //adapter.notifyDataSetChanged();
+
     }
 
     @Override
@@ -122,7 +135,7 @@ public class GetTimetable extends AsyncTask<String, String, Void> {
                         String lecturer = subjectInfo.get(subjectInfo.indexOf(td1.text().substring(0, td1.text().indexOf(" "))) + 2);
                         subject[l] = new Subject(startTime, length, day, td1.text(), section, lecturer);
                         //subject[l].toString();//////////PRINT
-                        publishProgress(subject[l].getDetails());
+                        //publishProgress(subject[l].getDetails());
                         startTime += length;
                         l++;
                     }
@@ -136,12 +149,13 @@ public class GetTimetable extends AsyncTask<String, String, Void> {
 
     @Override
     protected void onProgressUpdate(String... values) {
-        listItems.add(values[0]);
-        adapter.notifyDataSetChanged();
+        //listItems.add(values[0]);
+        //adapter.notifyDataSetChanged();
     }
 
     @Override
     protected void onPostExecute(Void aVoid) {
+        dialog.dismiss();
         new SendTable().execute();
         super.onPostExecute(aVoid);
     }
