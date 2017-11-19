@@ -1,4 +1,4 @@
-package com.example.kamarol.infoten_v1;
+package com.example.kamarol.infoten_v1.Functions;
 
 import android.os.AsyncTask;
 import android.widget.TextView;

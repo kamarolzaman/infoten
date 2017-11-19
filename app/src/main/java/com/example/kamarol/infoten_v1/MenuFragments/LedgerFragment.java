@@ -1,4 +1,4 @@
-package com.example.kamarol.infoten_v1;
+package com.example.kamarol.infoten_v1.MenuFragments;
 
 
 import android.content.Context;
@@ -11,22 +11,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.example.kamarol.infoten_v1.Communicator;
+import com.example.kamarol.infoten_v1.LoginFragment;
+import com.example.kamarol.infoten_v1.R;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Home extends Fragment {
+public class LedgerFragment extends Fragment {
     TextView welcome, name;
-    public Home() {
+    public LedgerFragment() {
         // Required empty public constructor
     }
     Communicator comm;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_ledger, container, false);
         welcome = view.findViewById(R.id.welcome);
         Button button = view.findViewById(R.id.logout);
         button.setOnClickListener(new View.OnClickListener() { //INSTEAD YOU EMBED A LISTENER TO THAT BUTTON

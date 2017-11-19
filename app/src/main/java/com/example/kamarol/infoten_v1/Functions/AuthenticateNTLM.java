@@ -1,6 +1,8 @@
-package com.example.kamarol.infoten_v1;
+package com.example.kamarol.infoten_v1.Functions;
 
 import android.os.AsyncTask;
+
+import com.example.kamarol.infoten_v1.Tools.NTLMSchemeFactory;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;

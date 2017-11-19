@@ -11,12 +11,16 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+
+import com.example.kamarol.infoten_v1.MenuFragments.ExaminationFragment;
+import com.example.kamarol.infoten_v1.MenuFragments.LedgerFragment;
+import com.example.kamarol.infoten_v1.MenuFragments.ScorunFragment;
+import com.example.kamarol.infoten_v1.MenuFragments.SearchSubjectFragment;
+import com.example.kamarol.infoten_v1.MenuFragments.TimetableFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Communicator {
     LoginFragment loginFragment;
@@ -78,23 +82,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.first_fragment) {
-            setTitle("First Fragment");
-            First fragment = new First();
+        if (id == R.id.timetable) {
+            setTitle("Timetable");
+            TimetableFragment fragment = new TimetableFragment();
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.frame, fragment, "Fragment One");
+            fragmentTransaction.replace(R.id.frame, fragment, "Timetable");
             fragmentTransaction.commit();
-        } else if (id == R.id.second_fragment) {
-            setTitle("Welcome");
-            Home fragment = new Home();
+        } else if (id == R.id.ledger) {
+            setTitle("Ledger Balance");
+            LedgerFragment fragment = new LedgerFragment();
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.frame, fragment, "Fragment One");
+            fragmentTransaction.replace(R.id.frame, fragment, "Ledger");
             fragmentTransaction.commit();
-        } else if (id == R.id.third_fragment) {
-            setTitle("Subjects");
-            Subjects fragment = new Subjects();
+        } else if (id == R.id.search_subject) {
+            setTitle("Search Subject");
+            SearchSubjectFragment fragment = new SearchSubjectFragment();
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.frame, fragment, "Fragment One");
+            fragmentTransaction.replace(R.id.frame, fragment, "Search");
+            fragmentTransaction.commit();
+        } else if (id == R.id.examination) {
+            setTitle("Examination");
+            ExaminationFragment fragment = new ExaminationFragment();
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.frame, fragment, "Examination");
+            fragmentTransaction.commit();
+        } else if (id == R.id.scorun) {
+            setTitle("Examination");
+            ScorunFragment fragment = new ScorunFragment();
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.frame, fragment, "Scorun");
             fragmentTransaction.commit();
         }
 
@@ -110,10 +126,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void showHome() {
-        setTitle("Welcome");
-        Home fragment = new Home();
+        setTitle("Timetable");
+        TimetableFragment fragment = new TimetableFragment();
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.frame, fragment, "Fragment One");
+        fragmentTransaction.replace(R.id.frame, fragment, "Timetable");
         fragmentTransaction.commit();
     }
     public void dismissLogin(){

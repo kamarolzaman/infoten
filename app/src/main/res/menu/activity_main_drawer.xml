@@ -5,13 +5,19 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/first_fragment"
+            android:id="@+id/timetable"
             android:title="Timetable" />
         <item
-            android:id="@+id/second_fragment"
-            android:title="WELCONE" />
+            android:id="@+id/ledger"
+            android:title="Ledger Balance" />
         <item
-            android:id="@+id/third_fragment"
-            android:title="Subjects" />
+            android:id="@+id/search_subject"
+            android:title="Search Subject" />
+        <item
+            android:id="@+id/examination"
+            android:title="Examination" />
+        <item
+            android:id="@+id/scorun"
+            android:title="Scorun" />
     </group>
 </menu>

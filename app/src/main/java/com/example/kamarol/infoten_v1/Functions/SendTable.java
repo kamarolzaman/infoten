@@ -1,11 +1,9 @@
-package com.example.kamarol.infoten_v1;
+package com.example.kamarol.infoten_v1.Functions;
 
 import android.os.AsyncTask;
 
-import com.example.kamarol.infoten_v1.GetTimetable;
 import com.example.kamarol.infoten_v1.LoginFragment;
 
-import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
