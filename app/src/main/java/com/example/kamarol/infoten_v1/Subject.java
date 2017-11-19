@@ -92,7 +92,7 @@ public class Subject{
             day = "Sunday";
         }
     }
-
+    public String getLoc(){ return loc;}
     public String getName(){
         return name;
     }
