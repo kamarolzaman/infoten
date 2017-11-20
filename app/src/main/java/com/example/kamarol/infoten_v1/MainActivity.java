@@ -22,7 +22,6 @@ import com.example.kamarol.infoten_v1.MenuFragments.LedgerFragment;
 import com.example.kamarol.infoten_v1.MenuFragments.ScorunFragment;
 import com.example.kamarol.infoten_v1.MenuFragments.SearchSubjectFragment;
 import com.example.kamarol.infoten_v1.MenuFragments.TableTestFragment;
-import com.example.kamarol.infoten_v1.MenuFragments.TimetableFragment;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
