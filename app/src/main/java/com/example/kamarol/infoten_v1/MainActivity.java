@@ -1,5 +1,6 @@
 package com.example.kamarol.infoten_v1;
 
+import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -23,13 +24,10 @@ import com.example.kamarol.infoten_v1.MenuFragments.ScorunFragment;
 import com.example.kamarol.infoten_v1.MenuFragments.SearchSubjectFragment;
 import com.example.kamarol.infoten_v1.MenuFragments.TimetableFragment;
 
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Communicator {
     LoginFragment loginFragment;
-    TextView name;
+    TextView name, id;
+    View headerView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,34 +45,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             LoginFragment.username= sharedPreferences.getString(LoginFragment.Username,"empty");
             LoginFragment.password=sharedPreferences.getString(LoginFragment.Password,"empty");
             LoginFragment.NAME=sharedPreferences.getString(LoginFragment.Name,"empty");
-            try {
-                new GetTimetable(this).execute(LoginFragment.username, LoginFragment.password).get(10, TimeUnit.SECONDS);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            } catch (TimeoutException e) {
-                e.printStackTrace();
-            }
             showHome();
         }
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        View headerView = navigationView.getHeaderView(0);
-        TextView name = headerView.findViewById(R.id.name);
-        TextView id = headerView.findViewById(R.id.id);
-        name.setText(LoginFragment.NAME);
-        id.setText(LoginFragment.username.toUpperCase());
 
     }
 
@@ -139,13 +113,43 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void showHome() {
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
         setTitle("Timetable");
         TimetableFragment fragment = new TimetableFragment();
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.frame, fragment, "Timetable");
         fragmentTransaction.commit();
+
+        new GetTimetable(this).execute(LoginFragment.username, LoginFragment.password);
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        headerView = navigationView.getHeaderView(0);
+        name = headerView.findViewById(R.id.name);
+        id = headerView.findViewById(R.id.id);
+
+        name.setText(LoginFragment.NAME);
+        id.setText(LoginFragment.username.toUpperCase());
     }
     public void dismissLogin(){
         loginFragment.dismiss();
+    }
+
+    @Override
+    public void onTableLoad() {
+        Fragment frg = getFragmentManager().findFragmentByTag("Timetable");
+        final FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.detach(frg);
+        ft.attach(frg);
+        ft.commit();
     }
 }

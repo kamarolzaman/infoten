@@ -2,6 +2,7 @@ package com.example.kamarol.infoten_v1.Functions;
 
 import android.os.AsyncTask;
 
+import com.example.kamarol.infoten_v1.LoginCheker;
 import com.example.kamarol.infoten_v1.Tools.NTLMSchemeFactory;
 
 import org.apache.http.HttpResponse;
@@ -18,6 +19,11 @@ import java.io.InputStreamReader;
  */
 
 public class AuthenticateNTLM extends AsyncTask<String, Void, String> {
+    private LoginCheker listener;
+    String html;
+    public AuthenticateNTLM(LoginCheker listener){
+        this.listener = listener;
+    }
     @Override
     protected String doInBackground(String... cred) {
         String username = cred[0];
@@ -42,10 +48,14 @@ public class AuthenticateNTLM extends AsyncTask<String, Void, String> {
             line = br.readLine();
             //result.append(line);
             System.out.println(line);
+            html=line;
             return line;
         } catch (Exception e){}
         return null;
     }
 
-
+    @Override
+    protected void onPostExecute(String s) {
+        listener.onLogin(html);
+    }
 }

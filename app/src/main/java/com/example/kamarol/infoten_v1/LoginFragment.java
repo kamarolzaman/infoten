@@ -1,16 +1,21 @@
 package com.example.kamarol.infoten_v1;
 
+import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.kamarol.infoten_v1.Functions.AuthenticateNTLM;
@@ -19,6 +24,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
+import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -27,7 +33,8 @@ import java.util.concurrent.TimeoutException;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class LoginFragment extends DialogFragment {
+public class LoginFragment extends DialogFragment implements LoginCheker {
+    ProgressDialog progressDialog;
     public static String username, password, NAME;
     Button btn;
     Communicator comm;
@@ -79,50 +86,50 @@ public class LoginFragment extends DialogFragment {
 
             @Override
             public void onClick(View v) {//WHEN THE EMBEDED LISTENER GET AN onClick, IT WILL RUN THIS METHOD
-                username = uname.getText().toString();
+                username = uname.getText().toString().toLowerCase();
                 password = pw.getText().toString();
-
-                if(validLogin(username,password)) {
-                    SharedPreferences.Editor editor = sharedpreferences.edit();
-                    editor.putString(Username, username);
-                    editor.putString(Password, password);
-                    editor.putString(Name, NAME);
-                    editor.commit();
-                    getDialog().dismiss();//DISMISS THE CURRENT DIALOG
-                    comm.showHome();
-                }else{
-                    Toast.makeText(view.getContext(), "Invalid credentials.",
-                            Toast.LENGTH_SHORT).show();
-                }
+                progressDialog = new ProgressDialog(getActivity());
+                progressDialog.setTitle("Loging in..");
+                progressDialog.setCancelable(false);
+                progressDialog.show();
+                new AuthenticateNTLM(LoginFragment.this).execute(username,password,"http://info.uniten.edu.my/info/Ticketing.ASP?WCI=ApplyToGraduate");
             }
         });
         return view;
-    }
-    private static boolean validLogin(String u, String p){
-        try {
-            String html = new AuthenticateNTLM().execute(u,p,"http://info.uniten.edu.my/info/Ticketing.ASP?WCI=ApplyToGraduate").get(10, TimeUnit.SECONDS);
-            System.out.println(html);
-            Document doc = Jsoup.parse(html);
-            Element namel = doc.select("body > table > tbody > tr:nth-child(3) > td:nth-child(2) > b").first();
-            String name = namel.text();
-            NAME = name;
-            return true;
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (NullPointerException e) {
-            return false;
-        } catch (TimeoutException e) {
-            return false;
-        }
-        return false;
     }
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         comm = (Communicator) getActivity();
         super.onActivityCreated(savedInstanceState);
         // PUT DECLARATION OR WHATEVER HERE
+
+    }
+
+    @Override
+    public void onLogin(String html) {
+        progressDialog.dismiss();
+        int valid = 0;
+        String name = "";
+        try {
+            Document doc = Jsoup.parse(html);
+            Element namel = doc.select("body > table > tbody > tr:nth-child(3) > td:nth-child(2) > b").first();
+            name = namel.text();
+            valid=1;
+        }catch (Exception e){
+            valid=0;
+        }
+        if (valid==1){
+            NAME = name;
+            SharedPreferences.Editor editor = sharedpreferences.edit();
+            editor.putString(Username, username);
+            editor.putString(Password, password);
+            editor.putString(Name, NAME);
+            editor.commit();
+            getDialog().dismiss();//DISMISS THE CURRENT DIALOG
+            comm.showHome();
+        }else{
+            Toast.makeText(getActivity(), "Invalid login.", Toast.LENGTH_SHORT).show();
+        }
 
     }
 

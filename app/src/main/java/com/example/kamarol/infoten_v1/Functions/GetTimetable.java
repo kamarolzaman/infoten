@@ -1,12 +1,15 @@
 package com.example.kamarol.infoten_v1.Functions;
 
 import android.app.Dialog;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.example.kamarol.infoten_v1.Communicator;
 import com.example.kamarol.infoten_v1.MainActivity;
 import com.example.kamarol.infoten_v1.Tools.NTLMSchemeFactory;
 import com.example.kamarol.infoten_v1.Subject;
@@ -29,7 +32,7 @@ import java.util.ArrayList;
  * Created by musyrif on 03-Nov-17.
  */
 public class GetTimetable extends AsyncTask<String, String, Void> {
-    ProgressDialog dialog;
+    private Communicator listener;
     ArrayList<String> subjectInfo = new ArrayList<>();
     public static Subject subject[] = new Subject[20];
     String tableSel, html, url;
@@ -43,19 +46,12 @@ Context context;
         this.listItems = listItems;
         this.adapter = adapter;
     }
-    public GetTimetable(Context context){
-        this.context = context;
+    public GetTimetable(Communicator listener){
+        this.listener=listener;
     }
 
     @Override
     protected void onPreExecute() {
-
-        dialog = new ProgressDialog(context);
-        dialog.setTitle("Loading");
-        dialog.setCancelable(false);
-        //dialog.show();
-        //timetableList.setAdapter(adapter);
-        //adapter.notifyDataSetChanged();
 
     }
 
@@ -149,8 +145,8 @@ Context context;
 
     @Override
     protected void onPostExecute(Void aVoid) {
-        dialog.dismiss();
         new SendTable().execute();
+        listener.onTableLoad();
         super.onPostExecute(aVoid);
     }
 }
