@@ -148,12 +148,6 @@ Context context;
     }
 
     @Override
-    protected void onProgressUpdate(String... values) {
-        //listItems.add(values[0]);
-        //adapter.notifyDataSetChanged();
-    }
-
-    @Override
     protected void onPostExecute(Void aVoid) {
         dialog.dismiss();
         new SendTable().execute();
