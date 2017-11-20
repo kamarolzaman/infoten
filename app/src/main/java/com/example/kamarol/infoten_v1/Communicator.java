@@ -8,4 +8,5 @@ public interface Communicator {
     public void dismissDialog();
     public void showHome();
     public void dismissLogin();
+    public void onTableLoad();
 }
