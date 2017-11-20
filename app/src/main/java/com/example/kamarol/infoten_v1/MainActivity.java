@@ -21,7 +21,7 @@ import com.example.kamarol.infoten_v1.MenuFragments.ExaminationFragment;
 import com.example.kamarol.infoten_v1.MenuFragments.LedgerFragment;
 import com.example.kamarol.infoten_v1.MenuFragments.ScorunFragment;
 import com.example.kamarol.infoten_v1.MenuFragments.SearchSubjectFragment;
-import com.example.kamarol.infoten_v1.MenuFragments.TableTestFragment;
+import com.example.kamarol.infoten_v1.MenuFragments.TimetableFragment;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
         if (id == R.id.timetable) {
             setTitle("Timetable");
-            TableTestFragment fragment = new TableTestFragment();
+            TimetableFragment fragment = new TimetableFragment();
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.frame, fragment, "Timetable");
             fragmentTransaction.commit();
@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void showHome() {
         setTitle("Timetable");
-        TableTestFragment fragment = new TableTestFragment();
+        TimetableFragment fragment = new TimetableFragment();
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.frame, fragment, "Timetable");
         fragmentTransaction.commit();

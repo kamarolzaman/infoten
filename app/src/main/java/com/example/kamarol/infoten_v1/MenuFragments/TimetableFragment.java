@@ -17,19 +17,19 @@ import com.example.kamarol.infoten_v1.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TableTestFragment extends Fragment {
+public class TimetableFragment extends Fragment {
     ViewPager viewPager = null;
     TabLayout tabLayout;
     MyAdapter myAdapter;
 
-    public TableTestFragment() {
+    public TimetableFragment() {
         // Required empty public constructor
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_table_test, container, false);
+        View view = inflater.inflate(R.layout.fragment_timetable, container, false);
         viewPager = view.findViewById(R.id.pager);
         FragmentManager fragmentManager = getChildFragmentManager();
         myAdapter = new MyAdapter(fragmentManager);
