@@ -1,4 +1,4 @@
-package com.example.kamarol.infoten_v1.MenuFragments.Timetable;
+package com.example.kamarol.infoten_v1.MenuFragments.Examination;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -15,14 +15,14 @@ import com.example.kamarol.infoten_v1.R;
 import java.util.ArrayList;
 
 /**
- * Created by musyrif on 19-Nov-17.
+ * Created by musyrif on 20-Nov-17.
  */
 
-public class TableAdapter extends ArrayAdapter <SubjectData> {
-    ArrayList<SubjectData> mylist;
-    public TableAdapter(@NonNull Context context, int resource, ArrayList<SubjectData> myList) {
-        super(context, resource, myList);
-        this.mylist = myList;
+public class ExaminationAdapter extends ArrayAdapter<ExaminationData> {
+    ArrayList<ExaminationData> examinationData;
+    public ExaminationAdapter(@NonNull Context context, int resource, ArrayList<ExaminationData> examinationData) {
+        super(context, resource, examinationData);
+        this.examinationData = examinationData;
     }
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -35,14 +35,14 @@ public class TableAdapter extends ArrayAdapter <SubjectData> {
         TextView lecturer = v.findViewById(R.id.prof);
         TextView loc = v.findViewById(R.id.place);
         LinearLayout height = v.findViewById(R.id.height);
-        height.getLayoutParams().height =  Math.round(v.getResources().getDimension(R.dimen.class_item_height)*mylist.get(position).getDuration());
-
-
-        startTime.setText(mylist.get(position).getStart24());
-        endTime.setText(mylist.get(position).getEnd24());
-        name.setText(mylist.get(position).getName());
-        lecturer.setText(mylist.get(position).getLecturer());
-        loc.setText(mylist.get(position).getLoc());
+        height.getLayoutParams().height =  Math.round(v.getResources().getDimension(R.dimen.class_item_height)*examinationData.get(position).getDuration());
+        startTime.setText(examinationData.get(position).getStart());
+        endTime.setText(examinationData.get(position).getEnd());
+        name.setText(examinationData.get(position).getName()+ " "
+                + examinationData.get(position).getCode()+ " ("
+                + examinationData.get(position).getSection()+ ") ");
+        lecturer.setText(examinationData.get(position).getSeat());
+        loc.setText(examinationData.get(position).getLoc());
         return v;
     }
 }

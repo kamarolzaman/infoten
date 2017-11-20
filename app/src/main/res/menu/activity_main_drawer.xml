@@ -11,13 +11,13 @@
             android:id="@+id/ledger"
             android:title="Ledger Balance" />
         <item
-            android:id="@+id/search_subject"
-            android:title="Search Subject" />
-        <item
             android:id="@+id/examination"
             android:title="Examination" />
         <item
             android:id="@+id/scorun"
             android:title="Scorun" />
+        <item
+            android:id="@+id/logout"
+            android:title="Logout" />
     </group>
 </menu>

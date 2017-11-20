@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TextView name = headerView.findViewById(R.id.name);
         TextView id = headerView.findViewById(R.id.id);
         name.setText(LoginFragment.NAME);
-        id.setText(LoginFragment.username);
+        id.setText(LoginFragment.username.toUpperCase());
 
     }
 
@@ -108,12 +108,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.frame, fragment, "Ledger");
             fragmentTransaction.commit();
-        } else if (id == R.id.search_subject) {
-            setTitle("Search Subject");
-            SearchSubjectFragment fragment = new SearchSubjectFragment();
-            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.frame, fragment, "Search");
-            fragmentTransaction.commit();
         } else if (id == R.id.examination) {
             setTitle("Examination");
             ExaminationFragment fragment = new ExaminationFragment();
@@ -126,9 +120,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.frame, fragment, "Scorun");
             fragmentTransaction.commit();
+        } else if (id == R.id.logout) {
+            setTitle("Logout");
+            SearchSubjectFragment fragment = new SearchSubjectFragment();
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.frame, fragment, "Search");
+            fragmentTransaction.commit();
         }
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+            DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

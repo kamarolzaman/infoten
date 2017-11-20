@@ -53,7 +53,7 @@ Context context;
         dialog = new ProgressDialog(context);
         dialog.setTitle("Loading");
         dialog.setCancelable(false);
-        dialog.show();
+        //dialog.show();
         //timetableList.setAdapter(adapter);
         //adapter.notifyDataSetChanged();
 
