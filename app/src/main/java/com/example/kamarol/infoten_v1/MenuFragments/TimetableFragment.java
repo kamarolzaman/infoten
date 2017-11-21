@@ -2,8 +2,10 @@ package com.example.kamarol.infoten_v1.MenuFragments;
 
 
 import android.app.FragmentManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -17,7 +19,8 @@ import com.example.kamarol.infoten_v1.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TimetableFragment extends Fragment {
+public class TimetableFragment extends Fragment implements CheckView{
+    public static TimetableFragment context;
     ViewPager viewPager = null;
     TabLayout tabLayout;
     MyAdapter myAdapter;
@@ -26,6 +29,11 @@ public class TimetableFragment extends Fragment {
         // Required empty public constructor
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        context = TimetableFragment.this;
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -88,5 +96,10 @@ public class TimetableFragment extends Fragment {
             }
             return "";
         }
+    }
+
+    @Override
+    public int getCurrentItem(){
+        return viewPager.getCurrentItem();
     }
 }

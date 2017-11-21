@@ -132,5 +132,4 @@ public class LoginFragment extends DialogFragment implements LoginCheker {
         }
 
     }
-
 }
