@@ -25,6 +25,7 @@ import com.example.kamarol.infoten_v1.MenuFragments.SearchSubjectFragment;
 import com.example.kamarol.infoten_v1.MenuFragments.TimetableFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Communicator {
+    NavigationView navigationView;
     LoginFragment loginFragment;
     FragmentTransaction ft;
     TextView name, id;
@@ -132,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         new GetTimetable(this).execute(LoginFragment.username, LoginFragment.password);
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         navigationView.setCheckedItem(R.id.timetable);
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -154,5 +155,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ft.detach(frg);
         ft.attach(frg);
         ft.commit();
+    }
+
+    @Override
+    public void showSearchFrag(String subject) {
+        navigationView.setCheckedItem(R.id.search);
+        setTitle("Search Subject");
+        SearchSubjectFragment fragment = new SearchSubjectFragment().newInstance(subject);
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        fragment.show(ft, "Search Subject");
+        /*
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.frame, fragment, "Search");
+        fragmentTransaction.commit();
+        */
     }
 }

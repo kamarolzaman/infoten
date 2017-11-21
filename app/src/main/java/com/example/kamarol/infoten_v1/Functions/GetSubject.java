@@ -1,7 +1,11 @@
 package com.example.kamarol.infoten_v1.Functions;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.TextView;
+
+import com.example.kamarol.infoten_v1.MenuFragments.SearchSubjectFragment;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -12,15 +16,30 @@ import java.sql.Statement;
  * Created by musyrif on 13-Nov-17.
  */
 
-public class GetSubject extends AsyncTask<String, String, Void> {
+public class GetSubject extends AsyncTask<Void, String, Void> {
     TextView textView;
-    public GetSubject(TextView textView){
+    String key;
+    ProgressDialog nDialog;
+    Context context;
+    public GetSubject(TextView textView, Context context, String key){
         this.textView = textView;
+        this.context = context;
+        this.key = key;
     }
+
     @Override
-    protected Void doInBackground(String... subject) {
+    protected void onPreExecute() {
+        nDialog = new ProgressDialog(context);
+        nDialog.setMessage("Geting data..");
+        nDialog.setIndeterminate(false);
+        nDialog.setCancelable(false);
+        nDialog.show();
+    }
+
+    @Override
+    protected Void doInBackground(Void... subject) {
         try{
-            String key = subject[0];
+            System.out.println(key);
             String result = new String();
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://ec2-18-217-42-15.us-east-2.compute.amazonaws.com:3306/infoten","infoten","infoten123");
@@ -42,5 +61,10 @@ public class GetSubject extends AsyncTask<String, String, Void> {
     @Override
     protected void onProgressUpdate(String... values) {
         textView.setText(values[0]);
+    }
+
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        nDialog.dismiss();
     }
 }
