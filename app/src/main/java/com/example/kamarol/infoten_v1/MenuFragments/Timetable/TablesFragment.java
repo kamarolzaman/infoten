@@ -15,7 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.example.kamarol.infoten_v1.Communicator;
-import com.example.kamarol.infoten_v1.Functions.GetTimetable;
+import com.example.kamarol.infoten_v1.Functions.ParseTimetable;
 import com.example.kamarol.infoten_v1.MenuFragments.CheckView;
 import com.example.kamarol.infoten_v1.MenuFragments.TimetableFragment;
 import com.example.kamarol.infoten_v1.R;
@@ -62,11 +62,11 @@ public class TablesFragment extends Fragment {
         tables = view.findViewById(R.id.tables);
         adapter = new TableAdapter(view.getContext(), R.layout.item_class, subjectData);
         tables.setAdapter(adapter);
-        int length =  GetTimetable.subject.length;
+        int length =  ParseTimetable.subject.length;
         for (int i = 0; i < length; i++) {
-            if (GetTimetable.subject[i]!=null){
-                if (GetTimetable.subject[i].getDay()==day){
-                    subjectData.add(new SubjectData(GetTimetable.subject[i].getName(),"",GetTimetable.subject[i].getLecturer(),GetTimetable.subject[i].getLoc(),GetTimetable.subject[i].getStartTime(),GetTimetable.subject[i].getEndTime()));
+            if (ParseTimetable.subject[i]!=null){
+                if (ParseTimetable.subject[i].getDay()==day){
+                    subjectData.add(new SubjectData(ParseTimetable.subject[i].getName(),"", ParseTimetable.subject[i].getLecturer(), ParseTimetable.subject[i].getLoc(), ParseTimetable.subject[i].getStartTime(), ParseTimetable.subject[i].getEndTime()));
                 }
             }
         }

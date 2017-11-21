@@ -1,6 +1,5 @@
 package com.example.kamarol.infoten_v1;
 
-import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.ProgressDialog;
@@ -8,26 +7,18 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.kamarol.infoten_v1.Functions.AuthenticateNTLM;
+import com.example.kamarol.infoten_v1.Functions.ParseLogin;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-
-import java.io.IOException;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 
 /**
@@ -92,7 +83,7 @@ public class LoginFragment extends DialogFragment implements LoginCheker {
                 progressDialog.setTitle("Loging in..");
                 progressDialog.setCancelable(false);
                 progressDialog.show();
-                new AuthenticateNTLM(LoginFragment.this).execute(username,password,"http://info.uniten.edu.my/info/Ticketing.ASP?WCI=ApplyToGraduate");
+                new ParseLogin(LoginFragment.this).execute(username,password,"http://info.uniten.edu.my/info/Ticketing.ASP?WCI=ApplyToGraduate");
             }
         });
         return view;
