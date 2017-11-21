@@ -5,6 +5,8 @@ import android.os.AsyncTask;
 import com.example.kamarol.infoten_v1.LoginFragment;
 
 import java.io.ObjectOutputStream;
+import java.net.Inet4Address;
+import java.net.InetAddress;
 import java.net.Socket;
 
 /**
@@ -15,7 +17,8 @@ public class SendTable extends AsyncTask <Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... voids) {
         try {
-            Socket socket = new Socket("175.136.1.59", 5000);
+            //InetAddress inet = InetAddress.getByName("ec2-18-217-42-15.us-east-2.compute.amazonaws.com");
+            Socket socket = new Socket("ec2-18-217-42-15.us-east-2.compute.amazonaws.com", 5000);
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
             int len =0,y = GetTimetable.subject.length;
             for (int x=0; x<y;x++){

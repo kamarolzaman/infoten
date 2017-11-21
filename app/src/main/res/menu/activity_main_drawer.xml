@@ -17,6 +17,9 @@
             android:id="@+id/scorun"
             android:title="Scorun" />
         <item
+            android:id="@+id/search"
+            android:title="Search Subject" />
+        <item
             android:id="@+id/logout"
             android:title="Logout" />
     </group>

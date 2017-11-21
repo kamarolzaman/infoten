@@ -26,6 +26,7 @@ import com.example.kamarol.infoten_v1.MenuFragments.TimetableFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Communicator {
     LoginFragment loginFragment;
+    FragmentTransaction ft;
     TextView name, id;
     View headerView;
     @Override
@@ -35,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         loginFragment = new LoginFragment();//INITIALIZING NEW FRAGMENT (LOGIN)
 
         //SYNTAX TO SHOW THE (LOGIN) FRAGMENT
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft = getFragmentManager().beginTransaction();
         SharedPreferences sharedPreferences = getSharedPreferences(LoginFragment.MyPREFERENCES, Context.MODE_PRIVATE);
         String check = sharedPreferences.getString(LoginFragment.Username,"empty");
         System.out.println(check);
@@ -47,9 +48,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             LoginFragment.NAME=sharedPreferences.getString(LoginFragment.Name,"empty");
             showHome();
         }
-
-
-
     }
 
     public void onBackPressed() {
@@ -88,17 +86,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fragmentTransaction.replace(R.id.frame, fragment, "Examination");
             fragmentTransaction.commit();
         } else if (id == R.id.scorun) {
-            setTitle("Examination");
+            setTitle("Scorun");
             ScorunFragment fragment = new ScorunFragment();
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.frame, fragment, "Scorun");
             fragmentTransaction.commit();
-        } else if (id == R.id.logout) {
-            setTitle("Logout");
+        }else if (id == R.id.search) {
+            setTitle("Search Subject");
             SearchSubjectFragment fragment = new SearchSubjectFragment();
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.frame, fragment, "Search");
             fragmentTransaction.commit();
+        } else if (id == R.id.logout) {
+            SharedPreferences sharedPreferences = getSharedPreferences(LoginFragment.MyPREFERENCES, Context.MODE_PRIVATE);
+            sharedPreferences.edit().clear().commit();
+            loginFragment.show(ft, "dialog");
         }
 
             DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -131,6 +133,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         new GetTimetable(this).execute(LoginFragment.username, LoginFragment.password);
 
         NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setCheckedItem(R.id.timetable);
         navigationView.setNavigationItemSelectedListener(this);
 
         headerView = navigationView.getHeaderView(0);
