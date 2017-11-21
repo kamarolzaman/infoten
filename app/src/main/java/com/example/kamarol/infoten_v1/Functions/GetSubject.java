@@ -23,7 +23,7 @@ public class GetSubject extends AsyncTask<String, String, Void> {
             String key = subject[0];
             String result = new String();
             Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://192.168.43.121:3306/java_server","java_server","123");
+            Connection con = DriverManager.getConnection("jdbc:mysql://ec2-18-217-42-15.us-east-2.compute.amazonaws.com:3306/infoten","infoten","infoten123");
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("select * from unique_subject where CODE = UPPER('"+key+"')");
             publishProgress(result);
