@@ -17,7 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.example.kamarol.infoten_v1.Functions.GetTimetable;
+import com.example.kamarol.infoten_v1.Functions.ParseTimetable;
 import com.example.kamarol.infoten_v1.MenuFragments.ExaminationFragment;
 import com.example.kamarol.infoten_v1.MenuFragments.LedgerFragment;
 import com.example.kamarol.infoten_v1.MenuFragments.ScorunFragment;
@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction.replace(R.id.frame, fragment, "Timetable");
         fragmentTransaction.commit();
 
-        new GetTimetable(this).execute(LoginFragment.username, LoginFragment.password);
+        new ParseTimetable(this).execute(LoginFragment.username, LoginFragment.password);
 
         navigationView = findViewById(R.id.nav_view);
         navigationView.setCheckedItem(R.id.timetable);

@@ -31,22 +31,22 @@ import java.util.ArrayList;
 /**
  * Created by musyrif on 03-Nov-17.
  */
-public class GetTimetable extends AsyncTask<String, String, Void> {
+public class ParseTimetable extends AsyncTask<String, String, Void> {
     private Communicator listener;
     ArrayList<String> subjectInfo = new ArrayList<>();
     public static Subject subject[] = new Subject[20];
     String tableSel, html, url;
-Context context;
+    Context context;
     ListView timetableList;
     ArrayList<String> listItems;
     ArrayAdapter<String> adapter;
 
-    public GetTimetable(ListView timetableList, ArrayList<String> listItems, ArrayAdapter<String> adapter){
+    public ParseTimetable(ListView timetableList, ArrayList<String> listItems, ArrayAdapter<String> adapter){
         this.timetableList = timetableList;
         this.listItems = listItems;
         this.adapter = adapter;
     }
-    public GetTimetable(Communicator listener){
+    public ParseTimetable(Communicator listener){
         this.listener=listener;
     }
 

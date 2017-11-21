@@ -18,10 +18,10 @@ import java.io.InputStreamReader;
  * Created by musyrif on 05-Nov-17.
  */
 
-public class AuthenticateNTLM extends AsyncTask<String, Void, String> {
+public class ParseLogin extends AsyncTask<String, Void, String> {
     private LoginCheker listener;
     String html;
-    public AuthenticateNTLM(LoginCheker listener){
+    public ParseLogin(LoginCheker listener){
         this.listener = listener;
     }
     @Override
