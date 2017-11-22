@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.example.kamarol.infoten_v1.LoaderChecker;
+import com.example.kamarol.infoten_v1.Subject;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -31,6 +32,7 @@ public class GetSection extends AsyncTask <Void, Void, Void> {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://ec2-18-217-42-15.us-east-2.compute.amazonaws.com:3306/infoten","infoten","infoten123");
             Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("select * from unique_subject where CODE = UPPER('"+subject+"')");
             while(rs.next()) {
                 if (!section.contains(rs.getString(2))){
                     section.add(rs.getString(2));
