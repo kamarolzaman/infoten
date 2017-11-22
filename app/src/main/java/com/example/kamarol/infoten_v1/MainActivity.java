@@ -22,6 +22,8 @@ import com.example.kamarol.infoten_v1.MenuFragments.ExaminationFragment;
 import com.example.kamarol.infoten_v1.MenuFragments.LedgerFragment;
 import com.example.kamarol.infoten_v1.MenuFragments.ScorunFragment;
 import com.example.kamarol.infoten_v1.MenuFragments.SearchSubjectFragment;
+import com.example.kamarol.infoten_v1.MenuFragments.Timetable.LecturerDetailsFragment;
+import com.example.kamarol.infoten_v1.MenuFragments.Timetable.SubjectDetailsFragment;
 import com.example.kamarol.infoten_v1.MenuFragments.TimetableFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Communicator {
@@ -158,12 +160,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void showSearchFrag(String subject) {
-        navigationView.setCheckedItem(R.id.search);
-        setTitle("Search Subject");
-        SearchSubjectFragment fragment = new SearchSubjectFragment().newInstance(subject);
+    public void showSubjectDetails(String subject) {
+        //navigationView.setCheckedItem(R.id.search);
+        //setTitle("Search Subject");
+        SubjectDetailsFragment fragment = new SubjectDetailsFragment().newInstance(subject);
         FragmentTransaction ft = getFragmentManager().beginTransaction();
-        fragment.show(ft, "Search Subject");
+        fragment.show(ft, "Subject details");
+        /*
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.frame, fragment, "Search");
+        fragmentTransaction.commit();
+        */
+    }
+    @Override
+    public void showLecturerDetails(String lecturer) {
+        //navigationView.setCheckedItem(R.id.search);
+        //setTitle("Search Subject");
+        LecturerDetailsFragment fragment = new LecturerDetailsFragment().newInstance(lecturer);
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        fragment.show(ft, "Lecturer details");
         /*
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.frame, fragment, "Search");

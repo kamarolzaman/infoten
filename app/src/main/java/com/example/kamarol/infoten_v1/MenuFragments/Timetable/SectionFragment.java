@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.kamarol.infoten_v1.Communicator;
 import com.example.kamarol.infoten_v1.Functions.ParseTimetable;
@@ -25,88 +26,47 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TablesFragment extends Fragment {
-    Communicator comm;
-    CheckView checkView;
-
+public class SectionFragment extends Fragment {
+    ArrayList<String> sectionList;
     ArrayList<SubjectData> subjectData = new ArrayList();
     ArrayAdapter<SubjectData> adapter;
     ListView tables;
-    int day;
-    public static TablesFragment newInstance(int day) {
-        TablesFragment f = new TablesFragment();
+    int section;
+    public static SectionFragment newInstance(int section) {
+        SectionFragment f = new SectionFragment();
         // Supply index input as an argument.
         Bundle args = new Bundle();
-        args.putInt("day", day);
+        args.putInt("section", section);
         f.setArguments(args);
         return f;
     }
-    public TablesFragment() {
+    public SectionFragment() {
         // Required empty public constructor
     }
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        //searchSubject = (SearchSubject) getActivity();
-        comm = (Communicator) getActivity();
-        checkView = (CheckView) TimetableFragment.context ;
+        sectionList = GetSection.section;
         super.onActivityCreated(savedInstanceState);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_tables, container, false);
-        subjectData.clear();
+        View view = inflater.inflate(R.layout.fragment_section, container, false);
         Bundle args = getArguments();
-        day = args.getInt("day", 0);
-
+        section = args.getInt("section", 0);
         tables = view.findViewById(R.id.tables);
         adapter = new TableAdapter(view.getContext(), R.layout.item_class, subjectData);
         tables.setAdapter(adapter);
         int length =  ParseTimetable.subject.length;
         for (int i = 0; i < length; i++) {
             if (ParseTimetable.subject[i]!=null){
-                if (ParseTimetable.subject[i].getDay()==day){
+                if (ParseTimetable.subject[i].getDay()==section){
                     subjectData.add(new SubjectData(ParseTimetable.subject[i].getName(),"", ParseTimetable.subject[i].getLecturer(), ParseTimetable.subject[i].getLoc(), ParseTimetable.subject[i].getStartTime(), ParseTimetable.subject[i].getEndTime()));
                 }
             }
         }
         adapter.notifyDataSetChanged();
-        registerForContextMenu(tables);
         return view;
     }
 
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        MenuInflater inflater = getActivity().getMenuInflater();
-        inflater.inflate(R.menu.timetable_context_menu,menu);
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        System.out.println("Selected");
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        switch (item.getItemId()){
-            case R.id.subjectDetails:
-                if(checkView.getCurrentItem()==day) {
-                    System.out.println(subjectData.get(info.position).getName());
-                    comm.showSubjectDetails(subjectData.get(info.position).getName());
-                    return true;
-                }
-                break;
-            case R.id.lecturerDetails:
-                if(checkView.getCurrentItem()==day) {
-                    System.out.println(subjectData.get(info.position).getLecturer()+day);
-                    comm.showLecturerDetails(subjectData.get(info.position).getLecturer());
-                    return true;
-                }
-                break;
-        }
-        return false;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
 }

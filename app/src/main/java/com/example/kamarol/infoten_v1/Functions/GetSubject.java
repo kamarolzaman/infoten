@@ -60,7 +60,9 @@ public class GetSubject extends AsyncTask<Void, String, Void> {
 
     @Override
     protected void onProgressUpdate(String... values) {
-        textView.setText(values[0]);
+        if(textView!=null) {
+            textView.setText(values[0]);
+        }
     }
 
     @Override

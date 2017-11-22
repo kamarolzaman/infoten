@@ -9,5 +9,6 @@ public interface Communicator {
     public void showHome();
     public void dismissLogin();
     public void onTableLoad();
-    public void showSearchFrag(String subject);
+    public void showSubjectDetails(String subject);
+    public void showLecturerDetails(String lecturer);
 }
