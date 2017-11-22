@@ -1,11 +1,10 @@
-package com.example.kamarol.infoten_v1.MenuFragments;
+package com.example.kamarol.infoten_v1.MenuFragments.Timetable;
 
 
 import android.app.FragmentManager;
-import android.content.Context;
 import android.os.Bundle;
+import android.app.DialogFragment;
 import android.app.Fragment;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -13,7 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.kamarol.infoten_v1.MenuFragments.Timetable.TablesFragment;
+import com.example.kamarol.infoten_v1.MenuFragments.TimetableFragment;
 import com.example.kamarol.infoten_v1.R;
 
 import java.text.SimpleDateFormat;
@@ -22,25 +21,25 @@ import java.util.Date;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TimetableFragment extends Fragment implements CheckView{
-    public static TimetableFragment context;
+public class LecturerDetailsFragment extends DialogFragment {
+    View view;
     ViewPager viewPager = null;
     TabLayout tabLayout;
     MyAdapter myAdapter;
-
-    public TimetableFragment() {
+    public LecturerDetailsFragment() {
         // Required empty public constructor
     }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        context = TimetableFragment.this;
-        super.onCreate(savedInstanceState);
+    public static LecturerDetailsFragment newInstance(String subject) {
+        LecturerDetailsFragment f = new LecturerDetailsFragment();
+        Bundle args = new Bundle();
+        args.putString("LECTURER_KEY", subject);
+        f.setArguments(args);
+        return f;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_timetable, container, false);
+        view = inflater.inflate(R.layout.fragment_lecturer_details, container, false);
         viewPager = view.findViewById(R.id.pager);
         FragmentManager fragmentManager = getChildFragmentManager();
         myAdapter = new MyAdapter(fragmentManager);
@@ -57,8 +56,6 @@ public class TimetableFragment extends Fragment implements CheckView{
         else if(sdf.format(d).equals("Friday")){viewPager.setCurrentItem(4);}
         else if(sdf.format(d).equals("Saturday")){viewPager.setCurrentItem(5);}
         else if(sdf.format(d).equals("Sunday")){viewPager.setCurrentItem(6);}
-
-        //viewPager.setCurrentItem();
         return view;
     }
     class MyAdapter extends FragmentPagerAdapter {
@@ -95,10 +92,5 @@ public class TimetableFragment extends Fragment implements CheckView{
             }
             return "";
         }
-    }
-
-    @Override
-    public int getCurrentItem(){
-        return viewPager.getCurrentItem();
     }
 }

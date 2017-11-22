@@ -10,6 +10,7 @@
         android:layout_gravity="center"
         android:id="@+id/subject"
         android:layout_width="match_parent"
+        android:hint="Eg: CSEB424"
         android:layout_height="wrap_content" />
     <Button
         android:layout_gravity="center"
