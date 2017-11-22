@@ -32,6 +32,7 @@ import java.util.ArrayList;
  */
 public class SubjectDetailsFragment extends DialogFragment implements LoaderChecker{
     public static ArrayList<String> sectionList = new ArrayList<>();
+    String subject;
     View view;
     TextView textView;
     ViewPager viewPager = null;
@@ -62,7 +63,9 @@ public class SubjectDetailsFragment extends DialogFragment implements LoaderChec
         Bundle args = getArguments();
         if (args!=null) {
             if (!args.getString("SUBJECT_KEY", "").equals("")) {
-                searchSubject(args.getString("SUBJECT_KEY", ""));
+                subject = args.getString("SUBJECT_KEY", "");
+                new GetSection(subject, SubjectDetailsFragment.this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                new GetUniqueTables(subject, SubjectDetailsFragment.this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             }
         }
         if (GetSection.section!=null){
@@ -75,11 +78,6 @@ public class SubjectDetailsFragment extends DialogFragment implements LoaderChec
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-    }
-
-    public void searchSubject(String subject) {
-        //new GetSubject(textView,getActivity(),subject).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        new GetSection(subject, SubjectDetailsFragment.this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     @Override
@@ -102,7 +100,7 @@ public class SubjectDetailsFragment extends DialogFragment implements LoaderChec
 
         @Override
         public android.app.Fragment getItem(int position) {
-            return new SectionFragment().newInstance(position);
+            return new SectionTablesFragment().newInstance(sectionList.get(position), subject);
         }
 
         @Override
