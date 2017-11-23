@@ -59,7 +59,6 @@ public class SubjectDetailsFragment extends DialogFragment implements LoaderChec
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_subject_details, container, false);
-        textView = view.findViewById(R.id.result);
         Bundle args = getArguments();
         if (args!=null) {
             if (!args.getString("SUBJECT_KEY", "").equals("")) {
@@ -81,7 +80,7 @@ public class SubjectDetailsFragment extends DialogFragment implements LoaderChec
     }
 
     @Override
-    public void onLoad() {
+    public void onLoad(String html) {
         viewPager = view.findViewById(R.id.pager);
         FragmentManager fragmentManager = getChildFragmentManager();
         myAdapter = new MyAdapter(fragmentManager, sectionList);
@@ -110,7 +109,7 @@ public class SubjectDetailsFragment extends DialogFragment implements LoaderChec
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return sectionList.get(position);
+            return "Section " + sectionList.get(position);
         }
     }
 

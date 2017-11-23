@@ -5,5 +5,5 @@ package com.example.kamarol.infoten_v1;
  */
 
 public interface LoaderChecker {
-    public void onLoad();
+    public void onLoad(String html);
 }

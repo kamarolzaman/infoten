@@ -38,15 +38,16 @@ public class GetUniqueTables extends AsyncTask<Void, Void, Void> {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://ec2-18-217-42-15.us-east-2.compute.amazonaws.com:3306/infoten","infoten","infoten123");
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("select * from unique_subject WHERE unique_subject.CODE = UPPER('"+subject+"') ORDER BY START");
+            String sql = "select unique_subject.CODE, unique_subject.SECTION, unique_subject.DAY, unique_subject.START, unique_subject.END, lecturer.NAME from unique_subject INNER JOIN lecturer ON unique_subject.LECTURER_ID = lecturer.ID WHERE unique_subject.CODE = UPPER('"+subject+"') ORDER BY DAY, START";
+            ResultSet rs = stmt.executeQuery(sql);
             while(rs.next()) {
                 String code=rs.getString(1);
                 String section = rs.getString(2);
                 int day = rs.getInt(3);
                 int start = rs.getInt(4);
                 int end = rs.getInt(5);
-                int lectrid = rs.getInt(6);
-                uniqueSubject2.add(new Subject(start, end-start, day, code+ " test",section,""));
+                String lectrid = rs.getString(6);
+                uniqueSubject2.add(new Subject(start, end-start, day, code, section, lectrid));
             }
             con.close();
         }catch(Exception e){
@@ -58,6 +59,6 @@ public class GetUniqueTables extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         System.out.println("GET UNIQUE LOADED");
-        listener.onLoad();
+        listener.onLoad("");
     }
 }

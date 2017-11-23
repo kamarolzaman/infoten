@@ -2,6 +2,7 @@ package com.example.kamarol.infoten_v1.MenuFragments;
 
 
 import android.app.DialogFragment;
+import android.app.FragmentTransaction;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -14,6 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.kamarol.infoten_v1.Functions.GetSubject;
+import com.example.kamarol.infoten_v1.MenuFragments.Timetable.SubjectDetailsFragment;
 import com.example.kamarol.infoten_v1.R;
 
 
@@ -48,7 +50,6 @@ public class SearchSubjectFragment extends DialogFragment{
         View view = inflater.inflate(R.layout.fragment_search_subject, container, false);
         button = view.findViewById(R.id.search);
         editText = view.findViewById(R.id.subject);
-        textView = view.findViewById(R.id.result);
         Bundle args = getArguments();
         if (args!=null) {
             if (!args.getString("SUBJECT_KEY", "").equals("")) {
@@ -60,7 +61,10 @@ public class SearchSubjectFragment extends DialogFragment{
             @Override
             public void onClick(View v) {//WHEN THE EMBEDED LISTENER GET AN onClick, IT WILL RUN THIS METHOD
                 subject = editText.getText().toString();
-                searchSubject(subject);
+                SubjectDetailsFragment fragment = new SubjectDetailsFragment().newInstance(subject);
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.result, fragment, "Search Result");
+                fragmentTransaction.commit();
             }
         });
         return view;

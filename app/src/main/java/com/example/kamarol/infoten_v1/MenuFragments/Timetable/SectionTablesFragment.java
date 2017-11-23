@@ -58,12 +58,12 @@ public class SectionTablesFragment extends Fragment implements LoaderChecker{
         }else{
             for (int i = 0; i < GetUniqueTables.uniqueSubject2.size(); i++) {
                 if(GetUniqueTables.uniqueSubject2.get(i).getSection().equals(section)){
-                    subjectData.add(new SubjectData(GetUniqueTables.uniqueSubject2.get(i).getName(),"", GetUniqueTables.uniqueSubject2.get(i).getLecturer(), GetUniqueTables.uniqueSubject2.get(i).getLoc(), GetUniqueTables.uniqueSubject2.get(i).getStartTime(), GetUniqueTables.uniqueSubject2.get(i).getEndTime()));
+                    subjectData.add(new SubjectData(GetUniqueTables.uniqueSubject2.get(i).getName(),"", GetUniqueTables.uniqueSubject2.get(i).getLecturer(), GetUniqueTables.uniqueSubject2.get(i).getLoc(), GetUniqueTables.uniqueSubject2.get(i).getStartTime(), GetUniqueTables.uniqueSubject2.get(i).getEndTime(), GetUniqueTables.uniqueSubject2.get(i).getDay()));
                 }
             }
             //subjectData = GetUniqueTables.uniqueSubject;
             tables = view.findViewById(R.id.tables);
-            adapter = new TableAdapter(view.getContext(), R.layout.item_class, subjectData);
+            adapter = new SectionTableAdapter(view.getContext(), R.layout.item_class, subjectData);
             tables.setAdapter(adapter);
             adapter.notifyDataSetChanged();
         }
@@ -71,7 +71,7 @@ public class SectionTablesFragment extends Fragment implements LoaderChecker{
     }
 
     @Override
-    public void onLoad() {
+    public void onLoad(String html) {
         subjectData.clear();
         //subjectData = GetUniqueTables.uniqueSubject;
         tables = view.findViewById(R.id.tables);

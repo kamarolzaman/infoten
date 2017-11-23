@@ -48,6 +48,6 @@ public class GetSection extends AsyncTask <Void, Void, Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         System.out.println("LOADED");
-        listener.onLoad();
+        listener.onLoad("");
     }
 }
