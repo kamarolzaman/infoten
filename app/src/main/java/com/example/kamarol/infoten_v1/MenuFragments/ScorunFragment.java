@@ -73,18 +73,12 @@ public class ScorunFragment extends Fragment implements LoaderChecker {
         String leader = el.get(16).children().last().children().last().text();
         String spirit = el.get(17).children().last().children().last().text();
         String sports = el.get(18).children().last().children().last().text();
-        System.out.println(scorun+"/"+needed);
-        System.out.println(arts.split("//")[0]);
-        System.out.println(comm);
-        System.out.println(leader);
-        System.out.println(spirit);
-        System.out.println(sports);
 
-        this.scorun.setText(scorun+"/"+needed);
-        this.arts.setText(arts);
-        this.comm.setText(comm);
-        this.leader.setText(leader);
-        this.spirit.setText(spirit);
-        this.sports.setText(sports);
+        this.scorun.setText(scorun.split("[.]")[0]+"/"+needed.split("[.]")[0]);
+        this.arts.setText(arts.split("/")[0]);
+        this.comm.setText(comm.split("/")[0]);
+        this.leader.setText(leader.split("/")[0]);
+        this.spirit.setText(spirit.split("/")[0]);
+        this.sports.setText(sports.split("/")[0]);
     }
 }

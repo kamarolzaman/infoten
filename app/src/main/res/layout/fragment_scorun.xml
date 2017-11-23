@@ -13,7 +13,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="80dp"
-        android:text="13/30"
+        android:text="0/0"
         android:textAlignment="center"
         android:textSize="60sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -62,7 +62,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="6"
                 android:textAlignment="textEnd" />
         </TableRow>
 
@@ -82,7 +81,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="14"
                 android:textAlignment="textEnd" />
         </TableRow>
 
@@ -102,7 +100,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="16"
                 android:textAlignment="textEnd" />
         </TableRow>
 
@@ -122,7 +119,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="2"
                 android:textAlignment="textEnd" />
         </TableRow>
 
@@ -141,7 +137,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="6"
                 android:textAlignment="textEnd" />
         </TableRow>
     </TableLayout>
