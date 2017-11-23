@@ -8,7 +8,10 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.example.kamarol.infoten_v1.Functions.ParseScorun;
+import com.example.kamarol.infoten_v1.LoaderChecker;
 import com.example.kamarol.infoten_v1.LoginFragment;
 import com.example.kamarol.infoten_v1.Tools.NTLMSchemeFactory;
 import com.example.kamarol.infoten_v1.R;
@@ -20,6 +23,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.BufferedReader;
@@ -29,8 +33,9 @@ import java.io.InputStreamReader;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ScorunFragment extends Fragment {
-
+public class ScorunFragment extends Fragment implements LoaderChecker {
+    TextView scorun, arts, comm, leader, spirit, sports;
+    View view;
 
     public ScorunFragment() {
         // Required empty public constructor
@@ -38,51 +43,48 @@ public class ScorunFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_scorun, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_scorun, container, false);
+        scorun = view.findViewById(R.id.scorun);
+        arts = view.findViewById(R.id.arts);
+        comm = view.findViewById(R.id.comm);
+        leader = view.findViewById(R.id.leader);
+        spirit = view.findViewById(R.id.spirit);
+        sports = view.findViewById(R.id.sports);
+        return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        new GetScorun().execute(LoginFragment.username, LoginFragment.password);
+        new ParseScorun(LoginFragment.username, LoginFragment.password, ScorunFragment.this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-    private class GetScorun extends AsyncTask<String, Void, Void> {
+    @Override
+    public void onLoad(String html) {
+        String scorunSel = "#ctl00_ContentPlaceHolder1_Label1";
+        String neededSel = "#ctl00_ContentPlaceHolder1_Label2";
+        Document doc = Jsoup.parse(html);
+        Elements el = doc.getElementsByTag("tbody");
+        String needed = el.select(neededSel).text();
+        String scorun = el.select(scorunSel).text();
+        String arts = el.get(14).children().last().children().last().text();
+        String comm = el.get(15).children().last().children().last().text();
+        String leader = el.get(16).children().last().children().last().text();
+        String spirit = el.get(17).children().last().children().last().text();
+        String sports = el.get(18).children().last().children().last().text();
+        System.out.println(scorun+"/"+needed);
+        System.out.println(arts.split("//")[0]);
+        System.out.println(comm);
+        System.out.println(leader);
+        System.out.println(spirit);
+        System.out.println(sports);
 
-        @Override
-        protected Void doInBackground(String... cred) {
-            String scorun = "";
-            String username = cred[0];
-            String password = cred[1];
-            DefaultHttpClient httpclient = new DefaultHttpClient();
-
-
-            try {
-                // register ntlm auth scheme
-                httpclient.getAuthSchemes().register("ntlm",
-                        new NTLMSchemeFactory());
-                httpclient.getCredentialsProvider().setCredentials(
-                        new AuthScope("info.uniten.edu.my", AuthScope.ANY_PORT),
-                        new NTCredentials(username, password, "", ""));
-
-                HttpGet request = new HttpGet("http://info.uniten.edu.my/Scorun/ProgressReport.aspx?mode=student");
-                HttpResponse httpResponse = httpclient.execute(request);
-
-                BufferedReader br = new BufferedReader(new InputStreamReader(
-                        httpResponse.getEntity().getContent()));
-
-                scorun = br.readLine();
-                System.out.println(scorun);
-                //result.append(line);
-            } catch (Exception e){}
-            Document selDoc = Jsoup.parse(scorun);
-            System.out.println(selDoc);
-            Elements link = selDoc.select("#ctl00_ContentPlaceHolder1_Panel1 > span > table > tbody > tr:nth-child(3) > td:nth-child(2)");
-            System.out.println(link.text());
-            return null;
-        }
+        this.scorun.setText(scorun+"/"+needed);
+        this.arts.setText(arts);
+        this.comm.setText(comm);
+        this.leader.setText(leader);
+        this.spirit.setText(spirit);
+        this.sports.setText(sports);
     }
 }

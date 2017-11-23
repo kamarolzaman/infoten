@@ -6,8 +6,8 @@ package com.example.kamarol.infoten_v1.MenuFragments.Timetable;
  */
 
 public class SubjectData {
-    String name, code, lecturer, loc, section;
-    int start, end;
+    String name, code, lecturer, loc;
+    int start, end, day;
     public SubjectData(String name, String code, String lecturer, String loc, int start, int end){
         this.name = name;
         this.code = code;
@@ -16,16 +16,34 @@ public class SubjectData {
         this.start = start;
         this.end = end;
     }
-    public SubjectData(String name, String code, String lecturer, String loc, int start, int end, String section){
+    public SubjectData(String name, String code, String lecturer, String loc, int start, int end, int day){
         this.name = name;
         this.code = code;
         this.lecturer = lecturer;
         this.loc = loc;
         this.start = start;
         this.end = end;
-        this.section =section;
+        this.day =day;
     }
-    public String getSection(){ return section;}
+    public String getDay(){
+        switch (day){
+            case 0:
+                return "Monday";
+            case 1:
+                return "Tuesday";
+            case 2:
+                return "Wednesday";
+            case 3:
+                return "Thursday";
+            case 4:
+                return "Friday";
+            case 5:
+                return "Saturday";
+            case 6:
+                return "Sunday";
+        }
+        return "";
+    }
     public String getName(){
         return name;
     }

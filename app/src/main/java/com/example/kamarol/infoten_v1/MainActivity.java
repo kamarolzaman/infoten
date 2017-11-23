@@ -161,28 +161,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void showSubjectDetails(String subject) {
-        //navigationView.setCheckedItem(R.id.search);
-        //setTitle("Search Subject");
         SubjectDetailsFragment fragment = new SubjectDetailsFragment().newInstance(subject);
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         fragment.show(ft, "Subject details");
-        /*
-        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.frame, fragment, "Search");
-        fragmentTransaction.commit();
-        */
     }
     @Override
     public void showLecturerDetails(String lecturer) {
-        //navigationView.setCheckedItem(R.id.search);
-        //setTitle("Search Subject");
         LecturerDetailsFragment fragment = new LecturerDetailsFragment().newInstance(lecturer);
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         fragment.show(ft, "Lecturer details");
-        /*
-        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.frame, fragment, "Search");
-        fragmentTransaction.commit();
-        */
     }
 }

@@ -71,9 +71,15 @@ public class Subject{
         this.durationInt = duration;
         this.dayInt = dayInt;
         this.fullname = name;
-        String[] splited = name.split("\\s+");
-        this.name = splited[0];
-        this.loc = splited[1];
+        try {
+            String[] splited = name.split("\\s+");
+            this.name = splited[0];
+            this.loc = splited[1];
+        }catch (Exception e){
+            System.out.println("Name not splittable, Using as is");
+            this.name = name;
+            this.loc = "";
+        }
         this.section = section;
         this.lecturer = lecturer;
         if (dayInt==0){

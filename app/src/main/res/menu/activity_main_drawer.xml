@@ -20,9 +20,6 @@
             android:id="@+id/search"
             android:title="Search Subject" />
         <item
-            android:id="@+id/searcah"
-            android:title="Search Lecturer" />
-        <item
             android:id="@+id/logout"
             android:title="Logout" />
     </group>

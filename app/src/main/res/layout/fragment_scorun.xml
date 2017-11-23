@@ -25,15 +25,17 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:text="Scorun"
         android:textAlignment="center"
         android:textSize="25sp"
         app:layout_constraintBottom_toTopOf="@+id/scorun"
-        app:layout_constraintStart_toStartOf="@+id/scorun" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TableLayout
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -56,6 +58,7 @@
                 android:text="Arts &amp; Cultural" />
 
             <TextView
+                android:id="@+id/arts"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -75,6 +78,7 @@
                 android:text="Communication &amp; Enterpreneurship" />
 
             <TextView
+                android:id="@+id/comm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -94,6 +98,7 @@
                 android:text="Leadership &amp; Intelectual" />
 
             <TextView
+                android:id="@+id/leader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -113,6 +118,7 @@
                 android:text="Spiritual &amp; Civilization" />
 
             <TextView
+                android:id="@+id/spirit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -131,6 +137,7 @@
                 android:text="Sports &amp; Recreational" />
 
             <TextView
+                android:id="@+id/sports"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
