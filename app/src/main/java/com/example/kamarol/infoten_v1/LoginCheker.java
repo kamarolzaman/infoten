@@ -5,5 +5,5 @@ package com.example.kamarol.infoten_v1;
  */
 
 public interface LoginCheker {
-    public void onLogin(String html);
+    public void onLogin(String html, String html2);
 }

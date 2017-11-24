@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
     LoginFragment loginFragment;
     FragmentTransaction ft;
-    TextView name, id;
+    TextView name, id, semester, advisor;
     View headerView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +50,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             LoginFragment.username= sharedPreferences.getString(LoginFragment.Username,"empty");
             LoginFragment.password=sharedPreferences.getString(LoginFragment.Password,"empty");
             LoginFragment.NAME=sharedPreferences.getString(LoginFragment.Name,"empty");
+            LoginFragment.semester=sharedPreferences.getString(LoginFragment.Semester,"empty");
+            LoginFragment.advisor=sharedPreferences.getString(LoginFragment.Advisor,"empty");
             showHome();
         }
     }
@@ -142,9 +145,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         headerView = navigationView.getHeaderView(0);
         name = headerView.findViewById(R.id.name);
         id = headerView.findViewById(R.id.id);
+        semester = headerView.findViewById(R.id.semester);
+        advisor = headerView.findViewById(R.id.advisor);
 
         name.setText(LoginFragment.NAME);
         id.setText(LoginFragment.username.toUpperCase());
+        semester.setText(LoginFragment.semester);
+        advisor.setText(LoginFragment.advisor);
     }
     public void dismissLogin(){
         loginFragment.dismiss();
