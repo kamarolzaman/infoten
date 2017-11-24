@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,13 +27,15 @@ import org.jsoup.nodes.Element;
  */
 public class LoginFragment extends DialogFragment implements LoginCheker {
     ProgressDialog progressDialog;
-    public static String username, password, NAME;
+    public static String username, password, NAME, advisor, semester;
     Button btn;
     Communicator comm;
     public static final String MyPREFERENCES = "MyPrefs" ;
     public static final String Username = "unameKey";
     public static final String Password = "pwKey";
     public static final String Name = "nameKey";
+    public static final String Advisor = "advisorKey";
+    public static final String Semester = "semesterKey";
     EditText uname,pw;
     SharedPreferences sharedpreferences;
 
@@ -83,7 +86,7 @@ public class LoginFragment extends DialogFragment implements LoginCheker {
                 progressDialog.setTitle("Loging in..");
                 progressDialog.setCancelable(false);
                 progressDialog.show();
-                new ParseLogin(LoginFragment.this).execute(username,password,"http://info.uniten.edu.my/info/Ticketing.ASP?WCI=ApplyToGraduate");
+                new ParseLogin(LoginFragment.this,username,password).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             }
         });
         return view;
@@ -97,24 +100,34 @@ public class LoginFragment extends DialogFragment implements LoginCheker {
     }
 
     @Override
-    public void onLogin(String html) {
+    public void onLogin(String html, String html2) {
         progressDialog.dismiss();
         int valid = 0;
-        String name = "";
+        String name = "", semester = "", advisor = "";
         try {
             Document doc = Jsoup.parse(html);
-            Element namel = doc.select("body > table > tbody > tr:nth-child(3) > td:nth-child(2) > b").first();
-            name = namel.text();
+            name = doc.select("body > form > table > tbody > tr:nth-child(2) > td:nth-child(2)").first().text();
+            advisor = doc.select("body > form > table > tbody > tr:nth-child(8) > td:nth-child(2)").first().text();
+            Document doc2 = Jsoup.parse(html2);
+            System.out.println(html2);
+            String sem = doc2.select("body > h1").first().text();
+            semester = sem.replace("Apply To Graduate for ", "");
+            System.out.println(name +advisor+semester);
             valid=1;
         }catch (Exception e){
+            e.printStackTrace();
             valid=0;
         }
         if (valid==1){
-            NAME = name;
+            this.NAME = name;
+            this.advisor = advisor;
+            this.semester = semester;
             SharedPreferences.Editor editor = sharedpreferences.edit();
             editor.putString(Username, username);
             editor.putString(Password, password);
             editor.putString(Name, NAME);
+            editor.putString(Advisor, advisor);
+            editor.putString(Semester, semester);
             editor.commit();
             getDialog().dismiss();//DISMISS THE CURRENT DIALOG
             comm.showHome();
