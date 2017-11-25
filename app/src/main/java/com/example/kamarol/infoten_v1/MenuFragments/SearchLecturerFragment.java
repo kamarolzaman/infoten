@@ -10,9 +10,13 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,6 +27,7 @@ import android.widget.TextView;
 
 import com.example.kamarol.infoten_v1.Functions.GetLecturer;
 import com.example.kamarol.infoten_v1.LoaderChecker;
+import com.example.kamarol.infoten_v1.MenuFragments.Timetable.LecturerDetailsFragment;
 import com.example.kamarol.infoten_v1.MenuFragments.Timetable.SubjectDetailsFragment;
 import com.example.kamarol.infoten_v1.R;
 import com.example.kamarol.infoten_v1.Tools.Lecturer;
@@ -85,10 +90,29 @@ public class SearchLecturerFragment extends Fragment implements LoaderChecker{
         lecturers.clear();
         System.out.println("Onload");
         for (int i = 0; i < GetLecturer.lecturer.size(); i++) {
-            lecturers.add(GetLecturer.lecturer.get(i).getName());
+            lecturers.add(GetLecturer.lecturer.get(i).getName().toUpperCase());
         }
-        GetLecturer.lecturer = null;
         arrayAdapter.notifyDataSetChanged();
+        registerForContextMenu(result);
+    }
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getActivity().getMenuInflater();
+        inflater.inflate(R.menu.lecturer_details,menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        System.out.println("Selected");
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        System.out.println(GetLecturer.lecturer.get(info.position).getName()+GetLecturer.lecturer.get(info.position).getEmail());
+
+        LecturerDetailsFragment fragment = new LecturerDetailsFragment().newInstance(GetLecturer.lecturer.get(info.position).getId(),GetLecturer.lecturer.get(info.position).getName(),GetLecturer.lecturer.get(info.position).getPhone(),GetLecturer.lecturer.get(info.position).getDept(),GetLecturer.lecturer.get(info.position).getEmail());
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        fragment.show(ft, "Lecturer details");
+
+        return true;
     }
 }
