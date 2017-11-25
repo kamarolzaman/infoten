@@ -19,6 +19,8 @@ import com.example.kamarol.infoten_v1.Functions.ParseTimetable;
 import com.example.kamarol.infoten_v1.MenuFragments.CheckView;
 import com.example.kamarol.infoten_v1.MenuFragments.TimetableFragment;
 import com.example.kamarol.infoten_v1.R;
+import com.example.kamarol.infoten_v1.Tools.SubjectData;
+import com.example.kamarol.infoten_v1.Tools.TableAdapter;
 
 import java.util.ArrayList;
 

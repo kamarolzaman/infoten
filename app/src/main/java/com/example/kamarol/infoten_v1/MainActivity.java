@@ -22,6 +22,7 @@ import com.example.kamarol.infoten_v1.Functions.ParseTimetable;
 import com.example.kamarol.infoten_v1.MenuFragments.ExaminationFragment;
 import com.example.kamarol.infoten_v1.MenuFragments.LedgerFragment;
 import com.example.kamarol.infoten_v1.MenuFragments.ScorunFragment;
+import com.example.kamarol.infoten_v1.MenuFragments.SearchLecturerFragment;
 import com.example.kamarol.infoten_v1.MenuFragments.SearchSubjectFragment;
 import com.example.kamarol.infoten_v1.MenuFragments.Timetable.LecturerDetailsFragment;
 import com.example.kamarol.infoten_v1.MenuFragments.Timetable.SubjectDetailsFragment;
@@ -70,6 +71,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId()==R.id.about){
+
+        }else if (item.getItemId()==R.id.logout){
+            SharedPreferences sharedPreferences = getSharedPreferences(LoginFragment.MyPREFERENCES, Context.MODE_PRIVATE);
+            sharedPreferences.edit().clear().commit();
+            loginFragment.show(ft, "dialog");
+        }
+        return true;
+    }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
@@ -97,19 +111,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.frame, fragment, "Scorun");
             fragmentTransaction.commit();
-        }else if (id == R.id.search) {
+        } else if (id == R.id.search_subject) {
             setTitle("Search Subject");
             SearchSubjectFragment fragment = new SearchSubjectFragment();
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.frame, fragment, "Search");
+            fragmentTransaction.replace(R.id.frame, fragment, "Search Subject");
             fragmentTransaction.commit();
-        } else if (id == R.id.logout) {
-            SharedPreferences sharedPreferences = getSharedPreferences(LoginFragment.MyPREFERENCES, Context.MODE_PRIVATE);
-            sharedPreferences.edit().clear().commit();
-            loginFragment.show(ft, "dialog");
+        } else if (id == R.id.search_lecturer) {
+            setTitle("Search Subject");
+            SearchLecturerFragment fragment = new SearchLecturerFragment();
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.frame, fragment, "Search Lecturer");
+            fragmentTransaction.commit();
         }
 
-            DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -118,7 +134,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void dismissDialog() {
         this.onBackPressed();
     }
-
     @Override
     public void showHome() {
 

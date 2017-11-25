@@ -1,4 +1,4 @@
-package com.example.kamarol.infoten_v1.MenuFragments.Timetable;
+package com.example.kamarol.infoten_v1.Tools;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
