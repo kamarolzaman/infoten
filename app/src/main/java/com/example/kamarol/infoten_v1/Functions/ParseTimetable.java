@@ -1,18 +1,13 @@
 package com.example.kamarol.infoten_v1.Functions;
 
-import android.app.Dialog;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.example.kamarol.infoten_v1.Communicator;
-import com.example.kamarol.infoten_v1.MainActivity;
 import com.example.kamarol.infoten_v1.Tools.NTLMSchemeFactory;
-import com.example.kamarol.infoten_v1.Subject;
+import com.example.kamarol.infoten_v1.Tools.Subject;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;

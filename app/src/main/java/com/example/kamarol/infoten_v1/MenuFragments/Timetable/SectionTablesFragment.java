@@ -1,27 +1,20 @@
 package com.example.kamarol.infoten_v1.MenuFragments.Timetable;
 
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.support.annotation.Nullable;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.example.kamarol.infoten_v1.Communicator;
-import com.example.kamarol.infoten_v1.Functions.ParseTimetable;
+import com.example.kamarol.infoten_v1.Functions.GetUniqueTables;
 import com.example.kamarol.infoten_v1.LoaderChecker;
-import com.example.kamarol.infoten_v1.MenuFragments.CheckView;
-import com.example.kamarol.infoten_v1.MenuFragments.TimetableFragment;
 import com.example.kamarol.infoten_v1.R;
-import com.example.kamarol.infoten_v1.Subject;
+import com.example.kamarol.infoten_v1.Tools.SectionTableAdapter;
+import com.example.kamarol.infoten_v1.Tools.SubjectData;
+import com.example.kamarol.infoten_v1.Tools.TableAdapter;
 
 import java.util.ArrayList;
 

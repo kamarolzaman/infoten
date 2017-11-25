@@ -3,7 +3,6 @@ package com.example.kamarol.infoten_v1.MenuFragments.Timetable;
 
 import android.app.DialogFragment;
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,15 +13,11 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.kamarol.infoten_v1.Functions.GetSubject;
-import com.example.kamarol.infoten_v1.Functions.ParseTimetable;
+import com.example.kamarol.infoten_v1.Functions.GetSection;
+import com.example.kamarol.infoten_v1.Functions.GetUniqueTables;
 import com.example.kamarol.infoten_v1.LoaderChecker;
-import com.example.kamarol.infoten_v1.MenuFragments.SearchSubjectFragment;
-import com.example.kamarol.infoten_v1.MenuFragments.TimetableFragment;
 import com.example.kamarol.infoten_v1.R;
 
 import java.util.ArrayList;

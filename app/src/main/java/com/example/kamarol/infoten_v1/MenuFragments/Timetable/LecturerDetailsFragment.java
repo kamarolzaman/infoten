@@ -29,10 +29,10 @@ public class LecturerDetailsFragment extends DialogFragment {
     public LecturerDetailsFragment() {
         // Required empty public constructor
     }
-    public static LecturerDetailsFragment newInstance(String subject) {
+    public static LecturerDetailsFragment newInstance(String lecturer) {
         LecturerDetailsFragment f = new LecturerDetailsFragment();
         Bundle args = new Bundle();
-        args.putString("LECTURER_KEY", subject);
+        args.putString("LECTURER_KEY", lecturer);
         f.setArguments(args);
         return f;
     }

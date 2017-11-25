@@ -1,4 +1,4 @@
-package com.example.kamarol.infoten_v1;
+package com.example.kamarol.infoten_v1.Tools;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

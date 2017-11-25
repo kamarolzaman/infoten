@@ -1,10 +1,8 @@
-package com.example.kamarol.infoten_v1.MenuFragments.Timetable;
+package com.example.kamarol.infoten_v1.Functions;
 
-import android.content.Context;
 import android.os.AsyncTask;
 
 import com.example.kamarol.infoten_v1.LoaderChecker;
-import com.example.kamarol.infoten_v1.Subject;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

@@ -17,10 +17,10 @@
             android:id="@+id/scorun"
             android:title="Scorun" />
         <item
-            android:id="@+id/search"
+            android:id="@+id/search_subject"
             android:title="Search Subject" />
         <item
-            android:id="@+id/logout"
-            android:title="Logout" />
+            android:id="@+id/search_lecturer"
+            android:title="Search Lecturer" />
     </group>
 </menu>
