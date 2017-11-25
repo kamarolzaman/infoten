@@ -1,6 +1,7 @@
 package com.example.kamarol.infoten_v1.MenuFragments.Timetable;
 
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.annotation.Nullable;
@@ -15,7 +16,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.example.kamarol.infoten_v1.Communicator;
+import com.example.kamarol.infoten_v1.Functions.GetLecturer;
 import com.example.kamarol.infoten_v1.Functions.ParseTimetable;
+import com.example.kamarol.infoten_v1.LoaderChecker;
 import com.example.kamarol.infoten_v1.MenuFragments.CheckView;
 import com.example.kamarol.infoten_v1.MenuFragments.TimetableFragment;
 import com.example.kamarol.infoten_v1.R;
@@ -27,7 +30,7 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TablesFragment extends Fragment {
+public class TablesFragment extends Fragment implements LoaderChecker {
     Communicator comm;
     CheckView checkView;
 
@@ -99,7 +102,7 @@ public class TablesFragment extends Fragment {
             case R.id.lecturerDetails:
                 if(checkView.getCurrentItem()==day) {
                     System.out.println(subjectData.get(info.position).getLecturer()+day);
-                    comm.showLecturerDetails(subjectData.get(info.position).getLecturer());
+                    new GetLecturer(TablesFragment.this, subjectData.get(info.position).getLecturer()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                     return true;
                 }
                 break;
@@ -110,5 +113,10 @@ public class TablesFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+    }
+
+    @Override
+    public void onLoad(String html) {
+        comm.showLecturerDetails(GetLecturer.lecturer.get(0).getId(),GetLecturer.lecturer.get(0).getName(),GetLecturer.lecturer.get(0).getPhone(),GetLecturer.lecturer.get(0).getDept(),GetLecturer.lecturer.get(0).getEmail());
     }
 }

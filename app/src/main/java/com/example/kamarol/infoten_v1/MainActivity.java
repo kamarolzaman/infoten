@@ -187,9 +187,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         fragment.show(ft, "Subject details");
     }
+
     @Override
-    public void showLecturerDetails(String lecturer) {
-        LecturerDetailsFragment fragment = new LecturerDetailsFragment().newInstance(lecturer);
+    public void showLecturerDetails(int id, String name, String phone, String dept, String email) {
+        LecturerDetailsFragment fragment = new LecturerDetailsFragment().newInstance(id,name,phone,dept,email);
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         fragment.show(ft, "Lecturer details");
     }

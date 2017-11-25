@@ -2,6 +2,7 @@ package com.example.kamarol.infoten_v1.MenuFragments.Timetable;
 
 
 import android.app.FragmentManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.DialogFragment;
 import android.app.Fragment;
@@ -11,7 +12,10 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.example.kamarol.infoten_v1.Functions.GetSection;
+import com.example.kamarol.infoten_v1.Functions.GetUniqueTables;
 import com.example.kamarol.infoten_v1.MenuFragments.TimetableFragment;
 import com.example.kamarol.infoten_v1.R;
 
@@ -26,13 +30,22 @@ public class LecturerDetailsFragment extends DialogFragment {
     ViewPager viewPager = null;
     TabLayout tabLayout;
     MyAdapter myAdapter;
+
+    int id;
+    String name, phone, dept, email;
+    TextView nameT, phoneT, deptT, emailT;
+
     public LecturerDetailsFragment() {
         // Required empty public constructor
     }
-    public static LecturerDetailsFragment newInstance(String lecturer) {
+    public static LecturerDetailsFragment newInstance(int id, String name, String phone, String department, String email) {
         LecturerDetailsFragment f = new LecturerDetailsFragment();
         Bundle args = new Bundle();
-        args.putString("LECTURER_KEY", lecturer);
+        args.putInt("LECTURER_ID", id);
+        args.putString("LECTURER_NAME", name);
+        args.putString("LECTURER_PHONE", phone);
+        args.putString("LECTURER_DEPT", department);
+        args.putString("LECTURER_EMAIL", email);
         f.setArguments(args);
         return f;
     }
@@ -46,6 +59,23 @@ public class LecturerDetailsFragment extends DialogFragment {
         viewPager.setAdapter(myAdapter);
         tabLayout = view.findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
+
+        nameT = view.findViewById(R.id.name);
+        phoneT = view.findViewById(R.id.phone);
+        deptT = view.findViewById(R.id.dept);
+        emailT = view.findViewById(R.id.email);
+
+        Bundle args = getArguments();
+                id = args.getInt("LECTURER_ID", 0);
+                name = args.getString("LECTURER_NAME","");
+                phone = args.getString("LECTURER_PHONE","");
+                dept = args.getString("LECTURER_DEPT","");
+                email = args.getString("LECTURER_EMAIL","");
+
+                nameT.setText(name);
+                phoneT.setText(phone);
+                deptT.setText(dept);
+                emailT.setText(email);
 
         SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
         Date d = new Date();

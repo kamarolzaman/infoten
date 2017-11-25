@@ -10,5 +10,5 @@ public interface Communicator {
     public void dismissLogin();
     public void onTableLoad();
     public void showSubjectDetails(String subject);
-    public void showLecturerDetails(String lecturer);
+    public void showLecturerDetails(int id, String name, String phone, String dept, String email);
 }
