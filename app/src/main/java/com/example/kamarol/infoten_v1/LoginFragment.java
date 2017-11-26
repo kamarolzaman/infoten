@@ -111,7 +111,7 @@ public class LoginFragment extends DialogFragment implements LoginCheker {
             Document doc2 = Jsoup.parse(html2);
             System.out.println(html2);
             String sem = doc2.select("body > h1").first().text();
-            semester = sem.replace("Apply To Graduate for ", "");
+            semester = sem.replace("Academic Advising for ", "");
             System.out.println(name +advisor+semester);
             valid=1;
         }catch (Exception e){
@@ -132,7 +132,7 @@ public class LoginFragment extends DialogFragment implements LoginCheker {
             getDialog().dismiss();//DISMISS THE CURRENT DIALOG
             comm.showHome();
         }else{
-            Toast.makeText(getActivity(), "Invalid login.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Invalid login", Toast.LENGTH_SHORT).show();
         }
 
     }

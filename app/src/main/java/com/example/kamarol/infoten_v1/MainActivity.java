@@ -77,6 +77,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (item.getItemId()==R.id.about){
 
         }else if (item.getItemId()==R.id.logout){
+            loginFragment = new LoginFragment();
+            ft = getFragmentManager().beginTransaction();
             SharedPreferences sharedPreferences = getSharedPreferences(LoginFragment.MyPREFERENCES, Context.MODE_PRIVATE);
             sharedPreferences.edit().clear().commit();
             loginFragment.show(ft, "dialog");
