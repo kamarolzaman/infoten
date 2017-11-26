@@ -46,7 +46,7 @@ public class ParseLogin extends AsyncTask<Void, Void, String> {
             while ((html = br.readLine()) != null) {
                 result.append(html);
             }
-            HttpGet request2 = new HttpGet("http://info.uniten.edu.my/info/Ticketing.ASP?WCI=ApplyToGraduate");
+            HttpGet request2 = new HttpGet("http://info.uniten.edu.my/info/Ticketing.ASP?WCI=Advising");
             HttpResponse httpResponse2 = httpclient.execute(request2);
 
             BufferedReader br2 = new BufferedReader(new InputStreamReader(httpResponse2.getEntity().getContent()));
