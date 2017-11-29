@@ -111,7 +111,7 @@ public class LoginFragment extends DialogFragment implements LoginCheker {
             Document doc2 = Jsoup.parse(html2);
             System.out.println(html2);
             String sem = doc2.select("body > h1").first().text();
-            semester = sem.replace("Academic Advising for ", "");
+            semester = sem.replace("Time Table for ", "");
             System.out.println(name +advisor+semester);
             valid=1;
         }catch (Exception e){
