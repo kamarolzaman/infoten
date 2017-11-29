@@ -10,6 +10,9 @@ import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.NTCredentials;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -20,9 +23,9 @@ import java.io.InputStreamReader;
 
 public class ParseLogin extends AsyncTask<Void, Void, String> {
     private LoginCheker listener;
+    String tableSel, url, result2;
     StringBuffer result = new StringBuffer();
-    StringBuffer result2 = new StringBuffer();
-    String html, html2;
+    String html;
     String username, password;
     public ParseLogin(LoginCheker listener, String username, String password){
         this.listener = listener;
@@ -46,15 +49,23 @@ public class ParseLogin extends AsyncTask<Void, Void, String> {
             while ((html = br.readLine()) != null) {
                 result.append(html);
             }
-            HttpGet request2 = new HttpGet("http://info.uniten.edu.my/info/Ticketing.ASP?WCI=Advising");
-            HttpResponse httpResponse2 = httpclient.execute(request2);
+            //GET TABLE LINK
+            request = new HttpGet("http://info.uniten.edu.my/info/Ticketing.ASP?WCI=TimeTable");
+            httpResponse = httpclient.execute(request);
 
-            BufferedReader br2 = new BufferedReader(new InputStreamReader(httpResponse2.getEntity().getContent()));
+            br = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent()));
+            tableSel = br.readLine();
+            Document selDoc = Jsoup.parse(tableSel);
+            Element link = selDoc.select("a").first();
+            url = "http://info.uniten.edu.my/info/"+link.attr("href");
 
-            while ((html2 = br2.readLine()) != null) {
-                result2.append(html2);
-            }
-            System.out.println(result2);
+            //GET TABLE SEMESTER
+            request = new HttpGet(url);
+            httpResponse = httpclient.execute(request);
+
+            br = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent()));
+            result2 = br.readLine();
+
             return result.toString();
         } catch (Exception e){}
         return null;
@@ -62,6 +73,6 @@ public class ParseLogin extends AsyncTask<Void, Void, String> {
 
     @Override
     protected void onPostExecute(String s) {
-        listener.onLogin(result.toString(), result2.toString());
+        listener.onLogin(result.toString(), result2);
     }
 }

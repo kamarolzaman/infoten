@@ -95,7 +95,7 @@ public class ParseTimetable extends AsyncTask<String, String, Void> {
 
             html = br.readLine();
             //result.append(line);
-        } catch (Exception e){}
+        } catch (Exception e){e.printStackTrace();}
 
         //System.out.println(html);
         Document doc = Jsoup.parse(html);
