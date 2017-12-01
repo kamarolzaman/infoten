@@ -65,6 +65,7 @@ public class SectionTablesFragment extends Fragment implements LoaderChecker{
 
     @Override
     public void onLoad(String html) {
+        System.out.println("CALLED");
         subjectData.clear();
         //subjectData = GetUniqueTables.uniqueSubject;
         tables = view.findViewById(R.id.tables);

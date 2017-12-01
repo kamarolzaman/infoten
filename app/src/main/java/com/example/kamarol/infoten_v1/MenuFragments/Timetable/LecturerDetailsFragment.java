@@ -14,8 +14,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.kamarol.infoten_v1.Functions.GetLecturer;
+import com.example.kamarol.infoten_v1.Functions.GetLecturerTables;
 import com.example.kamarol.infoten_v1.Functions.GetSection;
 import com.example.kamarol.infoten_v1.Functions.GetUniqueTables;
+import com.example.kamarol.infoten_v1.LoaderChecker;
 import com.example.kamarol.infoten_v1.MenuFragments.TimetableFragment;
 import com.example.kamarol.infoten_v1.R;
 
@@ -25,7 +28,7 @@ import java.util.Date;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class LecturerDetailsFragment extends DialogFragment {
+public class LecturerDetailsFragment extends DialogFragment implements LoaderChecker{
     View view;
     ViewPager viewPager = null;
     TabLayout tabLayout;
@@ -53,29 +56,35 @@ public class LecturerDetailsFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_lecturer_details, container, false);
-        viewPager = view.findViewById(R.id.pager);
-        FragmentManager fragmentManager = getChildFragmentManager();
-        myAdapter = new MyAdapter(fragmentManager);
-        viewPager.setAdapter(myAdapter);
-        tabLayout = view.findViewById(R.id.tabLayout);
-        tabLayout.setupWithViewPager(viewPager);
-
         nameT = view.findViewById(R.id.name);
         phoneT = view.findViewById(R.id.phone);
         deptT = view.findViewById(R.id.dept);
         emailT = view.findViewById(R.id.email);
 
         Bundle args = getArguments();
-                id = args.getInt("LECTURER_ID", 0);
-                name = args.getString("LECTURER_NAME","");
-                phone = args.getString("LECTURER_PHONE","");
-                dept = args.getString("LECTURER_DEPT","");
-                email = args.getString("LECTURER_EMAIL","");
+        id = args.getInt("LECTURER_ID", 0);
+        name = args.getString("LECTURER_NAME","");
+        phone = args.getString("LECTURER_PHONE","");
+        dept = args.getString("LECTURER_DEPT","");
+        email = args.getString("LECTURER_EMAIL","");
 
-                nameT.setText(name);
-                phoneT.setText(phone);
-                deptT.setText(dept);
-                emailT.setText(email);
+        nameT.setText(name);
+        phoneT.setText(phone);
+        deptT.setText(dept);
+        emailT.setText(email);
+
+        new GetLecturerTables(name,this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        return view;
+    }
+
+    @Override
+    public void onLoad(String html) {
+        viewPager = view.findViewById(R.id.pager);
+        FragmentManager fragmentManager = getChildFragmentManager();
+        myAdapter = new MyAdapter(fragmentManager);
+        viewPager.setAdapter(myAdapter);
+        tabLayout = view.findViewById(R.id.tabLayout);
+        tabLayout.setupWithViewPager(viewPager);
 
         SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
         Date d = new Date();
@@ -86,8 +95,9 @@ public class LecturerDetailsFragment extends DialogFragment {
         else if(sdf.format(d).equals("Friday")){viewPager.setCurrentItem(4);}
         else if(sdf.format(d).equals("Saturday")){viewPager.setCurrentItem(5);}
         else if(sdf.format(d).equals("Sunday")){viewPager.setCurrentItem(6);}
-        return view;
     }
+
+
     class MyAdapter extends FragmentPagerAdapter {
         public MyAdapter(FragmentManager fm) {
             super(fm);
@@ -95,7 +105,7 @@ public class LecturerDetailsFragment extends DialogFragment {
 
         @Override
         public android.app.Fragment getItem(int position) {
-            return new TablesFragment().newInstance(position);
+            return new LecturerTablesFragment().newInstance(position,name);
         }
 
         @Override

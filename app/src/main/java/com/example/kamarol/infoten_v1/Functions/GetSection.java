@@ -30,10 +30,10 @@ public class GetSection extends AsyncTask <Void, Void, Void> {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://ec2-18-217-42-15.us-east-2.compute.amazonaws.com:3306/infoten","infoten","infoten123");
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("select * from unique_subject where CODE = UPPER('"+subject+"')");
+            ResultSet rs = stmt.executeQuery("select SECTION from unique_subject where CODE = UPPER('"+subject+"')");
             while(rs.next()) {
-                if (!section.contains(rs.getString(2))){
-                    section.add(rs.getString(2));
+                if (!section.contains(rs.getString(1))){
+                    section.add(rs.getString(1));
                 }
             }
             con.close();
