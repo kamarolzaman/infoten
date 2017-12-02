@@ -107,9 +107,8 @@ public class SearchLecturerFragment extends Fragment implements LoaderChecker{
     public boolean onContextItemSelected(MenuItem item) {
         System.out.println("Selected");
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        System.out.println(GetLecturer.lecturer.get(info.position).getName()+GetLecturer.lecturer.get(info.position).getEmail());
 
-        LecturerDetailsFragment fragment = new LecturerDetailsFragment().newInstance(GetLecturer.lecturer.get(info.position).getId(),GetLecturer.lecturer.get(info.position).getName(),GetLecturer.lecturer.get(info.position).getPhone(),GetLecturer.lecturer.get(info.position).getDept(),GetLecturer.lecturer.get(info.position).getEmail());
+        LecturerDetailsFragment fragment = new LecturerDetailsFragment().newInstance(lecturers.get(info.position));
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         fragment.show(ft, "Lecturer details");
 

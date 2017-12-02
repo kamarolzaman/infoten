@@ -102,7 +102,8 @@ public class TablesFragment extends Fragment implements LoaderChecker {
             case R.id.lecturerDetails:
                 if(checkView.getCurrentItem()==day) {
                     System.out.println(subjectData.get(info.position).getLecturer()+day);
-                    new GetLecturer(TablesFragment.this, subjectData.get(info.position).getLecturer()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                    comm.showLecturerDetails(subjectData.get(info.position).getLecturer());
+                    //new GetLecturer(TablesFragment.this, subjectData.get(info.position).getLecturer()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                     return true;
                 }
                 break;
@@ -117,6 +118,6 @@ public class TablesFragment extends Fragment implements LoaderChecker {
 
     @Override
     public void onLoad(String html) {
-        comm.showLecturerDetails(GetLecturer.lecturer.get(0).getId(),GetLecturer.lecturer.get(0).getName(),GetLecturer.lecturer.get(0).getPhone(),GetLecturer.lecturer.get(0).getDept(),GetLecturer.lecturer.get(0).getEmail());
+        //comm.showLecturerDetails(GetLecturer.lecturer.get(0).getId(),GetLecturer.lecturer.get(0).getName(),GetLecturer.lecturer.get(0).getPhone(),GetLecturer.lecturer.get(0).getDept(),GetLecturer.lecturer.get(0).getEmail());
     }
 }
