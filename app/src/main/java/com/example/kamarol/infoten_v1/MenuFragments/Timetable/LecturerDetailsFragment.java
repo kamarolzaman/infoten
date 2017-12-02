@@ -41,44 +41,53 @@ public class LecturerDetailsFragment extends DialogFragment implements LoaderChe
     public LecturerDetailsFragment() {
         // Required empty public constructor
     }
-    public static LecturerDetailsFragment newInstance(int id, String name, String phone, String department, String email) {
+    public static LecturerDetailsFragment newInstance(String name) {
         LecturerDetailsFragment f = new LecturerDetailsFragment();
         Bundle args = new Bundle();
-        args.putInt("LECTURER_ID", id);
         args.putString("LECTURER_NAME", name);
-        args.putString("LECTURER_PHONE", phone);
-        args.putString("LECTURER_DEPT", department);
-        args.putString("LECTURER_EMAIL", email);
         f.setArguments(args);
         return f;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Bundle args = getArguments();
+        name = args.getString("LECTURER_NAME","");
+        //System.out.println(name);
+        new GetLecturer(LecturerDetailsFragment.this, name).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
         view = inflater.inflate(R.layout.fragment_lecturer_details, container, false);
         nameT = view.findViewById(R.id.name);
         phoneT = view.findViewById(R.id.phone);
         deptT = view.findViewById(R.id.dept);
         emailT = view.findViewById(R.id.email);
-
+        /*
         Bundle args = getArguments();
         id = args.getInt("LECTURER_ID", 0);
         name = args.getString("LECTURER_NAME","");
         phone = args.getString("LECTURER_PHONE","");
         dept = args.getString("LECTURER_DEPT","");
         email = args.getString("LECTURER_EMAIL","");
+        */
+
+
+        new GetLecturerTables(name,this).execute();
+        return view;
+    }
+
+    @Override
+    public void onLoad(String html) {
+        id = GetLecturer.lecturer.get(0).getId();
+        name = GetLecturer.lecturer.get(0).getName();
+        phone = GetLecturer.lecturer.get(0).getPhone();
+        dept = GetLecturer.lecturer.get(0).getDept();
+        email = GetLecturer.lecturer.get(0).getEmail();
 
         nameT.setText(name);
         phoneT.setText(phone);
         deptT.setText(dept);
         emailT.setText(email);
 
-        new GetLecturerTables(name,this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        return view;
-    }
-
-    @Override
-    public void onLoad(String html) {
         viewPager = view.findViewById(R.id.pager);
         FragmentManager fragmentManager = getChildFragmentManager();
         myAdapter = new MyAdapter(fragmentManager);

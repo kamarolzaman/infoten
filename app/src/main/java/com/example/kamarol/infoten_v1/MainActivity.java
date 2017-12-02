@@ -191,8 +191,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void showLecturerDetails(int id, String name, String phone, String dept, String email) {
-        LecturerDetailsFragment fragment = new LecturerDetailsFragment().newInstance(id,name,phone,dept,email);
+    public void showLecturerDetails(String name) {
+        LecturerDetailsFragment fragment = new LecturerDetailsFragment().newInstance(name);
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         fragment.show(ft, "Lecturer details");
     }
