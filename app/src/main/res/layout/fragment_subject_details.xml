@@ -1,0 +1,19 @@
+<android.support.v4.view.ViewPager
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/pager"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    tools:context="com.example.kamarol.infoten_v1.MenuFragments.Timetable.LecturerDetailsFragment">
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        app:tabMode="fixed">
+
+
+    </android.support.design.widget.TabLayout>
+</android.support.v4.view.ViewPager>

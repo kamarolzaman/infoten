@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/timetable"
+            android:title="Timetable" />
+        <item
+            android:id="@+id/ledger"
+            android:title="Ledger Balance" />
+        <item
+            android:id="@+id/examination"
+            android:title="Examination" />
+        <item
+            android:id="@+id/scorun"
+            android:title="Scorun" />
+        <item
+            android:id="@+id/search_subject"
+            android:title="Search Subject" />
+        <item
+            android:id="@+id/search_lecturer"
+            android:title="Search Lecturer" />
+    </group>
+</menu>
