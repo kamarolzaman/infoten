@@ -1,6 +1,8 @@
 package com.example.kamarol.infoten_v1.MenuFragments;
 
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -34,7 +36,7 @@ import java.io.InputStreamReader;
  * A simple {@link Fragment} subclass.
  */
 public class ScorunFragment extends Fragment implements LoaderChecker {
-    TextView scorun, arts, comm, leader, spirit, sports;
+    TextView scorun, arts, comm, leader, spirit, sports, status;
     View view;
 
     public ScorunFragment() {
@@ -51,6 +53,8 @@ public class ScorunFragment extends Fragment implements LoaderChecker {
         leader = view.findViewById(R.id.leader);
         spirit = view.findViewById(R.id.spirit);
         sports = view.findViewById(R.id.sports);
+        status = view.findViewById(R.id.status);
+
         return view;
     }
 
@@ -73,6 +77,17 @@ public class ScorunFragment extends Fragment implements LoaderChecker {
         String leader = el.get(16).children().last().children().last().text();
         String spirit = el.get(17).children().last().children().last().text();
         String sports = el.get(18).children().last().children().last().text();
+
+        float scorunF = Float.parseFloat(scorun);
+        float neededF = Float.parseFloat(needed);
+
+        if (scorunF<neededF){
+            this.status.setTextColor(Color.RED);
+            this.status.setText("Need "+ String.valueOf(scorunF-neededF)+" more scorun");
+        }else {
+            this.status.setTextColor(Color.GREEN);
+            this.status.setText("Good Job!");
+        }
 
         this.scorun.setText(scorun+"/"+needed.split("[.]")[0]);
         this.arts.setText(arts.split("/")[0]);
