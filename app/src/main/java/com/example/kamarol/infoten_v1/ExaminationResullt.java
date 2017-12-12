@@ -29,7 +29,7 @@ class ExaminationResullt {
                 try {
                     totalCreditPoints += subject.getResultInPoints() * subject.getCreditHour();
                     totalCreditHour += subject.getCreditHour();
-                } catch (Exception E) {
+                } catch (LulusException E) {
                     E.printStackTrace();
                 }
             }
@@ -45,7 +45,7 @@ class ExaminationResullt {
             try {
                 totalCreditPoints += subject.getResultInPoints() * subject.getCreditHour();
                 totalCreditHour += subject.getCreditHour();
-            } catch (Exception E) {
+            } catch (LulusException E) {
                 E.printStackTrace();
             }
         }
