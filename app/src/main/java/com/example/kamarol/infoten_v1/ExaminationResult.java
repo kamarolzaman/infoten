@@ -9,11 +9,11 @@ import java.util.List;
  * Created by kamarol on 12/11/2017.
  */
 
-class ExaminationResullt {
+class ExaminationResult {
 
     private List<SubjectResult> subjectResultList;
 
-    ExaminationResullt() {
+    ExaminationResult() {
         subjectResultList = new ArrayList<SubjectResult>();
     }
 
@@ -21,11 +21,11 @@ class ExaminationResullt {
         subjectResultList.add(subjectresult);
     }
 
-    public double calculateGpa(Integer semester, String academicYear) {
+    public double calculateGpa(Integer semester, int academicYear) { //using Integer type causes the == comparison to fail for academic year?!
         double totalCreditHour = 0;
         double totalCreditPoints = 0;
         for (SubjectResult subject : subjectResultList) {
-            if (subject.getSemester().equals(semester) && subject.getAcademicYear().equals(academicYear)) {
+            if ((subject.getSemester() == semester) &&(subject.getAcademicYear() == academicYear)) {
                 try {
                     totalCreditPoints += subject.getResultInPoints() * subject.getCreditHour();
                     totalCreditHour += subject.getCreditHour();
@@ -50,6 +50,22 @@ class ExaminationResullt {
             }
         }
         System.out.println(totalCreditPoints/totalCreditHour);
+        return (totalCreditPoints / totalCreditHour);
+    }
+
+    public double calculateCgpaAt(int semester, int year) {
+        double totalCreditHour = 0;
+        double totalCreditPoints = 0;
+        for (SubjectResult subject : subjectResultList) {
+            if ((subject.getSemester() <= semester) &&(subject.getAcademicYear() <= year)) {
+                try {
+                    totalCreditPoints += subject.getResultInPoints() * subject.getCreditHour();
+                    totalCreditHour += subject.getCreditHour();
+                } catch (LulusException E) {
+                    E.printStackTrace();
+                }
+            }
+        }
         return (totalCreditPoints / totalCreditHour);
     }
 }

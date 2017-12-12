@@ -13,7 +13,7 @@ class SubjectResult {
     private String result;
     private double creditHour;
     private Integer semester;
-    private String academicYear;
+    private Integer academicYear;
     private static HashMap<String, Double> GradeMapping;
     static {
         GradeMapping = new HashMap<String, Double>();
@@ -31,11 +31,11 @@ class SubjectResult {
         GradeMapping.put("E", 0.00);
         GradeMapping.put("LU", 0.00);
     }
-    SubjectResult(String subjectCode, String result, Integer semester, String academicYear) {
+    SubjectResult(String subjectCode, String result, Integer semester, Integer academicYear) {
         this(subjectCode, result, creditHourFromSubjectCode(subjectCode), semester, academicYear);
 
     }
-    SubjectResult(String subjectCode, String result, double creditHour, Integer semester, String academicYear) {
+    SubjectResult(String subjectCode, String result, double creditHour, Integer semester, Integer academicYear) {
         this.subjectCode = subjectCode;
         this.result = result;
         this.creditHour = creditHour;
@@ -78,7 +78,7 @@ class SubjectResult {
         return semester;
     }
 
-    public String getAcademicYear() {
+    public Integer getAcademicYear() {
         return academicYear;
     }
 
