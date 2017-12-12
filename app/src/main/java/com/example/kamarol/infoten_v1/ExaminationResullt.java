@@ -46,7 +46,7 @@ class ExaminationResullt {
                 totalCreditPoints += subject.getResultInPoints() * subject.getCreditHour();
                 totalCreditHour += subject.getCreditHour();
             } catch (LulusException E) {
-                E.printStackTrace();
+                System.out.println(E.getMessage());
             }
         }
         System.out.println(totalCreditPoints/totalCreditHour);

@@ -23,15 +23,15 @@ public class ExampleUnitTest {
     public void setUp() {
         exams = new ExaminationResullt();
         // SEM-1 2015/2016
-        exams.add(new SubjectResult("CGNB293", "A", 3, 1, "2015/2016"));
+        exams.add(new SubjectResult("CGNB293", "A", 1, "2015/2016")); // no creditHour constructor
         exams.add(new SubjectResult("CSEB122",  "A+",2, 1, "2015/2016"));
         exams.add(new SubjectResult("CSEB134", "A",4, 1, "2015/2016"));
         exams.add(new SubjectResult("CSNB123", "A",3, 1, "2015/2016"));
         exams.add(new SubjectResult("ICTB112", "A+", 2, 1, "2015/2016"));
 
         // SEM-2 2015/2016
-        exams.add(new SubjectResult("ICTB212", "A", 2, 2, "2015/2016"));
-        exams.add(new SubjectResult("CISB214",  "A+",2, 2, "2015/2016"));
+        exams.add(new SubjectResult("ICTB212", "A",  2, "2015/2016")); // no creditHour constructor
+        exams.add(new SubjectResult("CISB214",  "A+",2, "2015/2016")); // no creditHour constructor
         exams.add(new SubjectResult("CSEB233", "B+",4, 2, "2015/2016"));
         exams.add(new SubjectResult("CSNB213", "A",3, 2, "2015/2016"));
         exams.add(new SubjectResult("CSEB214", "A+", 2, 2, "2015/2016"));
@@ -42,8 +42,8 @@ public class ExampleUnitTest {
         exams.add(new SubjectResult("ENGB213", "A",4, 2, "2015/2016"));
 
         // SEM-1 2016/2017
-        exams.add(new SubjectResult("CSNB224", "A+", 4, 1, "2016/2017"));
-        exams.add(new SubjectResult("CSEB324",  "A",4, 1, "2016/2017"));
+        exams.add(new SubjectResult("CSNB224", "A+",  1, "2016/2017")); // no creditHour constructor
+        exams.add(new SubjectResult("CSEB324",  "A", 1, "2016/2017")); // no creditHour constructor
         exams.add(new SubjectResult("CSEB274", "A",4, 1, "2016/2017"));
         exams.add(new SubjectResult("CSEB283", "A",3, 1, "2016/2017"));
         exams.add(new SubjectResult("CGNB313", "A", 4, 1, "2016/2017"));

@@ -1,6 +1,8 @@
 package com.example.kamarol.infoten_v1;
 
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by kamarol on 12/12/2017.
@@ -29,7 +31,10 @@ class SubjectResult {
         GradeMapping.put("E", 0.00);
         GradeMapping.put("LU", 0.00);
     }
+    SubjectResult(String subjectCode, String result, Integer semester, String academicYear) {
+        this(subjectCode, result, creditHourFromSubjectCode(subjectCode), semester, academicYear);
 
+    }
     SubjectResult(String subjectCode, String result, double creditHour, Integer semester, String academicYear) {
         this.subjectCode = subjectCode;
         this.result = result;
@@ -38,6 +43,16 @@ class SubjectResult {
         this.academicYear = academicYear;
     }
 
+    private static double creditHourFromSubjectCode(String subjectCode) {
+        Pattern pattern = Pattern.compile("([0-9]{3,})", Pattern.CASE_INSENSITIVE); //Match 3 number or more.
+        Matcher matcher = pattern.matcher(subjectCode);
+        String parsedCreditHour = "";
+        while(matcher.find()) {
+            parsedCreditHour = matcher.group(0);
+        }
+        Double creditHour = Double.parseDouble(parsedCreditHour.substring(parsedCreditHour.length()-1));
+        return creditHour;
+    }
     public String getSubjectCode() {
         return subjectCode;
     }
