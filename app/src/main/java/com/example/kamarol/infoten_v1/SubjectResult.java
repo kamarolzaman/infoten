@@ -27,6 +27,7 @@ class SubjectResult {
         GradeMapping.put("D+", 1.33);
         GradeMapping.put("D", 1.00);
         GradeMapping.put("E", 0.00);
+        GradeMapping.put("LU", 0.00);
     }
 
     SubjectResult(String subjectCode, String result, double creditHour, Integer semester, String academicYear) {
@@ -45,12 +46,16 @@ class SubjectResult {
         return result;
     }
 
-    public double getResultInPoints(){
+    public double getResultInPoints() throws LulusException{
+        if (this.result.equals("LU")) {
+            throw new LulusException("Lulus can't get in points!");
+        }
         return GradeMapping.get(result);
 
     }
 
     public double getCreditHour() {
+
         return creditHour;
     }
 

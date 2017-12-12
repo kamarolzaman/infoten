@@ -26,11 +26,30 @@ class ExaminationResullt {
         double totalCreditPoints = 0;
         for (SubjectResult subject : subjectResultList) {
             if (subject.getSemester().equals(semester) && subject.getAcademicYear().equals(academicYear)) {
-               totalCreditPoints += subject.getResultInPoints() * subject.getCreditHour();
-               totalCreditHour += subject.getCreditHour();
+                try {
+                    totalCreditPoints += subject.getResultInPoints() * subject.getCreditHour();
+                    totalCreditHour += subject.getCreditHour();
+                } catch (Exception E) {
+                    E.printStackTrace();
+                }
             }
         }
         return (totalCreditPoints / totalCreditHour);
     }
 
+    // todo: refactor duplicate code -- gpa and cgpa uses the same algorithm
+    public double calculateCGPA() {
+        double totalCreditHour = 0;
+        double totalCreditPoints = 0;
+        for (SubjectResult subject : subjectResultList) {
+            try {
+                totalCreditPoints += subject.getResultInPoints() * subject.getCreditHour();
+                totalCreditHour += subject.getCreditHour();
+            } catch (Exception E) {
+                E.printStackTrace();
+            }
+        }
+        System.out.println(totalCreditPoints/totalCreditHour);
+        return (totalCreditPoints / totalCreditHour);
+    }
 }
