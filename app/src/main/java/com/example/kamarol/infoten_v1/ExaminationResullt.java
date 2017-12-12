@@ -1,14 +1,36 @@
 package com.example.kamarol.infoten_v1;
 
+import com.example.kamarol.infoten_v1.Tools.Subject;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by kamarol on 12/11/2017.
  */
 
 class ExaminationResullt {
-    public void add(String subjectCode, String result, String creditHour, String semester, String academicYear) {
+
+    private List<SubjectResult> subjectResultList;
+
+    ExaminationResullt() {
+        subjectResultList = new ArrayList<SubjectResult>();
     }
 
-    public double calculateGpa(String semester, String academicYear) {
-        return 3.79;
+    public void add(SubjectResult subjectresult) {
+        subjectResultList.add(subjectresult);
     }
+
+    public double calculateGpa(Integer semester, String academicYear) {
+        double totalCreditHour = 0;
+        double totalCreditPoints = 0;
+        for (SubjectResult subject : subjectResultList) {
+            if (subject.getSemester().equals(semester) && subject.getAcademicYear().equals(academicYear)) {
+               totalCreditPoints += subject.getResultInPoints() * subject.getCreditHour();
+               totalCreditHour += subject.getCreditHour();
+            }
+        }
+        return (totalCreditPoints / totalCreditHour);
+    }
+
 }
