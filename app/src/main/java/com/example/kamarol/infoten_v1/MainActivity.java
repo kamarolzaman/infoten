@@ -27,6 +27,7 @@ import com.example.kamarol.infoten_v1.MenuFragments.SearchSubjectFragment;
 import com.example.kamarol.infoten_v1.MenuFragments.Timetable.LecturerDetailsFragment;
 import com.example.kamarol.infoten_v1.MenuFragments.Timetable.SubjectDetailsFragment;
 import com.example.kamarol.infoten_v1.MenuFragments.TimetableFragment;
+import com.example.kamarol.infoten_v1.Tools.DBHelper;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Communicator {
     NavigationView navigationView;

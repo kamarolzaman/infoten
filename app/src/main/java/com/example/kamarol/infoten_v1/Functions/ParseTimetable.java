@@ -6,6 +6,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.example.kamarol.infoten_v1.Communicator;
+import com.example.kamarol.infoten_v1.Tools.DBHelper;
 import com.example.kamarol.infoten_v1.Tools.NTLMSchemeFactory;
 import com.example.kamarol.infoten_v1.Tools.Subject;
 
@@ -35,14 +36,16 @@ public class ParseTimetable extends AsyncTask<String, String, Void> {
     ListView timetableList;
     ArrayList<String> listItems;
     ArrayAdapter<String> adapter;
+    DBHelper dbHelper;
 
     public ParseTimetable(ListView timetableList, ArrayList<String> listItems, ArrayAdapter<String> adapter){
         this.timetableList = timetableList;
         this.listItems = listItems;
         this.adapter = adapter;
     }
-    public ParseTimetable(Communicator listener){
-        this.listener=listener;
+    public ParseTimetable(Context listener){
+        this.listener= (Communicator) listener;
+        dbHelper = new DBHelper(listener);
     }
 
     @Override
@@ -73,13 +76,10 @@ public class ParseTimetable extends AsyncTask<String, String, Void> {
 
             tableSel = br.readLine();
             //result.append(line);
-        } catch (Exception e){}
-        Document selDoc = Jsoup.parse(tableSel);
-        Element link = selDoc.select("a").first();
-        url = "http://info.uniten.edu.my/info/"+link.attr("href");
-
-
-        try {
+            Document selDoc = null;
+            selDoc = Jsoup.parse(tableSel);
+            Element link = selDoc.select("a").first();
+            url = "http://info.uniten.edu.my/info/"+link.attr("href");
             // register ntlm auth scheme
             httpclient.getAuthSchemes().register("ntlm",
                     new NTLMSchemeFactory());
@@ -87,13 +87,12 @@ public class ParseTimetable extends AsyncTask<String, String, Void> {
                     new AuthScope("info.uniten.edu.my", AuthScope.ANY_PORT),
                     new NTCredentials(username, password, "", ""));
 
-            HttpGet request = new HttpGet(url);
-            HttpResponse httpResponse = httpclient.execute(request);
+            HttpGet request2 = new HttpGet(url);
+            HttpResponse httpResponse2 = httpclient.execute(request2);
 
-            BufferedReader br = new BufferedReader(new InputStreamReader(
-                    httpResponse.getEntity().getContent()));
+            BufferedReader br2 = new BufferedReader(new InputStreamReader(httpResponse2.getEntity().getContent()));
 
-            html = br.readLine();
+            html = br2.readLine();
             //result.append(line);
         } catch (Exception e){e.printStackTrace();}
 
@@ -125,6 +124,7 @@ public class ParseTimetable extends AsyncTask<String, String, Void> {
                         String section = subjectInfo.get(subjectInfo.indexOf(td1.text().substring(0, td1.text().indexOf(" "))) + 1);
                         String lecturer = subjectInfo.get(subjectInfo.indexOf(td1.text().substring(0, td1.text().indexOf(" "))) + 2);
                         subject[l] = new Subject(startTime, length, day, td1.text(), section, lecturer);
+                        dbHelper.insertSubject(startTime,length,day,td1.text(),section,lecturer);
                         //subject[l].toString();//////////PRINT
                         //publishProgress(subject[l].getDetails());
                         startTime += length;
