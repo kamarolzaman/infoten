@@ -83,7 +83,7 @@ public class ScorunFragment extends Fragment implements LoaderChecker {
 
         if (scorunF<neededF){
             this.status.setTextColor(Color.RED);
-            this.status.setText("Need "+ String.valueOf(scorunF-neededF)+" more scorun");
+            this.status.setText("Need "+ String.valueOf(neededF-scorunF)+" more scorun");
         }else {
             this.status.setTextColor(Color.GREEN);
             this.status.setText("Good Job!");
