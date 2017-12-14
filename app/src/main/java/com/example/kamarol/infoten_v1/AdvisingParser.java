@@ -2,7 +2,6 @@ package com.example.kamarol.infoten_v1;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.File;
@@ -33,15 +32,15 @@ public class AdvisingParser {
         }
     }
 
-    public Element getTable() throws IOException{
-        Elements table;
+    public AdvisingTableParser getTable() throws IOException {
+        Elements tableHtml;
         try {
-            table = getPageInstance().getElementsByTag("table");
+            tableHtml = getPageInstance().getElementsByTag("table");
         }
         catch (IOException e) {
             throw e;
             }
-
-        return table.last();
+        AdvisingTableParser table = new AdvisingTableParser(tableHtml.last());
+        return table;
     }
 }
