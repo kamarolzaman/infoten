@@ -91,20 +91,20 @@ public class ExaminationResultParser {
         assertEquals("B", matcher.group(1));
         assertEquals("2", matcher.group(2));
     }
-//    @Test
-//    public void getRow() {
-//        AdvisingTableParser table = null;
-//        ExaminationResult exams = new ExaminationResult();
-//        try {
-//        table = parser.getTable();
+    @Test
+    public void getRow() {
+        AdvisingTableParser table = null;
+        ExaminationResult exams = new ExaminationResult();
+        try {
+        table = parser.getTable();
+        }
+        catch (IOException e) {
+            fail();
+        }
+//        while(table.hasRow()){
+//            table.getNextRow();
 //        }
-//        catch (IOException e) {
-//            fail();
-//        }
-////        while(table.hasRow()){
-////            table.getNextRow();
-////        }
-//    }
+    }
 //    @Test
 //    public void getTable() {
 //        File input = new File("./app/src/test/java/com/example/kamarol/infoten_v1/testPage/Advising.html");

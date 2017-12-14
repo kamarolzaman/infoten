@@ -5,6 +5,7 @@ import org.jsoup.select.Elements;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -23,8 +24,9 @@ public class AdvisingTableParser {
     private static Pattern innerPattern = Pattern.compile("\\b([A-E][-+]?)");
 
     AdvisingTableParser(Element tableHtml) {
-        List<LinkedList> RowList = new LinkedList<LinkedList>();
-        LinkedList<String> InnerList;
+//        List<HashMap> RowList = new LinkedList<>();
+        LinkedHashSet<HashMap> RowList = new LinkedHashSet<>();
+        HashMap<String, String> InnerList;
         int i = 0;
         boolean shouldAdd = false;
         Elements data = null;
@@ -33,30 +35,36 @@ public class AdvisingTableParser {
         Elements rows = tableHtml.getElementsByTag("tr");
         for (Element row: rows) {
             shouldAdd = true;
-            InnerList = new LinkedList<>();
+            InnerList = new HashMap<>();
             i=0;
             saving = false;
             data = row.getElementsByTag("td");
             for (Element td: data) {
-                Matcher matcher = pattern.matcher(td.text());
+                Matcher matcher = pattern.matcher(td.text()); //if the column is XXXX123 etc
                 if (matcher.find()) {
-                    saving = true;
+                    saving = true; // then save these next rows
                 }
-                if (saving == true && i<5) { //change to inner method helpwer
-                    if (i==4) {
+                if (saving == true && i<5) { //change to inner method helpwer // if save is true and has not moved past 5 rows..
+                    if (i==0) {
+                        InnerList.put("SUBJECT_CODE", td.text());
+                    } else if (i==1) {
+                        InnerList.put("SUBJECT_NAME", td.text());
+                    } else if (i==2) {
+                        InnerList.put("YEAR/SEM", td.text());
+                    } else if (i==3) {
+                        InnerList.put("CREDIT", td.text());
+                    } else if (i==4) {
                         inner = innerPattern.matcher(td.text());
-//                        if (td.text().length() == 0 || td.text().length() > 2) {
                         boolean found = inner.find();
                         if (!found){
                             shouldAdd = false;
                             break;
                         } else {
-                            InnerList.add(inner.group(1));
-                            i++;
-                            continue;
+                            InnerList.put("RESULT", inner.group(1));
+//                            i++;
+//                            continue;
                         }
                     }
-                    InnerList.add(td.text());
                     i++;
                 }
             }
@@ -64,10 +72,8 @@ public class AdvisingTableParser {
             InnerList = null;
         }
         System.out.println("//////////////////////");
-        for (LinkedList<String> l: RowList) {
-            for (String lil: l) {
-                System.out.println(lil);
-            }
+        for (HashMap<String, String> l: RowList) {
+            System.out.printf(l.toString() + "\n");
         }
         System.out.println(RowList.size());
     }
