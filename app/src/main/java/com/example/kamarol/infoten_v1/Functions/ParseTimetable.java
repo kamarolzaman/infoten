@@ -124,7 +124,7 @@ public class ParseTimetable extends AsyncTask<String, String, Void> {
                         String section = subjectInfo.get(subjectInfo.indexOf(td1.text().substring(0, td1.text().indexOf(" "))) + 1);
                         String lecturer = subjectInfo.get(subjectInfo.indexOf(td1.text().substring(0, td1.text().indexOf(" "))) + 2);
                         subject[l] = new Subject(startTime, length, day, td1.text(), section, lecturer);
-                        dbHelper.insertSubject(startTime,length,day,td1.text(),section,lecturer);
+                        //dbHelper.insertSubject(startTime,length,day,td1.text(),section,lecturer);
                         //subject[l].toString();//////////PRINT
                         //publishProgress(subject[l].getDetails());
                         startTime += length;
