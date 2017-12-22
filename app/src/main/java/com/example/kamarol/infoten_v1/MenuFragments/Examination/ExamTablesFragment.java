@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.kamarol.infoten_v1.MenuFragments.ExaminationFragment;
 import com.example.kamarol.infoten_v1.R;
 
 import java.util.ArrayList;
@@ -21,13 +22,14 @@ public class ExamTablesFragment extends Fragment {
     ArrayList<ExaminationData> examinationData = new ArrayList();
     ArrayAdapter<ExaminationData> adapter;
     ListView tables;
-    int day;
+    int day, group;
     TextView textView;
-    public static ExamTablesFragment newInstance(int day) {
+    public static ExamTablesFragment newInstance(int day, int group) {
         ExamTablesFragment f = new ExamTablesFragment();
         // Supply index input as an argument.
         Bundle args = new Bundle();
         args.putInt("day", day);
+        args.putInt("group", group);
         f.setArguments(args);
         return f;
     }
@@ -43,20 +45,19 @@ public class ExamTablesFragment extends Fragment {
         examinationData.clear();
         Bundle args = getArguments();
         day = args.getInt("day", 0);
+        group = args.getInt("group", 0);
 
         tables = view.findViewById(R.id.tables);
         adapter = new ExaminationAdapter(view.getContext(), R.layout.item_class, examinationData);
         tables.setAdapter(adapter);
-
-        if (day==0){
-            examinationData.add(new ExaminationData("Java Programming","CSEB534","01A","B187","Level 6, Library",1,5));
-        }else if (day==1){
-            examinationData.add(new ExaminationData("Software Project Management","CSEB344","01B","B256","Level 6, Library",3,6));
-        }else if (day==2){
-            examinationData.add(new ExaminationData("Java Programming","CSEB534","01A","B187","Level 6, Library",1,5));
-            examinationData.add(new ExaminationData("Programming Language","CSEB313","02B","B091","Level 6, Library",7,10));
-        }else if (day==3){
-            examinationData.add(new ExaminationData("Islamic and Civil Society III","ICTB312","01A","B187","Level 6, Library",1,5));
+        for (int i = 0; i < group; i++) {
+            if (day==i){
+                for (ExaminationData e:ExaminationFragment.examinationDataArrayList) {
+                    if (e.getGroup()==i){
+                        examinationData.add(e);
+                    }
+                }
+            }
         }
         adapter.notifyDataSetChanged();
         return view;
