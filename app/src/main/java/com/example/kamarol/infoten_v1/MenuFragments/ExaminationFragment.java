@@ -13,7 +13,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
+import com.example.kamarol.infoten_v1.Functions.ExaminationTableParser;
 import com.example.kamarol.infoten_v1.LoaderChecker;
 import com.example.kamarol.infoten_v1.LoginFragment;
 import com.example.kamarol.infoten_v1.MenuFragments.Examination.ExamTablesFragment;
@@ -53,7 +55,8 @@ public class ExaminationFragment extends Fragment implements LoaderChecker {
         dialog = new Dialog(getActivity());
         dialog.setTitle("Examination result");
         dialog.setContentView(R.layout.examination_result);
-
+        TextView test = dialog.findViewById(R.id.congrat);
+        test.setText("WEWEWEDADASD");
         ExaminationTableParser examinationTableParser = new ExaminationTableParser(ExaminationFragment.this, LoginFragment.username, LoginFragment.password);
         examinationTableParser.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 

@@ -20,11 +20,15 @@ import java.util.regex.Pattern;
 //    \b[A-E][-+\b]?
 public class AdvisingTableParser {
 
+
     private static Pattern pattern = Pattern.compile("([0-9]{3,})", Pattern.CASE_INSENSITIVE);
     private static Pattern innerPattern = Pattern.compile("\\b([A-E][-+]?)");
 
+    AdvisingTableParser() {
+
+    }
+
     AdvisingTableParser(Element tableHtml) {
-//        List<HashMap> RowList = new LinkedList<>();
         LinkedHashSet<HashMap> RowList = new LinkedHashSet<>();
         HashMap<String, String> InnerList;
         int i = 0;
@@ -44,7 +48,7 @@ public class AdvisingTableParser {
                 if (matcher.find()) {
                     saving = true; // then save these next rows
                 }
-                if (saving == true && i<5) { //change to inner method helpwer // if save is true and has not moved past 5 rows..
+                if (saving == true && i<5) { //change to inner method helper // if save is true and has not moved past 5 rows..
                     if (i==0) {
                         InnerList.put("SUBJECT_CODE", td.text());
                     } else if (i==1) {
@@ -61,8 +65,6 @@ public class AdvisingTableParser {
                             break;
                         } else {
                             InnerList.put("RESULT", inner.group(1));
-//                            i++;
-//                            continue;
                         }
                     }
                     i++;
@@ -82,7 +84,4 @@ public class AdvisingTableParser {
         return false;
     }
 
-//    public HashMap<String, Object> getNextRow() {
-//        return Row
-//    }
 }

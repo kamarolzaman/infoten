@@ -1,10 +1,6 @@
 package com.example.kamarol.infoten_v1;
 
-import android.os.AsyncTask;
-
 import com.example.kamarol.infoten_v1.MenuFragments.Examination.ExaminationData;
-import com.example.kamarol.infoten_v1.MenuFragments.ExaminationFragment;
-import com.example.kamarol.infoten_v1.MenuFragments.ExaminationTableParser;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
