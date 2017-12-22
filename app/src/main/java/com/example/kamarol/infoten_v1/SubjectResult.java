@@ -43,6 +43,9 @@ class SubjectResult {
         this.academicYear = academicYear;
     }
 
+    public SubjectResult(SubjectResultRow row) {
+    }
+
     private static double creditHourFromSubjectCode(String subjectCode) {
         Pattern pattern = Pattern.compile("([0-9]{3,})", Pattern.CASE_INSENSITIVE); //Match 3 number or more.
         Matcher matcher = pattern.matcher(subjectCode);
