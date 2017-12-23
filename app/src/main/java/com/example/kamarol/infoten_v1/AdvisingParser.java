@@ -65,7 +65,7 @@ public class AdvisingParser {
         } else {
             // todo: Change test path to use actual relative path. this string might break if the project is renamed.
             // todo: Change getInstance to just initialize in a constructor perhaps?
-            File input = new File("./app/src/test/java/com/example/kamarol/infoten_v1/testPage/Advising.html");
+            File input = new File("./app/src/test/java/com/example/kamarol/infoten_v1/testPage/advisingcip.html");
             try {
                 pageInstance = Jsoup.parse(input, "UTF-8", "");
             } catch (IOException e) {
