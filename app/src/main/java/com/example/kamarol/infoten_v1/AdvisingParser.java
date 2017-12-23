@@ -19,6 +19,10 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
 
 /**
  * Created by kamarol on 12/13/2017.
@@ -28,6 +32,10 @@ public class AdvisingParser {
 
     private LoaderChecker listener;
     private Document pageInstance;
+
+//    public SubjectResult[] getResults() {
+//        return results;
+//    }
 
     public Document getPageInstance() throws IOException  {
 //        String html;
@@ -68,7 +76,7 @@ public class AdvisingParser {
     }
 
 
-    public AdvisingTableParser getTable() throws IOException {
+    public LinkedHashSet<HashMap> getResults() throws IOException {
         Elements tableHtml;
         try {
             tableHtml = getPageInstance().getElementsByTag("table");
@@ -76,11 +84,12 @@ public class AdvisingParser {
         catch (IOException e) {
             throw e;
             }
-        AdvisingTableParser table = new AdvisingTableParser(tableHtml.last());
+        AdvisingTableParser parser = new AdvisingTableParser();
+        LinkedHashSet<HashMap> subjectResultList = parser.parseTable(tableHtml.last());
 
         // should return html instead!!
         // tukar jsoup ke linkedhashmap, AdvisingTableparser
-        return table;
+        return subjectResultList;
     }
 
 

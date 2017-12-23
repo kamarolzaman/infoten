@@ -30,10 +30,11 @@ public class ExaminationResultParser {
         AdvisingTableParser table = null;
         ExaminationResult exams = new ExaminationResult();
         try {
-        table = parser.getTable();
+        parser.getResults();
         }
         catch (IOException e) {
             fail();
         }
     }
+
 }
