@@ -38,7 +38,7 @@ public class AdvisingTableParser {
         Matcher inner;
         Elements rows = tableHtml.getElementsByTag("tr");
         for (Element row: rows) {
-            shouldAdd = true;
+            shouldAdd = false;
             InnerList = new HashMap<>();
             i=0;
             saving = false;
@@ -47,6 +47,7 @@ public class AdvisingTableParser {
                 Matcher matcher = pattern.matcher(td.text()); //if the column is XXXX123 etc
                 if (matcher.find()) {
                     saving = true; // then save these next rows
+                    shouldAdd = true;
                 }
                 if (saving == true && i<5) { //change to inner method helper // if save is true and has not moved past 5 rows..
                     if (i==0) {
