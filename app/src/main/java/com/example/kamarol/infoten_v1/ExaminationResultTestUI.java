@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
+import java.util.List;
 
 public class ExaminationResultTestUI extends DialogFragment implements LoaderChecker {
     List<SubjectResult> resultList = new ArrayList<>();
