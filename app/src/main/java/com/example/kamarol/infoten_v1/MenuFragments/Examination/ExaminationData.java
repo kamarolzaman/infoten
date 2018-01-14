@@ -23,7 +23,8 @@ public class ExaminationData {
         return group;
     }
     public String getDate(){
-        return date;
+        if (date.equals("")) return "";
+        return "("+date+")";
     }
     public String getName(){
         return name;
