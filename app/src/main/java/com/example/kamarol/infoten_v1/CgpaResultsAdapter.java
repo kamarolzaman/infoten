@@ -52,8 +52,8 @@ public class CgpaResultsAdapter extends RecyclerView.Adapter<CgpaResultsAdapter.
         TextView gpaTv = viewHolder.gpaTv;
         TextView cgpaTv = viewHolder.cgpaTv;
 
-        semesterTv.setText(gpa_result.getSemester());
-        academic_yearTv.setText(gpa_result.getAcademicYear());
+        semesterTv.setText("SEMESTER");
+        academic_yearTv.setText("ACADEMIC YEAR");
         gpaTv.setText("GPA");
         cgpaTv.setText("CGPA");
 
