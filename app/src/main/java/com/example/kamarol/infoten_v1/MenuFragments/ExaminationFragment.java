@@ -158,7 +158,7 @@ public class ExaminationFragment extends Fragment implements LoaderChecker {
 
             code.setText(examinationDataArrayList.get(position).getCode());
             name.setText(examinationDataArrayList.get(position).getName());
-            date.setText("("+examinationDataArrayList.get(position).getDate()+")");
+            date.setText(examinationDataArrayList.get(position).getDate());
             section.setText(examinationDataArrayList.get(position).getSection());
             seat.setText(examinationDataArrayList.get(position).getSeat());
             loc.setText(examinationDataArrayList.get(position).getLoc());
