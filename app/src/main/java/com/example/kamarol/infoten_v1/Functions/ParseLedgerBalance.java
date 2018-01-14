@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.widget.TextView;
 
+import com.example.kamarol.infoten_v1.MainActivity;
 import com.example.kamarol.infoten_v1.Tools.NTLMSchemeFactory;
 
 import org.apache.http.HttpResponse;
@@ -47,10 +48,10 @@ public class ParseLedgerBalance extends AsyncTask <Void, Void, Void>{
             httpclient.getAuthSchemes().register("ntlm",
                     new NTLMSchemeFactory());
             httpclient.getCredentialsProvider().setCredentials(
-                    new AuthScope("info.uniten.edu.my", AuthScope.ANY_PORT),
+                    new AuthScope(MainActivity.url2 , AuthScope.ANY_PORT),
                     new NTCredentials(username, password, "", ""));
 
-            HttpGet request = new HttpGet("http://info.uniten.edu.my/info/Ticketing.ASP?WCI=LedgerBalance");
+            HttpGet request = new HttpGet(MainActivity.url + "/Ticketing.ASP?WCI=LedgerBalance");
             HttpResponse httpResponse = httpclient.execute(request);
 
             BufferedReader br = new BufferedReader(new InputStreamReader(

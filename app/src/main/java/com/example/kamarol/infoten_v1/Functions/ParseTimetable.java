@@ -6,6 +6,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.example.kamarol.infoten_v1.Communicator;
+import com.example.kamarol.infoten_v1.MainActivity;
 import com.example.kamarol.infoten_v1.Tools.DBHelper;
 import com.example.kamarol.infoten_v1.Tools.NTLMSchemeFactory;
 import com.example.kamarol.infoten_v1.Tools.Subject;
@@ -65,10 +66,10 @@ public class ParseTimetable extends AsyncTask<String, String, Void> {
             httpclient.getAuthSchemes().register("ntlm",
                     new NTLMSchemeFactory());
             httpclient.getCredentialsProvider().setCredentials(
-                    new AuthScope("info.uniten.edu.my", AuthScope.ANY_PORT),
+                    new AuthScope(MainActivity.url2 , AuthScope.ANY_PORT),
                     new NTCredentials(username, password, "", ""));
 
-            HttpGet request = new HttpGet("http://info.uniten.edu.my/info/Ticketing.ASP?WCI=TimeTable");
+            HttpGet request = new HttpGet(MainActivity.url + "/Ticketing.ASP?WCI=TimeTable");
             HttpResponse httpResponse = httpclient.execute(request);
 
             BufferedReader br = new BufferedReader(new InputStreamReader(
@@ -79,12 +80,12 @@ public class ParseTimetable extends AsyncTask<String, String, Void> {
             Document selDoc = null;
             selDoc = Jsoup.parse(tableSel);
             Element link = selDoc.select("a").first();
-            url = "http://info.uniten.edu.my/info/"+link.attr("href");
+            url = MainActivity.url + "/"+link.attr("href");
             // register ntlm auth scheme
             httpclient.getAuthSchemes().register("ntlm",
                     new NTLMSchemeFactory());
             httpclient.getCredentialsProvider().setCredentials(
-                    new AuthScope("info.uniten.edu.my", AuthScope.ANY_PORT),
+                    new AuthScope(MainActivity.url2 , AuthScope.ANY_PORT),
                     new NTCredentials(username, password, "", ""));
 
             HttpGet request2 = new HttpGet(url);
