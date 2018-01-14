@@ -53,7 +53,7 @@ public class ExaminationResultTestUI extends DialogFragment implements LoaderChe
 //        for (int i = 0; i < 5; i++) {
 //            gpa_results.add(new GPA_Result(Integer.toString(i), "2017", "4", "4"));
 //        }
-        CgpaResultsAdapter adapter = new CgpaResultsAdapter(view.getContext(), examinationResult.getSubjectResults());// Create adapter passing in the sample user data
+        CgpaResultsAdapter adapter = new CgpaResultsAdapter(view.getContext(), resultList);// Create adapter passing in the sample user data
         rvGpaResults.setAdapter(adapter);// Attach the adapter to the recyclerview to populate items
         rvGpaResults.setLayoutManager(new LinearLayoutManager(view.getContext()));// Set layout manager to position the items
         // That's all!

@@ -70,9 +70,8 @@ public class CgpaResultsAdapter extends RecyclerView.Adapter<CgpaResultsAdapter.
     public CgpaResultsAdapter(Context context, List<SubjectResult> resultList) {
         this.resultList = resultList;
         mContext = context;
-        int x = 0;
+        int start = resultList.get(0).getAcademicYear();
         for (SubjectResult result: resultList) {
-            int start = result.getAcademicYear();
             for (int i = start; i < start+6; i++) {
                 for (int j = 1; j <= 3; j++) {
                     if (result.getSemester()==1 && result.getAcademicYear()==start) group.put(result,0);
