@@ -38,7 +38,7 @@ public class SearchSubjectFragment extends Fragment{
         editText = view.findViewById(R.id.subject);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {//WHEN THE EMBEDED LISTENER GET AN onClick, IT WILL RUN THIS METHOD
+            public void onClick(View v) {
                 subject = editText.getText().toString();
                 SubjectDetailsFragment fragment = new SubjectDetailsFragment().newInstance(subject);
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
