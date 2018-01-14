@@ -1,5 +1,6 @@
 package com.example.kamarol.infoten_v1;
 
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
@@ -28,7 +29,10 @@ public class AdvisingTableParser {
 
     }
 
-    LinkedHashSet<HashMap> parseTable(Element tableHtml) {
+    LinkedHashSet<HashMap> parseTable(String Html) {
+        Element receivedHtml = Jsoup.parse(Html);
+        Elements tables = receivedHtml.getElementsByTag("table");
+        Element tableHtml = tables.last();
         LinkedHashSet<HashMap> RowList = new LinkedHashSet<>();
         HashMap<String, String> InnerList;
         int i = 0;

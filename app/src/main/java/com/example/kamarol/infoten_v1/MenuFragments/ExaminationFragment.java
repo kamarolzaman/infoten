@@ -3,6 +3,7 @@ package com.example.kamarol.infoten_v1.MenuFragments;
 
 import android.app.Dialog;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -20,11 +21,13 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.kamarol.infoten_v1.ExaminationResultTestUI;
 import com.example.kamarol.infoten_v1.Functions.ExaminationTableParser;
 import com.example.kamarol.infoten_v1.LoaderChecker;
 import com.example.kamarol.infoten_v1.LoginFragment;
 import com.example.kamarol.infoten_v1.MenuFragments.Examination.ExamTablesFragment;
 import com.example.kamarol.infoten_v1.MenuFragments.Examination.ExaminationData;
+import com.example.kamarol.infoten_v1.MenuFragments.Timetable.SubjectDetailsFragment;
 import com.example.kamarol.infoten_v1.R;
 
 import org.jsoup.Jsoup;
@@ -71,7 +74,8 @@ public class ExaminationFragment extends Fragment implements LoaderChecker {
 
             @Override
             public void onClick(View v) {
-                dialog.show();//todo kamarol
+                ExaminationResultTestUI fragment = new ExaminationResultTestUI();
+                fragment.show(getFragmentManager(), "Subject details");
             }
         });
         listView = view.findViewById(R.id.examtableslistview);
@@ -120,8 +124,8 @@ public class ExaminationFragment extends Fragment implements LoaderChecker {
                 if (endMins == 30) endMins = 1;
                 end = endHrs + endMins;
             } else {
-                start = 0;
-                end = 0;
+                start = -1;
+                end = -1;
                 date = "";
             }
             examinationDataArrayList.add(new ExaminationData(code, name, date, section, seat, loc, start, end, 0));
@@ -154,7 +158,7 @@ public class ExaminationFragment extends Fragment implements LoaderChecker {
 
             code.setText(examinationDataArrayList.get(position).getCode());
             name.setText(examinationDataArrayList.get(position).getName());
-            date.setText(examinationDataArrayList.get(position).getDate());
+            date.setText("("+examinationDataArrayList.get(position).getDate()+")");
             section.setText(examinationDataArrayList.get(position).getSection());
             seat.setText(examinationDataArrayList.get(position).getSeat());
             loc.setText(examinationDataArrayList.get(position).getLoc());

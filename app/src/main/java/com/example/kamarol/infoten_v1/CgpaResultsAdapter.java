@@ -31,7 +31,7 @@ public class CgpaResultsAdapter extends RecyclerView.Adapter<CgpaResultsAdapter.
 
     }
 
-    private List<GPA_Result> mGpa_result;
+    private List<SubjectResult> mGpa_result;
     private Context mContext;
 
 
@@ -46,16 +46,16 @@ public class CgpaResultsAdapter extends RecyclerView.Adapter<CgpaResultsAdapter.
 
     @Override
     public void onBindViewHolder(CgpaResultsAdapter.ViewHolder viewHolder, int position) {
-        GPA_Result gpa_result = mGpa_result.get(position);
+        SubjectResult gpa_result = mGpa_result.get(position);
         TextView semesterTv = viewHolder.semesterTv;
         TextView academic_yearTv = viewHolder.academic_yearTv;
         TextView gpaTv = viewHolder.gpaTv;
         TextView cgpaTv = viewHolder.cgpaTv;
 
         semesterTv.setText(gpa_result.getSemester());
-        academic_yearTv.setText(gpa_result.getAcademic_year());
-        gpaTv.setText(gpa_result.getGpa());
-        cgpaTv.setText(gpa_result.getCgpa());
+        academic_yearTv.setText(gpa_result.getAcademicYear());
+        gpaTv.setText("GPA");
+        cgpaTv.setText("CGPA");
 
     }
 
@@ -64,7 +64,7 @@ public class CgpaResultsAdapter extends RecyclerView.Adapter<CgpaResultsAdapter.
         return mGpa_result.size();
     }
 
-    public CgpaResultsAdapter(Context context, List<GPA_Result> gpa_cards) {
+    public CgpaResultsAdapter(Context context, List<SubjectResult> gpa_cards) {
         mGpa_result = gpa_cards;
         mContext = context;
     }

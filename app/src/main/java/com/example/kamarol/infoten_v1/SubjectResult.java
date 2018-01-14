@@ -1,5 +1,7 @@
 package com.example.kamarol.infoten_v1;
 
+import android.support.annotation.NonNull;
+
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -8,7 +10,7 @@ import java.util.regex.Pattern;
  * Created by kamarol on 12/12/2017.
  */
 
-class SubjectResult {
+class SubjectResult implements Comparable<SubjectResult>{
     private String subjectCode;
     private String result;
     private double creditHour;
@@ -86,4 +88,21 @@ class SubjectResult {
     }
 
 
+    @Override
+    public int compareTo(SubjectResult s) {
+        if (this.getAcademicYear() > s.getAcademicYear()) {
+            return 1;
+        } else if (this.getAcademicYear() < s.getAcademicYear()) {
+            return -1;
+        } else {
+            if (this.getSemester() > s.getSemester()) {
+                return 1;
+            } else if (this.getSemester() < s.getSemester()) {
+                return -1;
+            }
+            else {
+                return 0;
+            }
+        }
+    }
 }

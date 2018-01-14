@@ -11,8 +11,10 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
+            android:textSize="17sp"
+            android:textStyle="bold"
             android:id="@+id/examname"
-            android:text="Software Quality"
+            android:text="Mobile Application Development"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
@@ -20,26 +22,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
+            android:textSize="11sp"
             android:text="("
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
-            android:textStyle="bold"
+            android:textSize="11sp"
             android:id="@+id/examcode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="CSEB453" />
         <TextView
+            android:textSize="11sp"
             android:text=")"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:textStyle="bold"
-            android:layout_weight="1"
-            android:textAlignment="textEnd"
-            android:textSize="15sp"
-            android:id="@+id/examdate"
-            android:text="23/01/2018 "
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -64,6 +59,16 @@
         <TextView
             android:id="@+id/examend"
             android:text="12:00:00"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text=" "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:textStyle="bold"
+            android:id="@+id/examdate"
+            android:text="23/01/2018"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView

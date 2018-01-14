@@ -41,6 +41,7 @@ public class ExaminationData {
         return loc;
     }
     public String getStart(){
+        if (start==-1) return "N/A";
         String mins = "00";
         if (start%2==1){
             mins="30";
@@ -50,6 +51,7 @@ public class ExaminationData {
         return startStr;
     }
     public String getEnd(){
+        if (end==-1) return "N/A";
         String mins = "00";
         if (end%2==1){
             mins="30";

@@ -3,13 +3,14 @@ package com.example.kamarol.infoten_v1;
 import com.example.kamarol.infoten_v1.Tools.Subject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
  * Created by kamarol on 12/11/2017.
  */
 
-class ExaminationResult {
+class ExaminationResult { //need to implement iterable to work!
 
     private List<SubjectResult> subjectResultList;
 
@@ -17,6 +18,9 @@ class ExaminationResult {
         subjectResultList = new ArrayList<SubjectResult>();
     }
 
+    public List<SubjectResult> getSubjectResults() {
+        return this.subjectResultList;
+    }
     public void add(SubjectResult subjectresult) {
         subjectResultList.add(subjectresult);
     }
@@ -68,4 +72,5 @@ class ExaminationResult {
         }
         return (totalCreditPoints / totalCreditHour);
     }
+
 }

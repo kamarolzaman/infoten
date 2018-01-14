@@ -1,41 +1,55 @@
 package com.example.kamarol.infoten_v1;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
+import com.example.kamarol.infoten_v1.Functions.ParseAdvising;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 
-public class ExaminationResultTestUI extends AppCompatActivity {
-
+public class ExaminationResultTestUI extends DialogFragment implements LoaderChecker {
+    View view;
+    public ExaminationResultTestUI(){
+        setCancelable(true);
+    }
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_examination_result_test_ui);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        // ...
-        // Lookup the recyclerview in activity layout
-        RecyclerView rvGpaResults = (RecyclerView) findViewById(R.id.rvExamCards);
-
-        // Initialize the list
-        LinkedList<GPA_Result> gpa_results = new LinkedList<>();
-        for (int i=0; i<5; i++) {
-            gpa_results.add(new GPA_Result(Integer.toString(i), "2017", "4", "4"));
-        }
-        // Create adapter passing in the sample user data
-        CgpaResultsAdapter adapter = new CgpaResultsAdapter(this, gpa_results);
-        // Attach the adapter to the recyclerview to populate items
-        rvGpaResults.setAdapter(adapter);
-        // Set layout manager to position the items
-        rvGpaResults.setLayoutManager(new LinearLayoutManager(this));
-        // That's all!
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.activity_examination_result_test_ui, container, false);
+        new ParseAdvising(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); //execute asynctask
+        return view;
     }
 
+    @Override
+    public void onLoad(String html) {//called when asynctask is done
+        ExaminationResult examinationResult = new ExaminationResult();
+        AdvisingTableParser parser = new AdvisingTableParser();
+        LinkedHashSet<HashMap> subjectResultList = parser.parseTable(html);
+        for (HashMap<String, String> parserData : subjectResultList) {
+            // Get CGPA for each semester
+            examinationResult.add(new SubjectResult(parserData.get("SUBJECT_CODE"), parserData.get("RESULT"), Integer.parseInt(parserData.get("SEMESTER")), Integer.parseInt(parserData.get("YEAR"))));
+        }
+
+        RecyclerView rvGpaResults = view.findViewById(R.id.rvExamCards);
+//        LinkedList<GPA_Result> gpa_results = new LinkedList<>();// Initialize the list
+//        for (int i = 0; i < 5; i++) {
+//            gpa_results.add(new GPA_Result(Integer.toString(i), "2017", "4", "4"));
+//        }
+        CgpaResultsAdapter adapter = new CgpaResultsAdapter(view.getContext(), examinationResult.getSubjectResults());// Create adapter passing in the sample user data
+        rvGpaResults.setAdapter(adapter);// Attach the adapter to the recyclerview to populate items
+        rvGpaResults.setLayoutManager(new LinearLayoutManager(view.getContext()));// Set layout manager to position the items
+        // That's all!
+    }
 }
