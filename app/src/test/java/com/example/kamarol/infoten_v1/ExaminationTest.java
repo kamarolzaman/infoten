@@ -3,6 +3,13 @@ package com.example.kamarol.infoten_v1;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
+
+import java.io.IOException;
+import java.util.HashMap;
+
 import static org.junit.Assert.*;
 
 /**
@@ -96,5 +103,33 @@ public class ExaminationTest {
         double cgpa = exams.calculateCgpaAt(3, 2015);
         assertEquals(3.92, cgpa, 0.01);
     }
+
+    @Test
+    public void UseParseInstead() {
+//        AdvisingParser parser = new AdvisingParser();
+//        try {
+//            AdvisingTableParser tableParser = parser.getTable();
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+        ExaminationResult examinationResult = new ExaminationResult();
+        AdvisingParser advisingParser = new AdvisingParser();
+        try {
+            for (HashMap<String, String> parserData : advisingParser.getResults()){
+                examinationResult.add(new SubjectResult(parserData.get("SUBJECT_CODE"), parserData.get("RESULT"), Integer.parseInt(parserData.get("SEMESTER")), Integer.parseInt(parserData.get("YEAR"))));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        double cgpa = examinationResult.calculateCGPA();
+        assertEquals("CGPA is wrong!", 3.92, cgpa, 0.01);
+    }
+
+
+}
+
+class ExaminationResult_AdvisingParser_Integration {
+
 
 }
