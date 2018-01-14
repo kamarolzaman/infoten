@@ -6,6 +6,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.example.kamarol.infoten_v1.Communicator;
+import com.example.kamarol.infoten_v1.LoaderChecker;
 import com.example.kamarol.infoten_v1.MainActivity;
 import com.example.kamarol.infoten_v1.Tools.DBHelper;
 import com.example.kamarol.infoten_v1.Tools.NTLMSchemeFactory;
@@ -29,7 +30,7 @@ import java.util.ArrayList;
  * Created by musyrif on 03-Nov-17.
  */
 public class ParseTimetable extends AsyncTask<String, String, Void> {
-    private Communicator listener;
+    private LoaderChecker listener;
     ArrayList<String> subjectInfo = new ArrayList<>();
     public static Subject subject[] = new Subject[20];
     String tableSel, html, url;
@@ -44,9 +45,9 @@ public class ParseTimetable extends AsyncTask<String, String, Void> {
         this.listItems = listItems;
         this.adapter = adapter;
     }
-    public ParseTimetable(Context listener){
-        this.listener= (Communicator) listener;
-        dbHelper = new DBHelper(listener);
+    public ParseTimetable(LoaderChecker listener, Context context){
+        this.listener= listener;
+        dbHelper = new DBHelper(context);
     }
 
     @Override
@@ -142,7 +143,7 @@ public class ParseTimetable extends AsyncTask<String, String, Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         new SendTable().execute();
-        listener.onTableLoad();
+        listener.onLoad("");
         super.onPostExecute(aVoid);
     }
 }

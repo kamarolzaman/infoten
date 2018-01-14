@@ -26,6 +26,7 @@ import com.example.kamarol.infoten_v1.MenuFragments.SearchLecturerFragment;
 import com.example.kamarol.infoten_v1.MenuFragments.SearchSubjectFragment;
 import com.example.kamarol.infoten_v1.MenuFragments.Timetable.LecturerDetailsFragment;
 import com.example.kamarol.infoten_v1.MenuFragments.Timetable.SubjectDetailsFragment;
+import com.example.kamarol.infoten_v1.MenuFragments.Timetable.TablesFragment;
 import com.example.kamarol.infoten_v1.MenuFragments.TimetableFragment;
 import com.example.kamarol.infoten_v1.Tools.DBHelper;
 
@@ -157,7 +158,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction.replace(R.id.frame, fragment, "Timetable");
         fragmentTransaction.commit();
 
-        new ParseTimetable(this).execute(LoginFragment.username, LoginFragment.password);
 
         navigationView = findViewById(R.id.nav_view);
         navigationView.setCheckedItem(R.id.timetable);
@@ -180,11 +180,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onTableLoad() {
-        Fragment frg = getFragmentManager().findFragmentByTag("Timetable");
-        final FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.detach(frg);
-        ft.attach(frg);
-        ft.commit();
+        try {
+            Fragment frg = getFragmentManager().findFragmentByTag("Timetable");
+            final FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.detach(frg);
+            ft.attach(frg);
+            ft.commit();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override

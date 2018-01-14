@@ -13,6 +13,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.kamarol.infoten_v1.Functions.ParseTimetable;
+import com.example.kamarol.infoten_v1.LoaderChecker;
+import com.example.kamarol.infoten_v1.LoginFragment;
 import com.example.kamarol.infoten_v1.MenuFragments.Timetable.TablesFragment;
 import com.example.kamarol.infoten_v1.R;
 
@@ -22,8 +25,9 @@ import java.util.Date;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TimetableFragment extends Fragment implements CheckView{
+public class TimetableFragment extends Fragment implements CheckView, LoaderChecker{
     public static TimetableFragment context;
+    View view;
     ViewPager viewPager = null;
     TabLayout tabLayout;
     MyAdapter myAdapter;
@@ -40,7 +44,15 @@ public class TimetableFragment extends Fragment implements CheckView{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_timetable, container, false);
+        view = inflater.inflate(R.layout.fragment_timetable, container, false);
+        new ParseTimetable(TimetableFragment.this,view.getContext()).execute(LoginFragment.username, LoginFragment.password);
+
+        //viewPager.setCurrentItem();
+        return view;
+    }
+
+    @Override
+    public void onLoad(String html) {
         viewPager = view.findViewById(R.id.pager);
         FragmentManager fragmentManager = getChildFragmentManager();
         myAdapter = new MyAdapter(fragmentManager);
@@ -58,9 +70,8 @@ public class TimetableFragment extends Fragment implements CheckView{
         else if(sdf.format(d).equals("Saturday")){viewPager.setCurrentItem(5);}
         else if(sdf.format(d).equals("Sunday")){viewPager.setCurrentItem(6);}
 
-        //viewPager.setCurrentItem();
-        return view;
     }
+
     class MyAdapter extends FragmentPagerAdapter {
         public MyAdapter(FragmentManager fm) {
             super(fm);

@@ -40,7 +40,7 @@ public class SubjectDetailsFragment extends DialogFragment implements LoaderChec
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        //setStyle(STYLE_NO_FRAME, android.R.style.Theme_Holo_Light);
+        setStyle(DialogFragment.STYLE_NO_TITLE, android.R.style.Theme_Holo_Light_Dialog_NoActionBar_MinWidth);
         super.onCreate(savedInstanceState);
     }
 
