@@ -1,6 +1,7 @@
 package com.example.kamarol.infoten_v1;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ public class CgpaResultsAdapter extends RecyclerView.Adapter<CgpaResultsAdapter.
         public TextView academic_yearTv;
         public TextView gpaTv;
         public TextView cgpaTv;
+        CardView cv;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -29,6 +31,7 @@ public class CgpaResultsAdapter extends RecyclerView.Adapter<CgpaResultsAdapter.
             academic_yearTv =  (TextView) itemView.findViewById(R.id.academicYearResultTv);
             gpaTv =  (TextView) itemView.findViewById(R.id.gpaResultTv);
             cgpaTv =  (TextView) itemView.findViewById(R.id.cgpaResultTv);
+            cv = itemView.findViewById(R.id.cardGpaResult);
         }
 
     }
@@ -48,12 +51,49 @@ public class CgpaResultsAdapter extends RecyclerView.Adapter<CgpaResultsAdapter.
 
     @Override
     public void onBindViewHolder(CgpaResultsAdapter.ViewHolder viewHolder, int position) {
+        SubjectResult resultb, resultf;
+        try {
+            resultb = resultList.get(position - 1);
+        }catch (Exception e){
+            System.out.println(e);
+            resultb = resultList.get(position);
+        }
         SubjectResult result = resultList.get(position);
+        try {
+            resultf = resultList.get(position + 1);
+        }catch (Exception e){
+            System.out.println(e);
+            resultf = resultList.get(position);
+        }
         System.out.println(resultList.get(position).getSubjectCode());
         TextView semesterTv = viewHolder.semesterTv;
         TextView academic_yearTv = viewHolder.academic_yearTv;
         TextView gpaTv = viewHolder.gpaTv;
         TextView cgpaTv = viewHolder.cgpaTv;
+        CardView cv = viewHolder.cv;
+        if (position==0){
+            ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) cv.getLayoutParams();
+            layoutParams.setMargins(10, 10, 10, 0);
+            cv.requestLayout();
+        }else if (position==resultList.size()){
+            ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) cv.getLayoutParams();
+            layoutParams.setMargins(10, 0, 10, 10);
+            cv.requestLayout();
+        }else {
+            if (group.get(result)-group.get(resultb)==1){
+                ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) cv.getLayoutParams();
+                layoutParams.setMargins(10, 10, 10, 0);
+                cv.requestLayout();
+            } else if (group.get(result)-group.get(resultb)==0 && group.get(resultf)-group.get(result)==0){
+                ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) cv.getLayoutParams();
+                layoutParams.setMargins(10, 0, 10, 0);
+                cv.requestLayout();
+            } else {
+                ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) cv.getLayoutParams();
+                layoutParams.setMargins(10, 0, 10, 10);
+                cv.requestLayout();
+            }
+        }
 
         semesterTv.setText(String.valueOf(result.getSemester()) + " " + String.valueOf(result.getAcademicYear()));
         academic_yearTv.setText(result.getSubjectCode());

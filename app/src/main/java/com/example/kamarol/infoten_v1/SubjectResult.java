@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
  */
 
 class SubjectResult implements Comparable<SubjectResult>{
+    private int group;
     private String subjectCode;
     private String result;
     private double creditHour;

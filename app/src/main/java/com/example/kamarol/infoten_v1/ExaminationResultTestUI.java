@@ -17,6 +17,7 @@ import com.example.kamarol.infoten_v1.Functions.ParseAdvising;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
@@ -47,7 +48,7 @@ public class ExaminationResultTestUI extends DialogFragment implements LoaderChe
             resultList.add(new SubjectResult(parserData.get("SUBJECT_CODE"), parserData.get("RESULT"), Integer.parseInt(parserData.get("SEMESTER")), Integer.parseInt(parserData.get("YEAR"))));
             //examinationResult.add(new SubjectResult(parserData.get("SUBJECT_CODE"), parserData.get("RESULT"), Integer.parseInt(parserData.get("SEMESTER")), Integer.parseInt(parserData.get("YEAR"))));
         }
-
+        Collections.sort(resultList);
         RecyclerView rvGpaResults = view.findViewById(R.id.rvExamCards);
 //        LinkedList<GPA_Result> gpa_results = new LinkedList<>();// Initialize the list
 //        for (int i = 0; i < 5; i++) {

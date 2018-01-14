@@ -30,7 +30,7 @@ import com.example.kamarol.infoten_v1.MenuFragments.TimetableFragment;
 import com.example.kamarol.infoten_v1.Tools.DBHelper;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Communicator {
-    public static String set = "online";
+    public static String set = "info";
     public static String url = "http://" + set + ".uniten.edu.my/info", url2 = set + ".uniten.edu.my", url3 = "http://" + set + ".uniten.edu.my/scorun";
 
     NavigationView navigationView;
