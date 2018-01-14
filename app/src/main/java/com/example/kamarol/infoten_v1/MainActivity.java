@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -24,6 +25,7 @@ import com.example.kamarol.infoten_v1.MenuFragments.LedgerFragment;
 import com.example.kamarol.infoten_v1.MenuFragments.ScorunFragment;
 import com.example.kamarol.infoten_v1.MenuFragments.SearchLecturerFragment;
 import com.example.kamarol.infoten_v1.MenuFragments.SearchSubjectFragment;
+import com.example.kamarol.infoten_v1.MenuFragments.SplashFragment;
 import com.example.kamarol.infoten_v1.MenuFragments.Timetable.LecturerDetailsFragment;
 import com.example.kamarol.infoten_v1.MenuFragments.Timetable.SubjectDetailsFragment;
 import com.example.kamarol.infoten_v1.MenuFragments.Timetable.TablesFragment;
@@ -33,7 +35,7 @@ import com.example.kamarol.infoten_v1.Tools.DBHelper;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Communicator {
     public static String set = "info";
     public static String url = "http://" + set + ".uniten.edu.my/info", url2 = set + ".uniten.edu.my", url3 = "http://" + set + ".uniten.edu.my/scorun";
-
+    SplashFragment splashFragment;
     NavigationView navigationView;
     LoginFragment loginFragment;
     FragmentTransaction ft;
@@ -41,15 +43,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     View headerView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.splashScreenTheme);
         super.onCreate(savedInstanceState);
+        setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_main);
         loginFragment = new LoginFragment();//INITIALIZING NEW FRAGMENT (LOGIN)
-
         //SYNTAX TO SHOW THE (LOGIN) FRAGMENT
         ft = getFragmentManager().beginTransaction();
         SharedPreferences sharedPreferences = getSharedPreferences(LoginFragment.MyPREFERENCES, Context.MODE_PRIVATE);
         String check = sharedPreferences.getString(LoginFragment.Username,"empty");
-        System.out.println(check);
         if (check.equals("empty")){
             loginFragment.show(ft, "dialog");//SHOWS THE DIALOG -----> GOTO LoginFragment.java
         }else{
