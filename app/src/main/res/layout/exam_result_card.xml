@@ -4,34 +4,64 @@
     android:id="@+id/cardGpaResult"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    card_view:cardCornerRadius="0dp"
     android:clickable="true"
     card_view:cardElevation="8dp"
     android:layout_marginLeft="15dp"
     android:layout_marginRight="15dp">
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp">
         <TextView
+            android:paddingTop="10dp"
+            android:textSize="25sp"
+            android:textAlignment="center"
             android:id="@+id/semesterResultTv"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Semester" />
+            android:text="Semester 1 " />
         <TextView
+            android:textAlignment="center"
             android:id="@+id/academicYearResultTv"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="academic year" />
+            android:text="Trimester 2 Year 2017"
+            android:paddingBottom="10dp" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/nameResultTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Programming Language (CSEB424)" />
+            <TextView
+                android:layout_weight="1"
+                android:textAlignment="textEnd"
+                android:id="@+id/scoreResultTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="A+" />
+
+        </LinearLayout>
         <TextView
+            android:textSize="20sp"
+            android:textAlignment="center"
             android:id="@+id/gpaResultTv"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="gpa" />
+            android:text="GPA: 3.98" />
         <TextView
+            android:textSize="20sp"
+            android:textAlignment="center"
             android:id="@+id/cgpaResultTv"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="cgpa" />
+            android:text="CGPA: 3.98"
+            android:paddingBottom="10dp"/>
     </LinearLayout>
 </android.support.v7.widget.CardView>

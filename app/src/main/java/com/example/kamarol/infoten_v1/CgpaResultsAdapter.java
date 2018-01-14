@@ -22,11 +22,13 @@ public class CgpaResultsAdapter extends RecyclerView.Adapter<CgpaResultsAdapter.
         public TextView semesterTv;
         public TextView academic_yearTv;
         public TextView gpaTv;
-        public TextView cgpaTv;
+        public TextView cgpaTv , scoreResultTv, nameResultTv;
         CardView cv;
 
         public ViewHolder(View itemView) {
             super(itemView);
+            nameResultTv = (TextView) itemView.findViewById(R.id.nameResultTv);
+            scoreResultTv = (TextView) itemView.findViewById(R.id.scoreResultTv);
             semesterTv =  (TextView) itemView.findViewById(R.id.semesterResultTv);
             academic_yearTv =  (TextView) itemView.findViewById(R.id.academicYearResultTv);
             gpaTv =  (TextView) itemView.findViewById(R.id.gpaResultTv);
@@ -66,40 +68,64 @@ public class CgpaResultsAdapter extends RecyclerView.Adapter<CgpaResultsAdapter.
             resultf = resultList.get(position);
         }
         System.out.println(resultList.get(position).getSubjectCode());
+        TextView nameTv = viewHolder.nameResultTv;
+        TextView scoreTv = viewHolder.scoreResultTv;
         TextView semesterTv = viewHolder.semesterTv;
         TextView academic_yearTv = viewHolder.academic_yearTv;
         TextView gpaTv = viewHolder.gpaTv;
         TextView cgpaTv = viewHolder.cgpaTv;
         CardView cv = viewHolder.cv;
         System.out.println(resultList.size());
-        if (position==0){
+        if (position==0){ //start
             ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) cv.getLayoutParams();
-            layoutParams.setMargins(10, 10, 10, 0);
+            layoutParams.setMargins(20, 10, 20, 0);
             cv.requestLayout();
-        }else if (position==resultList.size()-1){
+            gpaTv.setVisibility(View.GONE);
+            cgpaTv.setVisibility(View.GONE);
+            semesterTv.setVisibility(View.VISIBLE);
+            academic_yearTv.setVisibility(View.VISIBLE);
+        }else if (position==resultList.size()-1){ //bottom
             ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) cv.getLayoutParams();
-            layoutParams.setMargins(10, 0, 10, 10);
+            layoutParams.setMargins(20, 0, 20, 10);
             cv.requestLayout();
+            semesterTv.setVisibility(View.GONE);
+            academic_yearTv.setVisibility(View.GONE);
+            gpaTv.setVisibility(View.VISIBLE);
+            cgpaTv.setVisibility(View.VISIBLE);
         }else {
-            if (group.get(result)-group.get(resultb)>=1){
+            if (group.get(result)-group.get(resultb)>=1){//start
                 ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) cv.getLayoutParams();
-                layoutParams.setMargins(10, 10, 10, 0);
+                layoutParams.setMargins(20, 10, 20, 0);
                 cv.requestLayout();
-            } else if (group.get(result)-group.get(resultb)==0 && group.get(resultf)-group.get(result)==0){
+                gpaTv.setVisibility(View.GONE);
+                cgpaTv.setVisibility(View.GONE);
+                semesterTv.setVisibility(View.VISIBLE);
+                academic_yearTv.setVisibility(View.VISIBLE);
+            } else if (group.get(result)-group.get(resultb)==0 && group.get(resultf)-group.get(result)==0){//middle
                 ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) cv.getLayoutParams();
-                layoutParams.setMargins(10, 0, 10, 0);
+                layoutParams.setMargins(20, 0, 20, 0);
                 cv.requestLayout();
-            } else if (group.get(resultf)-group.get(result)>=1){
+                gpaTv.setVisibility(View.GONE);
+                cgpaTv.setVisibility(View.GONE);
+                semesterTv.setVisibility(View.GONE);
+                academic_yearTv.setVisibility(View.GONE);
+            } else if (group.get(resultf)-group.get(result)>=1){//bottom
                 ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) cv.getLayoutParams();
-                layoutParams.setMargins(10, 0, 10, 10);
+                layoutParams.setMargins(20, 0, 20, 10);
                 cv.requestLayout();
+                semesterTv.setVisibility(View.GONE);
+                academic_yearTv.setVisibility(View.GONE);
+                gpaTv.setVisibility(View.VISIBLE);
+                cgpaTv.setVisibility(View.VISIBLE);
             }
         }
 
-        semesterTv.setText(String.valueOf(result.getSemester()) + " " + String.valueOf(result.getAcademicYear()));
-        academic_yearTv.setText(result.getSubjectCode());
-        gpaTv.setText(Double.toString(calculateCgpaAt(result.getSemester(),result.getAcademicYear())));
-        cgpaTv.setText("Group: " + String.valueOf(group.get(result)));
+        semesterTv.setText("Semester: " + String.valueOf(group.get(result)+1));
+        academic_yearTv.setText("Trimester: " + String.valueOf(result.getSemester()) + " Year: " + String.valueOf(result.getAcademicYear()));
+        nameTv.setText(result.getSubjectCode());
+        scoreTv.setText(result.getResultInLetter());
+        gpaTv.setText("GPA: " + String.format("%.2f",calculateGpa(result.getSemester(),result.getAcademicYear())));
+        cgpaTv.setText("CGPA: " + String.format("%.2f",calculateCgpaAt(result.getSemester(),result.getAcademicYear())));
 
     }
 
@@ -151,6 +177,21 @@ public class CgpaResultsAdapter extends RecyclerView.Adapter<CgpaResultsAdapter.
         double totalCreditPoints = 0;
         for (SubjectResult subject : resultList) {
             if ((subject.getSemester() <= semester) &&(subject.getAcademicYear() <= year)) {
+                try {
+                    totalCreditPoints += subject.getResultInPoints() * subject.getCreditHour();
+                    totalCreditHour += subject.getCreditHour();
+                } catch (LulusException E) {
+                    E.printStackTrace();
+                }
+            }
+        }
+        return (totalCreditPoints / totalCreditHour);
+    }
+    private double calculateGpa(Integer semester, int academicYear) { //using Integer type causes the == comparison to fail for academic year?!
+        double totalCreditHour = 0;
+        double totalCreditPoints = 0;
+        for (SubjectResult subject : resultList) {
+            if ((subject.getSemester() == semester) &&(subject.getAcademicYear() == academicYear)) {
                 try {
                     totalCreditPoints += subject.getResultInPoints() * subject.getCreditHour();
                     totalCreditHour += subject.getCreditHour();

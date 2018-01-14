@@ -29,6 +29,13 @@ public class ExaminationResultTestUI extends DialogFragment implements LoaderChe
     public ExaminationResultTestUI(){
         setCancelable(true);
     }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setStyle(DialogFragment.STYLE_NO_TITLE, android.R.style.Theme_Holo_Light_Dialog_NoActionBar_MinWidth);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.activity_examination_result_test_ui, container, false);

@@ -60,7 +60,7 @@ public class ExaminationFragment extends Fragment implements LoaderChecker {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_examination, container, false);
-
+        examinationDataArrayList.clear();
         button= view.findViewById(R.id.viewResult);
         dialog = new Dialog(getActivity());
         dialog.setTitle("Examination result");
