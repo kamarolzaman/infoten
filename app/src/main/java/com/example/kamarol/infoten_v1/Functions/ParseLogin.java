@@ -3,6 +3,7 @@ package com.example.kamarol.infoten_v1.Functions;
 import android.os.AsyncTask;
 
 import com.example.kamarol.infoten_v1.LoginCheker;
+import com.example.kamarol.infoten_v1.MainActivity;
 import com.example.kamarol.infoten_v1.Tools.NTLMSchemeFactory;
 
 import org.apache.http.HttpResponse;
@@ -39,9 +40,9 @@ public class ParseLogin extends AsyncTask<Void, Void, String> {
         try {
             // register ntlm auth scheme
             httpclient.getAuthSchemes().register("ntlm", new NTLMSchemeFactory());
-            httpclient.getCredentialsProvider().setCredentials(new AuthScope("info.uniten.edu.my", AuthScope.ANY_PORT), new NTCredentials(username, password, "", ""));
+            httpclient.getCredentialsProvider().setCredentials(new AuthScope(MainActivity.url2 , AuthScope.ANY_PORT), new NTCredentials(username, password, "", ""));
 
-            HttpGet request = new HttpGet("http://info.uniten.edu.my/info/Ticketing.ASP?WCI=Biodata");
+            HttpGet request = new HttpGet(MainActivity.url + "/Ticketing.ASP?WCI=Biodata");
             HttpResponse httpResponse = httpclient.execute(request);
 
             BufferedReader br = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent()));
@@ -50,14 +51,14 @@ public class ParseLogin extends AsyncTask<Void, Void, String> {
                 result.append(html);
             }
             //GET TABLE LINK
-            request = new HttpGet("http://info.uniten.edu.my/info/Ticketing.ASP?WCI=TimeTable");
+            request = new HttpGet(MainActivity.url + "/Ticketing.ASP?WCI=TimeTable");
             httpResponse = httpclient.execute(request);
 
             br = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent()));
             tableSel = br.readLine();
             Document selDoc = Jsoup.parse(tableSel);
             Element link = selDoc.select("a").first();
-            url = "http://info.uniten.edu.my/info/"+link.attr("href");
+            url = MainActivity.url + "/"+link.attr("href");
 
             //GET TABLE SEMESTER
             request = new HttpGet(url);
