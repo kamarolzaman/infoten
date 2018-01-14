@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -31,9 +33,9 @@ public class CgpaResultsAdapter extends RecyclerView.Adapter<CgpaResultsAdapter.
 
     }
 
-    private List<SubjectResult> mGpa_result;
+    private List<SubjectResult> resultList;
     private Context mContext;
-
+    private HashMap<SubjectResult, Integer> group = new HashMap<>();
 
     @Override
     public CgpaResultsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -46,7 +48,8 @@ public class CgpaResultsAdapter extends RecyclerView.Adapter<CgpaResultsAdapter.
 
     @Override
     public void onBindViewHolder(CgpaResultsAdapter.ViewHolder viewHolder, int position) {
-        SubjectResult gpa_result = mGpa_result.get(position);
+        SubjectResult result = resultList.get(position);
+        System.out.println(resultList.get(position).getSubjectCode());
         TextView semesterTv = viewHolder.semesterTv;
         TextView academic_yearTv = viewHolder.academic_yearTv;
         TextView gpaTv = viewHolder.gpaTv;
@@ -56,21 +59,73 @@ public class CgpaResultsAdapter extends RecyclerView.Adapter<CgpaResultsAdapter.
         academic_yearTv.setText(gpa_result.getAcademicYear());
         gpaTv.setText("GPA");
         cgpaTv.setText("CGPA");
+=======
+        semesterTv.setText(String.valueOf(result.getSemester()) + " " + String.valueOf(result.getAcademicYear()));
+        academic_yearTv.setText(result.getSubjectCode());
+        gpaTv.setText(Double.toString(calculateCgpaAt(result.getSemester(),result.getAcademicYear())));
+        cgpaTv.setText("Group: " + String.valueOf(group.get(result)));
+>>>>>>> Stashed changes
 
     }
 
 
     public int getItemCount() {
-        return mGpa_result.size();
+        return resultList.size();
     }
 
-    public CgpaResultsAdapter(Context context, List<SubjectResult> gpa_cards) {
-        mGpa_result = gpa_cards;
+    public CgpaResultsAdapter(Context context, List<SubjectResult> resultList) {
+        this.resultList = resultList;
         mContext = context;
+        int x = 0;
+        for (SubjectResult result: resultList) {
+            int start = result.getAcademicYear();
+            for (int i = start; i < start+6; i++) {
+                for (int j = 1; j <= 3; j++) {
+                    if (result.getSemester()==1 && result.getAcademicYear()==start) group.put(result,0);
+                    else if (result.getSemester()==2 && result.getAcademicYear()==start) group.put(result,1);
+                    else if (result.getSemester()==3 && result.getAcademicYear()==start) group.put(result,2);
+
+                    else if (result.getSemester()==1 && result.getAcademicYear()==start+1) group.put(result,3);
+                    else if (result.getSemester()==2 && result.getAcademicYear()==start+1) group.put(result,4);
+                    else if (result.getSemester()==3 && result.getAcademicYear()==start+1) group.put(result,5);
+
+                    else if (result.getSemester()==1 && result.getAcademicYear()==start+2) group.put(result,6);
+                    else if (result.getSemester()==2 && result.getAcademicYear()==start+2) group.put(result,7);
+                    else if (result.getSemester()==3 && result.getAcademicYear()==start+2) group.put(result,8);
+
+                    else if (result.getSemester()==1 && result.getAcademicYear()==start+3) group.put(result,9);
+                    else if (result.getSemester()==2 && result.getAcademicYear()==start+3) group.put(result,10);
+                    else if (result.getSemester()==3 && result.getAcademicYear()==start+3) group.put(result,11);
+
+                    else if (result.getSemester()==1 && result.getAcademicYear()==start+4) group.put(result,12);
+                    else if (result.getSemester()==2 && result.getAcademicYear()==start+4) group.put(result,13);
+                    else if (result.getSemester()==3 && result.getAcademicYear()==start+4) group.put(result,14);
+
+                    else if (result.getSemester()==1 && result.getAcademicYear()==start+5) group.put(result,15);
+                    else if (result.getSemester()==2 && result.getAcademicYear()==start+5) group.put(result,16);
+                    else if (result.getSemester()==3 && result.getAcademicYear()==start+5) group.put(result,17);
+                }
+            }
+        }
     }
 
     private Context getContext() {
         return mContext;
+    }
+    private double calculateCgpaAt(int semester, int year) {
+        double totalCreditHour = 0;
+        double totalCreditPoints = 0;
+        for (SubjectResult subject : resultList) {
+            if ((subject.getSemester() <= semester) &&(subject.getAcademicYear() <= year)) {
+                try {
+                    totalCreditPoints += subject.getResultInPoints() * subject.getCreditHour();
+                    totalCreditHour += subject.getCreditHour();
+                } catch (LulusException E) {
+                    E.printStackTrace();
+                }
+            }
+        }
+        return (totalCreditPoints / totalCreditHour);
     }
 }
 

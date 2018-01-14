@@ -16,11 +16,13 @@ import android.view.ViewGroup;
 import com.example.kamarol.infoten_v1.Functions.ParseAdvising;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 
 public class ExaminationResultTestUI extends DialogFragment implements LoaderChecker {
+    List<SubjectResult> resultList = new ArrayList<>();
     View view;
     public ExaminationResultTestUI(){
         setCancelable(true);
@@ -37,9 +39,12 @@ public class ExaminationResultTestUI extends DialogFragment implements LoaderChe
         ExaminationResult examinationResult = new ExaminationResult();
         AdvisingTableParser parser = new AdvisingTableParser();
         LinkedHashSet<HashMap> subjectResultList = parser.parseTable(html);
+        int x = 0;
         for (HashMap<String, String> parserData : subjectResultList) {
+            System.out.println(x++);
             // Get CGPA for each semester
-            examinationResult.add(new SubjectResult(parserData.get("SUBJECT_CODE"), parserData.get("RESULT"), Integer.parseInt(parserData.get("SEMESTER")), Integer.parseInt(parserData.get("YEAR"))));
+            resultList.add(new SubjectResult(parserData.get("SUBJECT_CODE"), parserData.get("RESULT"), Integer.parseInt(parserData.get("SEMESTER")), Integer.parseInt(parserData.get("YEAR"))));
+            //examinationResult.add(new SubjectResult(parserData.get("SUBJECT_CODE"), parserData.get("RESULT"), Integer.parseInt(parserData.get("SEMESTER")), Integer.parseInt(parserData.get("YEAR"))));
         }
 
         RecyclerView rvGpaResults = view.findViewById(R.id.rvExamCards);
