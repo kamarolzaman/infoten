@@ -14,11 +14,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.kamarol.infoten_v1.Functions.ParseAdvising;
+import com.example.kamarol.infoten_v1.Tools.DBHelper;
+import com.example.kamarol.infoten_v1.Tools.DBHelperMemory;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
+import java.util.List;
 
 public class ExaminationResultTestUI extends DialogFragment implements LoaderChecker {
     View view;
@@ -47,7 +50,14 @@ public class ExaminationResultTestUI extends DialogFragment implements LoaderChe
 //        for (int i = 0; i < 5; i++) {
 //            gpa_results.add(new GPA_Result(Integer.toString(i), "2017", "4", "4"));
 //        }
-        CgpaResultsAdapter adapter = new CgpaResultsAdapter(view.getContext(), examinationResult.getSubjectResults());// Create adapter passing in the sample user data
+
+        DBHelperMemory dbhelper = new DBHelperMemory(view.getContext());
+        List<SubjectResult> subjectResults = examinationResult.getSubjectResults();
+        for (SubjectResult subject : subjectResults) {
+            dbhelper.insertSubject(subject.getSubjectCode(), subject.getResultInLetter(), subject.getCreditHour(), subject.getSemester(), subject.getAcademicYear());
+        }
+
+        CgpaResultsAdapter adapter = new CgpaResultsAdapter(view.getContext(), examinationResult);// Create adapter passing in the sample user data
         rvGpaResults.setAdapter(adapter);// Attach the adapter to the recyclerview to populate items
         rvGpaResults.setLayoutManager(new LinearLayoutManager(view.getContext()));// Set layout manager to position the items
         // That's all!
