@@ -3,16 +3,21 @@ package com.example.kamarol.infoten_v1.MenuFragments;
 
 import android.app.Dialog;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.kamarol.infoten_v1.Functions.ExaminationTableParser;
@@ -34,12 +39,14 @@ import java.util.ArrayList;
  */
 public class ExaminationFragment extends Fragment implements LoaderChecker {
     public static ArrayList<ExaminationData> examinationDataArrayList = new ArrayList<>();
-    ArrayList<String> uniqueDate = new ArrayList<>();
+    ListView listView;
+    ArrayAdapter <ExaminationData> myAdaper;
+//    ArrayList<String> uniqueDate = new ArrayList<>();
     int group;
     View view;
-    ViewPager viewPager = null;
-    TabLayout tabLayout;
-    MyAdapter myAdapter;
+//    ViewPager viewPager = null;
+//    TabLayout tabLayout;
+//    MyAdapter myAdapter;
     Button button;
     Dialog dialog;
     public ExaminationFragment() {
@@ -64,9 +71,14 @@ public class ExaminationFragment extends Fragment implements LoaderChecker {
 
             @Override
             public void onClick(View v) {
-                dialog.show();
+                dialog.show();//todo kamarol
             }
         });
+        listView = view.findViewById(R.id.examtableslistview);
+        myAdaper = new MyAdapter(view.getContext(), R.layout.examtable_format, examinationDataArrayList);
+        listView.setAdapter(myAdaper);
+        myAdaper.notifyDataSetChanged();
+
         return view;
     }
 
@@ -75,7 +87,8 @@ public class ExaminationFragment extends Fragment implements LoaderChecker {
 
         //System.out.println(html);
 
-        Document doc = Jsoup.parse("<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=windows-1252\"><link rel=\"stylesheet\" media=\"screen\" type=\"text/css\" href=\"./exam_files/styles.css\"><link rel=\"stylesheet\" media=\"print\" type=\"text/css\" href=\"./exam_files/print.css\"></head><body><h1>Exam List for Semester 2, Academic Year 2017/2018</h1><table cellspacing=\"0\"><thead><tr valign=\"TOP\"><td rowspan=\"2\">No.</td><td colspan=\"2\">Subject</td><td rowspan=\"2\">Section</td><td rowspan=\"2\">Location</td><td rowspan=\"2\">Date &amp; Time</td><td rowspan=\"2\">Seat</td></tr><tr><td>Code</td><td>Description</td></tr></thead><tbody><tr class=\"LINE1\"><td>1.</td><td>CGNB424</td><td>Project 2</td><td>SE</td><td>N/A</td><td>20/12/17 13:30:00 - 15:30:00</td><td>N/A</td></tr><tr class=\"LINE2\"><td>2.</td><td>CSEB424</td><td>Software Testing</td><td>02A</td><td>N/A</td><td>20/12/17 16:30:00 - 18:30:00</td><td>N/A</td></tr><tr class=\"LINE1\"><td>3.</td><td>CSEB453</td><td>Software Quality</td><td>02</td><td>N/A</td><td>21/12/17 13:30:00 - 15:30:00</td><td>N/A</td></tr><tr class=\"LINE2\"><td>4.</td><td>CSNB544</td><td>Mobile Application Development</td><td>03B</td><td>N/A</td><td>24/12/17 10:00:00 - 12:00:00</td><td>N/A</td></tr></tbody></table><br><br><table><tbody><tr class=\"LINE2\"><td><b>Notes:</b></td></tr></tbody></table></body></html>");
+        //Document doc = Jsoup.parse("<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=windows-1252\"><link rel=\"stylesheet\" media=\"screen\" type=\"text/css\" href=\"./exam_files/styles.css\"><link rel=\"stylesheet\" media=\"print\" type=\"text/css\" href=\"./exam_files/print.css\"></head><body><h1>Exam List for Semester 2, Academic Year 2017/2018</h1><table cellspacing=\"0\"><thead><tr valign=\"TOP\"><td rowspan=\"2\">No.</td><td colspan=\"2\">Subject</td><td rowspan=\"2\">Section</td><td rowspan=\"2\">Location</td><td rowspan=\"2\">Date &amp; Time</td><td rowspan=\"2\">Seat</td></tr><tr><td>Code</td><td>Description</td></tr></thead><tbody><tr class=\"LINE1\"><td>1.</td><td>CGNB424</td><td>Project 2</td><td>SE</td><td>N/A</td><td>20/12/17 13:30:00 - 15:30:00</td><td>N/A</td></tr><tr class=\"LINE2\"><td>2.</td><td>CSEB424</td><td>Software Testing</td><td>02A</td><td>N/A</td><td>20/12/17 16:30:00 - 18:30:00</td><td>N/A</td></tr><tr class=\"LINE1\"><td>3.</td><td>CSEB453</td><td>Software Quality</td><td>02</td><td>N/A</td><td>21/12/17 13:30:00 - 15:30:00</td><td>N/A</td></tr><tr class=\"LINE2\"><td>4.</td><td>CSNB544</td><td>Mobile Application Development</td><td>03B</td><td>N/A</td><td>24/12/17 10:00:00 - 12:00:00</td><td>N/A</td></tr></tbody></table><br><br><table><tbody><tr class=\"LINE2\"><td><b>Notes:</b></td></tr></tbody></table></body></html>");
+        Document doc = Jsoup.parse(html);
         Element table = doc.getElementsByTag("table").first();
         Element tbody = table.getElementsByTag("tbody").first();
         Elements trs = tbody.getElementsByTag("tr");
@@ -97,14 +110,13 @@ public class ExaminationFragment extends Fragment implements LoaderChecker {
                 date = datetime.split("\\s+")[0];
                 timestart = datetime.split("\\s+")[1];
                 timeend = datetime.split("\\s+")[3];
-
-                startHrs = (Integer.decode(timestart.split(":")[0]) - 8) * 2;
-                startMins = Integer.decode(timestart.split(":")[1]);
+                startHrs = (Integer.parseInt(timestart.split(":")[0]) - 8) * 2;
+                startMins = Integer.parseInt(timestart.split(":")[1]);
                 if (startMins == 30) startMins = 1;
                 start = startHrs + startMins;
 
-                endHrs = (Integer.decode(timeend.split(":")[0]) - 8) * 2;
-                endMins = Integer.decode(timeend.split(":")[1]);
+                endHrs = (Integer.parseInt(timeend.split(":")[0]) - 8) * 2;
+                endMins = Integer.parseInt(timeend.split(":")[1]);
                 if (endMins == 30) endMins = 1;
                 end = endHrs + endMins;
             } else {
@@ -112,60 +124,43 @@ public class ExaminationFragment extends Fragment implements LoaderChecker {
                 end = 0;
                 date = "";
             }
-            if (examinationDataArrayList.size() != 0) {
-                for (int i = 0; i < examinationDataArrayList.size(); i++) {
-                    if (examinationDataArrayList.get(i).getDate().equals(date)) {
-                        group = examinationDataArrayList.get(i).getGroup();
-                    } else {
-                        if (i == examinationDataArrayList.size() - 1) {
-                            group += 1;
-                            uniqueDate.add(date);
-                        }
-                    }
-                }
-            } else {
-                uniqueDate.add(date);
-            }
-            examinationDataArrayList.add(new ExaminationData(code, name, date, section, seat, loc, start, end, group));
-
-            viewPager = view.findViewById(R.id.pager);
-            FragmentManager fragmentManager = getChildFragmentManager();
-            myAdapter = new MyAdapter(fragmentManager);
-            viewPager.setAdapter(myAdapter);
-            tabLayout = view.findViewById(R.id.tabLayout);
-            tabLayout.setupWithViewPager(viewPager);
-            myAdapter.notifyDataSetChanged();
+            examinationDataArrayList.add(new ExaminationData(code, name, date, section, seat, loc, start, end, 0));
+            myAdaper.notifyDataSetChanged();
+        }
+    } //kkk
+    private class MyAdapter extends ArrayAdapter <ExaminationData>{
+        ArrayList<ExaminationData> examinationDataArrayList;
+        int resource;
+        public MyAdapter(@NonNull Context context, int resource, ArrayList<ExaminationData> examinationDataArrayList) {
+            super(context, resource, examinationDataArrayList);
+            this.resource = resource;
+            this.examinationDataArrayList = examinationDataArrayList;
         }
 
-//        for (ExaminationData e:examinationDataArrayList) {
-//            System.out.println(e.getName());
-//            System.out.println(e.getDate());
-//            System.out.println(e.getStart() + " - " + e.getEnd());
-//            System.out.println(e.getGroup());
-//        }
-//        for (String s: uniqueDate) {
-//            System.out.println(s);
-//        }
-    }
-
-    class MyAdapter extends FragmentPagerAdapter {
-        public MyAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
+        @NonNull
         @Override
-        public android.app.Fragment getItem(int position) {
-            return ExamTablesFragment.newInstance(position, group+1);
-        }
+        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+            LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View view = inflater.inflate(resource, parent,false);
+            TextView code, name, date, section, seat, loc, start, end;
+            code = view.findViewById(R.id.examcode);
+            name = view.findViewById(R.id.examname);
+            date = view.findViewById(R.id.examdate);
+            section = view.findViewById(R.id.examsection);
+            seat = view.findViewById(R.id.examseat);
+            loc = view.findViewById(R.id.examloc);
+            start = view.findViewById(R.id.examstart);
+            end = view.findViewById(R.id.examend);
 
-        @Override
-        public int getCount() {
-            return group+1;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return uniqueDate.get(position);
+            code.setText(examinationDataArrayList.get(position).getCode());
+            name.setText(examinationDataArrayList.get(position).getName());
+            date.setText(examinationDataArrayList.get(position).getDate());
+            section.setText(examinationDataArrayList.get(position).getSection());
+            seat.setText(examinationDataArrayList.get(position).getSeat());
+            loc.setText(examinationDataArrayList.get(position).getLoc());
+            start.setText(examinationDataArrayList.get(position).getStart());
+            end.setText(examinationDataArrayList.get(position).getEnd());
+            return view;
         }
     }
 }
