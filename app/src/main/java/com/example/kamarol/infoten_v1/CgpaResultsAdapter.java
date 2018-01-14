@@ -71,16 +71,17 @@ public class CgpaResultsAdapter extends RecyclerView.Adapter<CgpaResultsAdapter.
         TextView gpaTv = viewHolder.gpaTv;
         TextView cgpaTv = viewHolder.cgpaTv;
         CardView cv = viewHolder.cv;
+        System.out.println(resultList.size());
         if (position==0){
             ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) cv.getLayoutParams();
             layoutParams.setMargins(10, 10, 10, 0);
             cv.requestLayout();
-        }else if (position==resultList.size()){
+        }else if (position==resultList.size()-1){
             ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) cv.getLayoutParams();
             layoutParams.setMargins(10, 0, 10, 10);
             cv.requestLayout();
         }else {
-            if (group.get(result)-group.get(resultb)==1){
+            if (group.get(result)-group.get(resultb)>=1){
                 ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) cv.getLayoutParams();
                 layoutParams.setMargins(10, 10, 10, 0);
                 cv.requestLayout();
@@ -88,7 +89,7 @@ public class CgpaResultsAdapter extends RecyclerView.Adapter<CgpaResultsAdapter.
                 ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) cv.getLayoutParams();
                 layoutParams.setMargins(10, 0, 10, 0);
                 cv.requestLayout();
-            } else {
+            } else if (group.get(resultf)-group.get(result)>=1){
                 ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) cv.getLayoutParams();
                 layoutParams.setMargins(10, 0, 10, 10);
                 cv.requestLayout();
