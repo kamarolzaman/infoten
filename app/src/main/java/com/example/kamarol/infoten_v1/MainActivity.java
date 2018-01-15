@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.kamarol.infoten_v1.Functions.ParseTimetable;
+import com.example.kamarol.infoten_v1.MenuFragments.AboutFragment;
 import com.example.kamarol.infoten_v1.MenuFragments.ExaminationFragment;
 import com.example.kamarol.infoten_v1.MenuFragments.LedgerFragment;
 import com.example.kamarol.infoten_v1.MenuFragments.ScorunFragment;
@@ -82,7 +83,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId()==R.id.about){
-
+            setTitle("About");
+            AboutFragment fragment = new AboutFragment();
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.frame, fragment, "Timetable");
+            fragmentTransaction.commit();
         }else if (item.getItemId()==R.id.logout){
             loginFragment = new LoginFragment();
             ft = getFragmentManager().beginTransaction();
