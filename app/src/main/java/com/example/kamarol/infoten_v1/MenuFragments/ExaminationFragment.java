@@ -1,18 +1,14 @@
 package com.example.kamarol.infoten_v1.MenuFragments;
 
 
-import android.app.Dialog;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteException;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
-import android.support.v13.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,10 +21,9 @@ import com.example.kamarol.infoten_v1.ExaminationResultTestUI;
 import com.example.kamarol.infoten_v1.Functions.ExaminationTableParser;
 import com.example.kamarol.infoten_v1.LoaderChecker;
 import com.example.kamarol.infoten_v1.LoginFragment;
-import com.example.kamarol.infoten_v1.MenuFragments.Examination.ExamTablesFragment;
 import com.example.kamarol.infoten_v1.MenuFragments.Examination.ExaminationData;
-import com.example.kamarol.infoten_v1.MenuFragments.Timetable.SubjectDetailsFragment;
 import com.example.kamarol.infoten_v1.R;
+import com.example.kamarol.infoten_v1.Tools.DBHelper;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -41,6 +36,7 @@ import java.util.ArrayList;
  * A simple {@link Fragment} subclass.
  */
 public class ExaminationFragment extends Fragment implements LoaderChecker {
+    DBHelper dbHelper;
     public static ArrayList<ExaminationData> examinationDataArrayList = new ArrayList<>();
     ListView listView;
     ArrayAdapter <ExaminationData> myAdaper;
@@ -76,54 +72,71 @@ public class ExaminationFragment extends Fragment implements LoaderChecker {
         myAdaper = new MyAdapter(view.getContext(), R.layout.examtable_format, examinationDataArrayList);
         listView.setAdapter(myAdaper);
         myAdaper.notifyDataSetChanged();
-
+        dbHelper = new DBHelper(view.getContext());
         return view;
     }
 
     @Override
     public void onLoad(String html) {
-
-        //System.out.println(html);
-
-        //Document doc = Jsoup.parse("<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=windows-1252\"><link rel=\"stylesheet\" media=\"screen\" type=\"text/css\" href=\"./exam_files/styles.css\"><link rel=\"stylesheet\" media=\"print\" type=\"text/css\" href=\"./exam_files/print.css\"></head><body><h1>Exam List for Semester 2, Academic Year 2017/2018</h1><table cellspacing=\"0\"><thead><tr valign=\"TOP\"><td rowspan=\"2\">No.</td><td colspan=\"2\">Subject</td><td rowspan=\"2\">Section</td><td rowspan=\"2\">Location</td><td rowspan=\"2\">Date &amp; Time</td><td rowspan=\"2\">Seat</td></tr><tr><td>Code</td><td>Description</td></tr></thead><tbody><tr class=\"LINE1\"><td>1.</td><td>CGNB424</td><td>Project 2</td><td>SE</td><td>N/A</td><td>20/12/17 13:30:00 - 15:30:00</td><td>N/A</td></tr><tr class=\"LINE2\"><td>2.</td><td>CSEB424</td><td>Software Testing</td><td>02A</td><td>N/A</td><td>20/12/17 16:30:00 - 18:30:00</td><td>N/A</td></tr><tr class=\"LINE1\"><td>3.</td><td>CSEB453</td><td>Software Quality</td><td>02</td><td>N/A</td><td>21/12/17 13:30:00 - 15:30:00</td><td>N/A</td></tr><tr class=\"LINE2\"><td>4.</td><td>CSNB544</td><td>Mobile Application Development</td><td>03B</td><td>N/A</td><td>24/12/17 10:00:00 - 12:00:00</td><td>N/A</td></tr></tbody></table><br><br><table><tbody><tr class=\"LINE2\"><td><b>Notes:</b></td></tr></tbody></table></body></html>");
-        Document doc = Jsoup.parse(html);
-        Element table = doc.getElementsByTag("table").first();
-        Element tbody = table.getElementsByTag("tbody").first();
-        Elements trs = tbody.getElementsByTag("tr");
-        group = 0;
-        for (Element tr: trs) {
-            String datetime;
-            String date, timestart, timeend;
-            String name, code, section, seat, loc;
-            int startHrs, startMins, endHrs, endMins;
-            int start, end;
-            Elements td = tr.getElementsByTag("td");
-            name = td.get(2).text();
-            code = td.get(1).text();
-            section = td.get(3).text();
-            loc = td.get(4).text();
-            seat = td.get(6).text();
-            datetime = td.get(5).text();
-            if (!datetime.equals("N/A")) {
-                date = datetime.split("\\s+")[0];
-                timestart = datetime.split("\\s+")[1];
-                timeend = datetime.split("\\s+")[3];
-                startHrs = (Integer.parseInt(timestart.split(":")[0]) - 8) * 2;
-                startMins = Integer.parseInt(timestart.split(":")[1]);
-                if (startMins == 30) startMins = 1;
-                start = startHrs + startMins;
-
-                endHrs = (Integer.parseInt(timeend.split(":")[0]) - 8) * 2;
-                endMins = Integer.parseInt(timeend.split(":")[1]);
-                if (endMins == 30) endMins = 1;
-                end = endHrs + endMins;
-            } else {
-                start = -1;
-                end = -1;
-                date = "";
+        try {
+            Document doc = Jsoup.parse(html);
+            Element table = doc.getElementsByTag("table").first();
+            Element tbody = table.getElementsByTag("tbody").first();
+            Elements trs = tbody.getElementsByTag("tr");
+            try {
+                dbHelper.deleteExam();
+                System.out.printf("deleted exam");
+            } catch (SQLiteException e){
+                System.out.println("CANT DELETE BECAUSE DB NOT YET EXIST");
             }
-            examinationDataArrayList.add(new ExaminationData(code, name, date, section, seat, loc, start, end, 0));
-            myAdaper.notifyDataSetChanged();
+            group = 0;
+            for (Element tr: trs) {
+                String datetime;
+                String date, timestart, timeend;
+                String name, code, section, seat, loc;
+                int startHrs, startMins, endHrs, endMins;
+                int start, end;
+                Elements td = tr.getElementsByTag("td");
+                name = td.get(2).text();
+                code = td.get(1).text();
+                section = td.get(3).text();
+                loc = td.get(4).text();
+                seat = td.get(6).text();
+                datetime = td.get(5).text();
+                if (!datetime.equals("N/A")) {
+                    date = datetime.split("\\s+")[0];
+                    timestart = datetime.split("\\s+")[1];
+                    timeend = datetime.split("\\s+")[3];
+                    startHrs = (Integer.parseInt(timestart.split(":")[0]) - 8) * 2;
+                    startMins = Integer.parseInt(timestart.split(":")[1]);
+                    if (startMins == 30) startMins = 1;
+                    start = startHrs + startMins;
+
+                    endHrs = (Integer.parseInt(timeend.split(":")[0]) - 8) * 2;
+                    endMins = Integer.parseInt(timeend.split(":")[1]);
+                    if (endMins == 30) endMins = 1;
+                    end = endHrs + endMins;
+                } else {
+                    start = -1;
+                    end = -1;
+                    date = "";
+                }
+                dbHelper.insertExamination(code, name, date, section, seat, loc, start, end);
+                examinationDataArrayList.add(new ExaminationData(code, name, date, section, seat, loc, start, end, 0));
+                myAdaper.notifyDataSetChanged();
+            }
+        } catch (Exception e){
+            System.out.println(e);
+            Cursor rs = dbHelper.toArrayExamination();
+            rs.moveToFirst();
+            while (rs.moveToNext()){
+                System.out.println(rs.getString(3));
+                examinationDataArrayList.add(new ExaminationData(rs.getString(1), rs.getString(2),
+                        rs.getString(3), rs.getString(4),
+                        rs.getString(5), rs.getString(6),
+                        rs.getInt(7),rs.getInt(8), 0));
+                myAdaper.notifyDataSetChanged();
+            }
         }
     } //kkk
     private class MyAdapter extends ArrayAdapter <ExaminationData>{

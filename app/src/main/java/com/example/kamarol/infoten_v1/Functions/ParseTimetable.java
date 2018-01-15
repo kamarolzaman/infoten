@@ -2,6 +2,7 @@ package com.example.kamarol.infoten_v1.Functions;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteException;
 import android.os.AsyncTask;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -102,8 +103,12 @@ public class ParseTimetable extends AsyncTask<String, String, Void> {
         //System.out.println(html);
         try {
             Document doc = Jsoup.parse(html);
-            dbHelper.deleteSubjects();
-            System.out.println("DB DELETED");
+            try {
+                dbHelper.deleteSubjects();
+                System.out.println("DB DELETED");
+            } catch (SQLiteException e){
+                System.out.println("CANT DELETE BECAUSE DB NOT YET EXIST");
+            }
             Elements test = doc.getElementsByTag("tbody");
             Element tableLecturer = test.get(0);
             Elements tr = tableLecturer.getElementsByTag("tr");
@@ -143,7 +148,7 @@ public class ParseTimetable extends AsyncTask<String, String, Void> {
             }
         }catch (Exception e){
             System.out.println(e);
-            Cursor rs = dbHelper.toArray();
+            Cursor rs = dbHelper.toArraySubject();
             int x = 0;
             rs.moveToFirst();
             while (rs.moveToNext()){
