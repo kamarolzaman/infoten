@@ -1,6 +1,7 @@
 package com.example.kamarol.infoten_v1.Functions;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -99,43 +100,56 @@ public class ParseTimetable extends AsyncTask<String, String, Void> {
         } catch (Exception e){e.printStackTrace();}
 
         //System.out.println(html);
-        Document doc = Jsoup.parse(html);
-        Elements test = doc.getElementsByTag("tbody");
-        Element tableLecturer = test.get(0);
-        Elements tr = tableLecturer.getElementsByTag("tr");
-        for (Element td: tr) {
-            Elements info = td.getElementsByTag("td");
-            subjectInfo.add(info.get(1).text());
-            subjectInfo.add(info.get(2).text());
-            subjectInfo.add(info.get(4).text());
-        }
-        Element tableStudents = doc.select("body > table:nth-child(7) > tbody").get(0);
-        int l = 0;
-        int day = 0;
-        Elements trows = tableStudents.getElementsByTag("tr");
-        int startTime = 0;
-        for (Element tdata:trows) {//every td in each trow
-            Elements tdatas = tdata.getElementsByTag("td");
-            for (Element td1:tdatas) {
-                if (td1.text().equals(" ")) {//empty table
-                    startTime++;
-                } else { //table with subjects
-                    String word = td1.attr("colspan");
-                    if (!word.equals("")) {//SUBJECT
-                        int length = Integer.parseInt(word);//get subject duration
-                        String section = subjectInfo.get(subjectInfo.indexOf(td1.text().substring(0, td1.text().indexOf(" "))) + 1);
-                        String lecturer = subjectInfo.get(subjectInfo.indexOf(td1.text().substring(0, td1.text().indexOf(" "))) + 2);
-                        subject[l] = new Subject(startTime, length, day, td1.text(), section, lecturer);
-                        //dbHelper.insertSubject(startTime,length,day,td1.text(),section,lecturer);
-                        //subject[l].toString();//////////PRINT
-                        //publishProgress(subject[l].getDetails());
-                        startTime += length;
-                        l++;
+        try {
+            Document doc = Jsoup.parse(html);
+            dbHelper.deleteSubjects();
+            System.out.println("DB DELETED");
+            Elements test = doc.getElementsByTag("tbody");
+            Element tableLecturer = test.get(0);
+            Elements tr = tableLecturer.getElementsByTag("tr");
+            for (Element td : tr) {
+                Elements info = td.getElementsByTag("td");
+                subjectInfo.add(info.get(1).text());
+                subjectInfo.add(info.get(2).text());
+                subjectInfo.add(info.get(4).text());
+            }
+            Element tableStudents = doc.select("body > table:nth-child(7) > tbody").get(0);
+            int l = 0;
+            int day = 0;
+            Elements trows = tableStudents.getElementsByTag("tr");
+            int startTime = 0;
+            for (Element tdata : trows) {//every td in each trow
+                Elements tdatas = tdata.getElementsByTag("td");
+                for (Element td1 : tdatas) {
+                    if (td1.text().equals(" ")) {//empty table
+                        startTime++;
+                    } else { //table with subjects
+                        String word = td1.attr("colspan");
+                        if (!word.equals("")) {//SUBJECT
+                            int length = Integer.parseInt(word);//get subject duration
+                            String section = subjectInfo.get(subjectInfo.indexOf(td1.text().substring(0, td1.text().indexOf(" "))) + 1);
+                            String lecturer = subjectInfo.get(subjectInfo.indexOf(td1.text().substring(0, td1.text().indexOf(" "))) + 2);
+                            dbHelper.insertSubject(startTime, length, day, td1.text(), section, lecturer);
+                            subject[l] = new Subject(startTime, length, day, td1.text(), section, lecturer);
+                            //subject[l].toString();//////////PRINT
+                            //publishProgress(subject[l].getDetails());
+                            startTime += length;
+                            l++;
+                        }
                     }
                 }
+                day++;
+                startTime = 0;
             }
-            day++;
-            startTime = 0;
+        }catch (Exception e){
+            System.out.println(e);
+            Cursor rs = dbHelper.toArray();
+            int x = 0;
+            rs.moveToFirst();
+            while (rs.moveToNext()){
+                System.out.println(rs.getString(4));
+                subject[x++] = new Subject(rs.getInt(1),rs.getInt(2),rs.getInt(3),rs.getString(4),rs.getString(5),rs.getString(6));
+            }
         }
         return null;
     }

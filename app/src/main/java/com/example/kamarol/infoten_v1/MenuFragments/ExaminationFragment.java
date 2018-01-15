@@ -51,7 +51,6 @@ public class ExaminationFragment extends Fragment implements LoaderChecker {
 //    TabLayout tabLayout;
 //    MyAdapter myAdapter;
     Button button;
-    Dialog dialog;
     public ExaminationFragment() {
         // Required empty public constructor
     }
@@ -62,11 +61,6 @@ public class ExaminationFragment extends Fragment implements LoaderChecker {
         view = inflater.inflate(R.layout.fragment_examination, container, false);
         examinationDataArrayList.clear();
         button= view.findViewById(R.id.viewResult);
-        dialog = new Dialog(getActivity());
-        dialog.setTitle("Examination result");
-        dialog.setContentView(R.layout.examination_result);
-        TextView test = dialog.findViewById(R.id.congrat);
-        test.setText("WEWEWEDADASD");
         ExaminationTableParser examinationTableParser = new ExaminationTableParser(ExaminationFragment.this, LoginFragment.username, LoginFragment.password);
         examinationTableParser.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 

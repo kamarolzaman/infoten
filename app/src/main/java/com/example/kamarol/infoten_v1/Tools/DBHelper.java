@@ -2,6 +2,7 @@ package com.example.kamarol.infoten_v1.Tools;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -15,7 +16,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "infoten.db";
 
     public DBHelper(Context context) {
-        super(context, DATABASE_NAME, null, 1);
+        super(context, DATABASE_NAME, null, 2);
     }
 
     @Override
@@ -24,7 +25,8 @@ public class DBHelper extends SQLiteOpenHelper {
         System.out.println("SDSD");
         sqLiteDatabase.execSQL(
                 "CREATE TABLE 'SUBJECT' (" +
-                        "'STARTTIME' integer PRIMARY KEY AUTOINCREMENT," +
+                        "'ID' integer PRIMARY KEY AUTOINCREMENT," +
+                        "'STARTTIME' integer DEFAULT NULL," +
                         "'LENGTH' integer DEFAULT NULL," +
                         "'DAY' integer DEFAULT NULL," +
                         "'NAMELOC' text DEFAULT NULL," +
@@ -36,13 +38,15 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
 
     }
-
+    public boolean deleteSubjects(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM SUBJECT");
+        return true;
+    }
     public boolean insertSubject(int startTime, int length, int day, String nameloc, String section, String lecturer){
         try {
             System.out.println("INSERT");
             SQLiteDatabase db = this.getWritableDatabase();
-            //db.execSQL("DELETE from 'CAR_RAW';");
-            //db.execSQL("DELETE from 'SUBJECT';");
             ContentValues contentValues = new ContentValues();
             contentValues.put("STARTTIME", startTime);
             contentValues.put("LENGTH", length);
@@ -59,5 +63,9 @@ public class DBHelper extends SQLiteOpenHelper {
             return false;
         }
         return true;
+    }
+    public Cursor toArray (){
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery("SELECT * FROM SUBJECT",null);
     }
 }
