@@ -51,4 +51,10 @@ public class GetLecturer extends AsyncTask <Void, Void, Void> {
     protected void onPostExecute(Void aVoid) {
         listener.onLoad("");
     }
+
+    @Override
+    protected void onCancelled() {
+        System.out.println("Get lecturer cancelled");
+        super.onCancelled();
+    }
 }

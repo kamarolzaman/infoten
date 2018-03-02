@@ -21,6 +21,7 @@ import com.example.kamarol.infoten_v1.Functions.GetUniqueTables;
 import com.example.kamarol.infoten_v1.LoaderChecker;
 import com.example.kamarol.infoten_v1.MenuFragments.TimetableFragment;
 import com.example.kamarol.infoten_v1.R;
+import com.example.kamarol.infoten_v1.Tools.TableLoader;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -28,7 +29,9 @@ import java.util.Date;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class LecturerDetailsFragment extends DialogFragment implements LoaderChecker{
+public class LecturerDetailsFragment extends DialogFragment implements LoaderChecker, TableLoader{
+    static GetLecturer getLecturer;
+    static  GetLecturerTables getLecturerTables;
     View view;
     ViewPager viewPager = null;
     TabLayout tabLayout;
@@ -54,7 +57,27 @@ public class LecturerDetailsFragment extends DialogFragment implements LoaderChe
         Bundle args = getArguments();
         name = args.getString("LECTURER_NAME","");
         //System.out.println(name);
-        new GetLecturer(LecturerDetailsFragment.this, name).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        if (getLecturer==null) {
+            System.out.println("1");
+            getLecturerTables = new GetLecturerTables(name, this);
+            getLecturerTables.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            getLecturer = new GetLecturer(LecturerDetailsFragment.this, name);
+            getLecturer.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }else if (getLecturer.getStatus()== AsyncTask.Status.RUNNING){
+            System.out.println("2");
+            getLecturer.cancel(true);
+            getLecturerTables.cancel(true);
+            getLecturerTables = new GetLecturerTables(name, this);
+            getLecturerTables.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            getLecturer = new GetLecturer(LecturerDetailsFragment.this, name);
+            getLecturer.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }else {
+            System.out.println("3");
+            getLecturerTables = new GetLecturerTables(name, this);
+            getLecturerTables.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            getLecturer = new GetLecturer(LecturerDetailsFragment.this, name);
+            getLecturer.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }
 
         view = inflater.inflate(R.layout.fragment_lecturer_details, container, false);
         nameT = view.findViewById(R.id.name);
@@ -71,23 +94,30 @@ public class LecturerDetailsFragment extends DialogFragment implements LoaderChe
         */
 
 
-        new GetLecturerTables(name,this).execute();
         return view;
     }
 
     @Override
     public void onLoad(String html) {
-        id = GetLecturer.lecturer.get(0).getId();
-        name = GetLecturer.lecturer.get(0).getName();
-        phone = GetLecturer.lecturer.get(0).getPhone();
-        dept = GetLecturer.lecturer.get(0).getDept();
-        email = GetLecturer.lecturer.get(0).getEmail();
+        try {
+            id = GetLecturer.lecturer.get(0).getId();
+            name = GetLecturer.lecturer.get(0).getName();
+            phone = GetLecturer.lecturer.get(0).getPhone();
+            dept = GetLecturer.lecturer.get(0).getDept();
+            email = GetLecturer.lecturer.get(0).getEmail();
 
-        nameT.setText(name);
-        phoneT.setText(phone);
-        deptT.setText(dept);
-        emailT.setText(email);
+            nameT.setText(name);
+            phoneT.setText(phone);
+            deptT.setText(dept);
+            emailT.setText(email);
 
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onTableLoad(String html) {
         viewPager = view.findViewById(R.id.pager);
         FragmentManager fragmentManager = getChildFragmentManager();
         myAdapter = new MyAdapter(fragmentManager);
@@ -97,13 +127,21 @@ public class LecturerDetailsFragment extends DialogFragment implements LoaderChe
 
         SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
         Date d = new Date();
-        if(sdf.format(d).equals("Monday")){viewPager.setCurrentItem(0);}
-        else if(sdf.format(d).equals("Tuesday")){viewPager.setCurrentItem(1);}
-        else if(sdf.format(d).equals("Wednesday")){viewPager.setCurrentItem(2);}
-        else if(sdf.format(d).equals("Thursday")){viewPager.setCurrentItem(3);}
-        else if(sdf.format(d).equals("Friday")){viewPager.setCurrentItem(4);}
-        else if(sdf.format(d).equals("Saturday")){viewPager.setCurrentItem(5);}
-        else if(sdf.format(d).equals("Sunday")){viewPager.setCurrentItem(6);}
+        if (sdf.format(d).equals("Monday")) {
+            viewPager.setCurrentItem(0);
+        } else if (sdf.format(d).equals("Tuesday")) {
+            viewPager.setCurrentItem(1);
+        } else if (sdf.format(d).equals("Wednesday")) {
+            viewPager.setCurrentItem(2);
+        } else if (sdf.format(d).equals("Thursday")) {
+            viewPager.setCurrentItem(3);
+        } else if (sdf.format(d).equals("Friday")) {
+            viewPager.setCurrentItem(4);
+        } else if (sdf.format(d).equals("Saturday")) {
+            viewPager.setCurrentItem(5);
+        } else if (sdf.format(d).equals("Sunday")) {
+            viewPager.setCurrentItem(6);
+        }
     }
 
 

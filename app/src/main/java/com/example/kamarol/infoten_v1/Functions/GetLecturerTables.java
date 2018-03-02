@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import com.example.kamarol.infoten_v1.LoaderChecker;
 import com.example.kamarol.infoten_v1.Tools.Subject;
 import com.example.kamarol.infoten_v1.Tools.SubjectData;
+import com.example.kamarol.infoten_v1.Tools.TableLoader;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -19,8 +20,8 @@ import java.util.ArrayList;
 public class GetLecturerTables extends AsyncTask<Void, Void, Void> {
     public static ArrayList<Subject> lecturerTables;
     String lecturer;
-    LoaderChecker listener;
-    public GetLecturerTables(String lecturer, LoaderChecker listener){
+    TableLoader listener;
+    public GetLecturerTables(String lecturer, TableLoader listener){
         this.lecturer = lecturer;
         this.listener = listener;
     }
@@ -59,6 +60,13 @@ public class GetLecturerTables extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected void onPostExecute(Void aVoid) {
-        listener.onLoad("");
+        listener.onTableLoad("");
+    }
+
+
+    @Override
+    protected void onCancelled() {
+        System.out.println("Get lecturer tables cancelled");
+        super.onCancelled();
     }
 }
