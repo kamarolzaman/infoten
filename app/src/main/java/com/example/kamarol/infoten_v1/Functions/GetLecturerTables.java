@@ -1,6 +1,7 @@
 package com.example.kamarol.infoten_v1.Functions;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.example.kamarol.infoten_v1.LoaderChecker;
 import com.example.kamarol.infoten_v1.Tools.Subject;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
  */
 
 public class GetLecturerTables extends AsyncTask<Void, Void, Void> {
+    private static String className = "GetLecturerTables";
     public static ArrayList<Subject> lecturerTables;
     String lecturer;
     TableLoader listener;
@@ -41,6 +43,10 @@ public class GetLecturerTables extends AsyncTask<Void, Void, Void> {
             String sql = "select unique_subject.CODE, unique_subject.LOCATION, unique_subject.SECTION, unique_subject.DAY, unique_subject.START, unique_subject.END, lecturer.NAME from unique_subject INNER JOIN lecturer ON unique_subject.LECTURER_ID = lecturer.ID WHERE lecturer.NAME = '"+lecturer+"' ORDER BY DAY, START";
             //System.out.println(sql);
             ResultSet rs = stmt.executeQuery(sql);
+            if (isCancelled()){
+                Log.d(className, "isCancelled: True");
+                return null;
+            }
             while(rs.next()) {
                 String code=rs.getString(1);
                 String loc =rs.getString(2);

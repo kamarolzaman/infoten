@@ -1,6 +1,7 @@
 package com.example.kamarol.infoten_v1.Functions;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.example.kamarol.infoten_v1.LoaderChecker;
 import com.example.kamarol.infoten_v1.Tools.Lecturer;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
  */
 
 public class GetLecturer extends AsyncTask <Void, Void, Void> {
+    private static String className = "GetLecturer";
     public static ArrayList<Lecturer> lecturer;
     LoaderChecker listener;
     String key;
@@ -36,6 +38,10 @@ public class GetLecturer extends AsyncTask <Void, Void, Void> {
             Connection con = DriverManager.getConnection("jdbc:mysql://ec2-18-217-42-15.us-east-2.compute.amazonaws.com:3306/infoten","infoten","infoten123");
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("select * from lecturer where NAME LIKE '%"+key+"%'");
+            if (isCancelled()){
+                Log.d(className, "isCancelled: True");
+                return null;
+            }
             while(rs.next()) {
                 lecturer.add(new Lecturer(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5)));
             }
