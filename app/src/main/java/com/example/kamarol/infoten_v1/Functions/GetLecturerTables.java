@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.kamarol.infoten_v1.LoaderChecker;
+import com.example.kamarol.infoten_v1.Tools.DatabaseConnectionSingleton;
 import com.example.kamarol.infoten_v1.Tools.Subject;
 import com.example.kamarol.infoten_v1.Tools.SubjectData;
 import com.example.kamarol.infoten_v1.Tools.TableLoader;
@@ -38,7 +39,9 @@ public class GetLecturerTables extends AsyncTask<Void, Void, Void> {
         try{
             lecturerTables = new ArrayList<>();
             Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://ec2-18-217-42-15.us-east-2.compute.amazonaws.com:3306/infoten","infoten","infoten123");
+            DatabaseConnectionSingleton db = DatabaseConnectionSingleton.getInstance();
+            Connection con = db.getConnection();
+//            Connection con = DriverManager.getConnection("jdbc:mysql://ec2-18-217-42-15.us-east-2.compute.amazonaws.com:3306/infoten","infoten","infoten123");
             Statement stmt = con.createStatement();
             String sql = "select unique_subject.CODE, unique_subject.LOCATION, unique_subject.SECTION, unique_subject.DAY, unique_subject.START, unique_subject.END, lecturer.NAME from unique_subject INNER JOIN lecturer ON unique_subject.LECTURER_ID = lecturer.ID WHERE lecturer.NAME = '"+lecturer+"' ORDER BY DAY, START";
             //System.out.println(sql);
@@ -57,7 +60,7 @@ public class GetLecturerTables extends AsyncTask<Void, Void, Void> {
                 String lectrid = rs.getString(7);
                 lecturerTables.add(new Subject(start, end-start, day, code+" "+loc, section, lectrid));
             }
-            con.close();
+//            con.close();
         }catch(Exception e){
             e.printStackTrace();
         }

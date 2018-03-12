@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.kamarol.infoten_v1.LoaderChecker;
+import com.example.kamarol.infoten_v1.Tools.DatabaseConnectionSingleton;
 import com.example.kamarol.infoten_v1.Tools.Lecturer;
 
 import java.sql.Connection;
@@ -35,7 +36,9 @@ public class GetLecturer extends AsyncTask <Void, Void, Void> {
     protected Void doInBackground(Void... voids) {
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://ec2-18-217-42-15.us-east-2.compute.amazonaws.com:3306/infoten","infoten","infoten123");
+            DatabaseConnectionSingleton db = DatabaseConnectionSingleton.getInstance();
+            Connection con = db.getConnection();
+//            Connection con = DriverManager.getConnection("jdbc:mysql://ec2-18-217-42-15.us-east-2.compute.amazonaws.com:3306/infoten","infoten","infoten123");
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("select * from lecturer where NAME LIKE '%"+key+"%'");
             if (isCancelled()){
@@ -46,7 +49,7 @@ public class GetLecturer extends AsyncTask <Void, Void, Void> {
                 lecturer.add(new Lecturer(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5)));
             }
             System.out.println(lecturer.toString());
-            con.close();
+//            con.close();
         }catch(Exception e){
             e.printStackTrace();
         }
